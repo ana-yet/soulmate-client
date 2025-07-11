@@ -1,15 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 @import "tailwindcss";
 
+@tailwind utilities;
+
 @theme {
-  --color-primary: "#C2185B";
-  --color-secondary: "#A68EBB";
-  --color-champagne: "#F7E7CE";
-  --color-background: "#FAF9F6";
-  --color-heading: "#4E342E";
-  --color-text: "#4F4F4F";
-  --color-gold: "#B7935F";
+  /* error fixed and learning  : don't use string   */
+  --color-background: #faf6f0;
+  --color-secondary: #dcd8d3;
+  --color-accent: #8e242c;
+  --color-txt: #3c322e;
+  --color-utility: #b38b59;
 
   --font-secondary: Playfair Display, serif;
   --font-primary: Inter, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-primary bg-background;
+  }
 }
