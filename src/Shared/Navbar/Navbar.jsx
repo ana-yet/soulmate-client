@@ -33,7 +33,6 @@ const Navbar = ({ isLoggedIn = false }) => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    // Header uses bg-background and a subtle border of bg-secondary
     <header className="sticky top-0 z-50 w-full border-b border-secondary/50 bg-background/90 backdrop-blur-lg">
       <nav className="container mx-auto flex h-20 items-center justify-between px-4">
         {/* Logo Section */}
