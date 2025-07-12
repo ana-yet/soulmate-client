@@ -12,6 +12,7 @@ import {
 } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa"; // Placeholder Logo Icon
 import NavbarLink from "./NavbarLink";
+import useAuth from "../../Hook/useAuth";
 
 const mainLinks = [
   { path: "/", title: "Home", icon: <HiOutlineHome /> },
@@ -24,13 +25,11 @@ const mainLinks = [
   { path: "/contact-us", title: "Contact Us", icon: <HiOutlineMail /> },
 ];
 
-/**
- * The main application Navbar, styled with the "Velvet & Ivory" theme.
- * @param {{isLoggedIn?: boolean}} props
- */
 const Navbar = ({ isLoggedIn = false }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const data = useAuth();
+  console.log(data);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-secondary/50 bg-background/90 backdrop-blur-lg">
