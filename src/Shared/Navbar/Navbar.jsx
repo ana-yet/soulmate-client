@@ -28,8 +28,8 @@ const mainLinks = [
 const Navbar = ({ isLoggedIn = false }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const data = useAuth();
-  console.log(data);
+  const { user } = useAuth();
+  console.log(user);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-secondary/50 bg-background/90 backdrop-blur-lg">

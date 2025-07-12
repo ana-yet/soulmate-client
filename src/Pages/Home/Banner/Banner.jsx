@@ -5,7 +5,7 @@ import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 // todo: add the banner images
 const defaultSlides = [
   {
-    imgUrl: "https://i.ibb.co/cc2rDxfx/Untitled-design.webp",
+    imgUrl: "https://i.ibb.co/zTrSkYwD/banner1.webp",
     overlayText: "Where Hearts Meet — Start Your Journey Here",
   },
   {
@@ -13,7 +13,7 @@ const defaultSlides = [
     overlayText: "Trusted Matchmaking, Built on Values",
   },
   {
-    imgUrl: "https://i.ibb.co/dssQcYWN/web-banner.webp",
+    imgUrl: "https://i.ibb.co/cRvT026/banner.webp",
     overlayText: "Your Future Awaits — Connect Now",
   },
 ];
