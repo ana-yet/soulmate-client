@@ -51,7 +51,7 @@ const Navbar = ({ isLoggedIn = false }) => {
               {link.title}
             </NavbarLink>
           ))}
-          {isLoggedIn ? (
+          {user ? (
             <NavbarLink
               to="/dashboard"
               icon={<HiOutlineViewGrid />}

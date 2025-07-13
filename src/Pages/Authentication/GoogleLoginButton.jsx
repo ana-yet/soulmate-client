@@ -3,16 +3,39 @@ import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { SiGoogle } from "react-icons/si";
 import useAuth from "../../Hook/useAuth";
+import usePublicAxios from "../../Hook/usePublicAxios";
 
 const GoogleLoginButton = () => {
   const navigate = useNavigate();
   const { googleLogin } = useAuth();
+  const publicAxios = usePublicAxios();
 
   const handleGoogleLogin = async () => {
     const toastId = toast.loading("Signing in with Google...");
     try {
-      await googleLogin();
+      // google login
+      const user = await googleLogin();
+
+      // user data
+      const userInfo = {
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        uid: user.uid,
+        providerId: user.providerData[0]?.providerId,
+        role: "user",
+        subscriptionType: "free",
+        subscriptionExpires: null,
+        createdAt: new Date(),
+      };
+
+      // api call
+      await publicAxios.post("/users", userInfo);
+
+      // success alert
       toast.success("Successfully signed in!", { id: toastId });
+
+      // navigate after success
       navigate("/dashboard");
     } catch (error) {
       toast.error(error.message || "Failed to sign in with Google.", {
