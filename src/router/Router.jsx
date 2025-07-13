@@ -8,6 +8,7 @@ import PrivateRoute from "../Routes/PrivateRoute";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Authentication/Login";
 import Register from "../Pages/Authentication/Register";
+import EditBiodata from "../Pages/Dashboard/EditBioata/EditBioData";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <h1>this is dashboard main route</h1>,
+      },
+      {
+        path: "edit-biodata",
+        element: <EditBiodata />,
       },
     ],
   },

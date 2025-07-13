@@ -11,6 +11,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../../Hook/useAuth";
 import Logo from "../../../Shared/Logo/Logo";
+import toast from "react-hot-toast";
 
 const Header = ({ isSidebarOpen, toggleSidebar }) => {
   const { user, userSignOut } = useAuth();
@@ -19,8 +20,21 @@ const Header = ({ isSidebarOpen, toggleSidebar }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const handleLogout = async () => {
-    await userSignOut();
-    navigate("/login");
+    // 1. Start a loading toast and get its ID
+    const toastId = toast.loading("Signing out...");
+
+    try {
+      //2. Attempt to sign out the user
+      await userSignOut();
+
+      // 3. Update the toast to show success
+      toast.success("Signed out successfully!", { id: toastId });
+      navigate("/login");
+    } catch (error) {
+      // 4. Update the toast to show an error if it fails
+      toast.error("Failed to sign out. Please try again.", { id: toastId });
+      console.error("Logout Error:", error);
+    }
   };
 
   // todo: dark mode functionality
