@@ -8,15 +8,16 @@ import {
   HiOutlineLockClosed,
 } from "react-icons/hi";
 import GoogleLoginButton from "./GoogleLoginButton";
-import axios from "axios";
 import useAuth from "../../Hook/useAuth";
 import useImgbbUploader from "../../Hook/useImgbbUploader";
+import usePublicAxios from "../../Hook/usePublicAxios";
 
 const Register = () => {
   const navigate = useNavigate();
   const { updateUserProfile, createEmailUser } = useAuth();
   const [photoPreview, setPhotoPreview] = useState(null);
   const { uploadImage, uploading } = useImgbbUploader();
+  const publicAxios = usePublicAxios();
 
   const {
     register,
@@ -56,10 +57,12 @@ const Register = () => {
         uid: user.uid,
         providerId: user.providerData[0].providerId,
         role: "user",
+        subscriptionType: "free",
+        subscriptionExpires: null,
         createdAt: new Date(),
       };
 
-      //   await axios.post("https://your-backend-api.com/users", userInfo);
+      await publicAxios.post("/users", userInfo);
 
       toast.success("Account created successfully!");
       navigate("/dashboard");
