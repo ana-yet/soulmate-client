@@ -48,7 +48,6 @@ const EditBiodata = () => {
   const { uploadImage, uploading } = useImgbbUploader();
   const { data: existingBiodata, isLoading, refetch } = useBiodata(user?.email);
   const isEditMode = !!existingBiodata;
-  console.log({ existingBiodata });
 
   const {
     register,
@@ -96,12 +95,10 @@ const EditBiodata = () => {
       const biodataPayload = {
         ...formData,
         age,
-        profileImage: imageUrl,
+        profileImage: imageUrl || existingBiodata?.profileImage,
         contactEmail: user.email,
       };
-      console.log("data", biodataPayload);
 
-      console.log({ isEditMode });
       const response = isEditMode
         ? await publicAxios.patch(
             `/biodata/${existingBiodata._id}`,
