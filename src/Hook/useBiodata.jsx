@@ -1,16 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import usePublicAxios from "./usePublicAxios";
-
-const fetchBiodata = async (axiosInstance, email) => {
-  const res = await axiosInstance.get(`/biodata?email=${email}`);
-  return res.data.data;
-};
+import useAxiosSecure from "./useAxiosSecure";
 
 export const useBiodata = (email) => {
-  const axiosInstance = usePublicAxios();
+  const secureAxios = useAxiosSecure();
   return useQuery({
     queryKey: ["biodata", email],
-    queryFn: () => fetchBiodata(axiosInstance, email),
+    queryFn: async () => {
+      const res = await secureAxios.get(`/biodata?email=${email}`);
+      console.log(res.data.data);
+      return res.data.data;
+    },
     enabled: !!email,
   });
 };

@@ -9,6 +9,8 @@ import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Authentication/Login";
 import Register from "../Pages/Authentication/Register";
 import EditBiodata from "../Pages/Dashboard/EditBioata/EditBioData";
+import Forbidden from "../Pages/Forbidden/Forbidden";
+import ViewBiodata from "../Pages/Dashboard/ViewBiodata/ViewBiodata";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +20,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "forbidden",
+        element: <Forbidden />,
       },
     ],
   },
@@ -50,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "edit-biodata",
         element: <EditBiodata />,
+      },
+      {
+        path: "view-biodata",
+        element: <ViewBiodata />,
       },
     ],
   },

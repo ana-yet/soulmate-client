@@ -97,6 +97,7 @@ const EditBiodata = () => {
       const biodataPayload = {
         ...formData,
         age,
+        isPremium: false,
         profileImage: imageUrl,
         contactEmail: user.email,
       };
