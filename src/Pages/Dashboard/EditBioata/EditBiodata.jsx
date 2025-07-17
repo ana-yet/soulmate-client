@@ -12,7 +12,7 @@ import useImgbbUploader from "../../../Hook/useImgbbUploader";
 import { biodataOptions } from "../../../Config/biodataOptions";
 import FormInput from "./FormInput";
 import { useBiodata } from "../../../Hook/useBiodata";
-import usePublicAxios from "../../../Hook/usePublicAxios";
+import useAxiosSecure from "../../../Hook/useAxiosSecure";
 
 const FormSelect = ({
   label,
@@ -44,7 +44,7 @@ const FormSelect = ({
 
 const EditBiodata = () => {
   const { user } = useAuth();
-  const publicAxios = usePublicAxios();
+  const secureAxios = useAxiosSecure();
   const { uploadImage, uploading } = useImgbbUploader();
   const { data: existingBiodata, isLoading, refetch } = useBiodata(user?.email);
   const isEditMode = !!existingBiodata;
@@ -88,23 +88,25 @@ const EditBiodata = () => {
 
     try {
       let imageUrl = existingBiodata?.profileImage || "";
-      if (formData.profileImage && formData.profileImage[0]) {
+      if (!formData.profileImage && formData.profileImage[0]) {
         imageUrl = await uploadImage(formData.profileImage[0]);
+      } else {
+        imageUrl = existingBiodata?.profileImage;
       }
 
       const biodataPayload = {
         ...formData,
         age,
-        profileImage: imageUrl || existingBiodata?.profileImage,
+        profileImage: imageUrl,
         contactEmail: user.email,
       };
 
       const response = isEditMode
-        ? await publicAxios.patch(
+        ? await secureAxios.patch(
             `/biodata/${existingBiodata._id}`,
             biodataPayload
           )
-        : await publicAxios.post("/biodata", biodataPayload);
+        : await secureAxios.post("/biodata", biodataPayload);
 
       if (response.data) {
         toast.success(
