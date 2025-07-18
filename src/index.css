@@ -11,6 +11,13 @@
   --color-txt: #3c322e;
   --color-utility: #b38b59;
 
+  /* dark mode */
+  --color-dark-bg: #1a1d24;
+  --color-dark-secondary: #252a34;
+  --color-dark-text: #e0e0e0;
+  --color-dark-text-muted: #a8a8a8;
+  --color-dark-border: #333a45;
+
   --font-secondary: Playfair Display, serif;
   --font-primary: Inter, sans-serif;
 }
