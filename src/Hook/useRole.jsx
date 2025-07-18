@@ -15,7 +15,7 @@ const useRole = () => {
       publicAxios
         .get(`/users/role/${user.email}`)
         .then((res) => {
-          setRole(res.data.role); // Expecting { role: 'admin' } or { role: 'user' }
+          setRole(res.data.role);
           setIsRoleLoading(false);
         })
         .catch((err) => {

@@ -11,6 +11,7 @@ import Register from "../Pages/Authentication/Register";
 import EditBiodata from "../Pages/Dashboard/EditBioata/EditBioData";
 import Forbidden from "../Pages/Forbidden/Forbidden";
 import ViewBiodata from "../Pages/Dashboard/ViewBiodata/ViewBiodata";
+import BiodataDetailsPage from "../Pages/BiodataDetails/BiodataDetails";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "biodata/:id",
+        element: (
+          <PrivateRoute>
+            <BiodataDetailsPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "forbidden",

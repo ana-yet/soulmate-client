@@ -15,6 +15,7 @@ import useAuth from "../../../Hook/useAuth";
 import Logo from "../../../Shared/Logo/Logo";
 import SidebarLink from "./SidebarLink";
 import toast from "react-hot-toast";
+import useUserInfo from "../../../Hook/useUserInfo";
 
 // --- Sidebar Link Data ---
 const adminLinks = [
@@ -59,7 +60,24 @@ const userLinks = [
 ];
 
 const Sidebar = ({ onLinkClick = () => {} }) => {
-  const { role, isRoleLoading } = useRole();
+  const {
+    role,
+    subscriptionType,
+    isAdmin,
+    isPremium,
+    isUser,
+    isPending,
+    isUserInfoLoading,
+  } = useUserInfo();
+  console.log(
+    { role },
+    { isAdmin },
+    { isPremium },
+    { isUser },
+    { subscriptionType },
+    { isPending }
+  );
+
   const { userSignOut } = useAuth();
   const navigate = useNavigate();
 
@@ -92,7 +110,7 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
 
       {/* Navigation Links */}
       <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-4">
-        {isRoleLoading ? (
+        {isUserInfoLoading ? (
           <div className="space-y-2">
             {[...Array(4)].map((_, i) => (
               <div
