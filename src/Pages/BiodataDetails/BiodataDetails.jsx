@@ -18,10 +18,10 @@ import {
 import { HiArrowRight } from "react-icons/hi";
 import useAuth from "../../Hook/useAuth";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
-import useUserInfo from "../../Hook/useUserInfo";
 import ProfileField from "./ProfileField";
 import SimilarProfileCard from "./SimilarProfileCard";
 import { useSimilarBiodata } from "../../Hook/useSimilarBiodata";
+import useUserInfo from "../../Hook/useUserInfo";
 
 const BiodataDetailsPage = () => {
   const { id } = useParams();
@@ -30,7 +30,11 @@ const BiodataDetailsPage = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
-  const { data: biodata, isLoading: isBiodataLoading } = useQuery({
+  const {
+    data: biodata,
+    isPremium,
+    isLoading: isBiodataLoading,
+  } = useQuery({
     queryKey: ["biodataId", id],
     queryFn: async () => {
       const { data } = await axiosSecure(`/singleBiodata/${id}`);
@@ -93,15 +97,16 @@ const BiodataDetailsPage = () => {
       </div>
     );
   }
-
-  const isPremiumUser = userInfo?.subscriptionType === "premium";
+  console.log(userInfo);
+  const isPremiumUser = isPremium ? "premium" : "free";
+  console.log(isPremiumUser);
 
   return (
     <>
       <div className="bg-background py-12">
         <div className="container mx-auto px-4">
           {/* Main Profile Card */}
-          <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className=" mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
             <div className="p-6 md:p-8">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Left Column: Image and Actions */}
@@ -114,7 +119,7 @@ const BiodataDetailsPage = () => {
                   <h1 className="font-secondary text-4xl font-bold text-txt mt-6 text-center">
                     {biodata.name}
                   </h1>
-                  <p className="text-txt/70">Biodata ID: {biodata._id}</p>
+                  <p className="text-txt/70">Biodata ID: {biodata.biodataId}</p>
                   <div className="w-full mt-8 space-y-3">
                     <button
                       onClick={handleAddToFavourites}
