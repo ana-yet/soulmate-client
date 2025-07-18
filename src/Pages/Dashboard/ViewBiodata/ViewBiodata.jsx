@@ -47,11 +47,9 @@ const ViewBiodata = () => {
       if (result.isConfirmed) {
         const toastId = toast.loading("Submitting your request...");
         try {
-          await secureAxios.post("/request-premium", {
-            biodataId: biodata._id,
-          });
+          await secureAxios.patch(`/request-premium/${biodata._id}`);
           toast.success("Premium request sent successfully!", { id: toastId });
-          refetch(); // Refetch data to update the status and UI
+          refetch();
         } catch (err) {
           toast.error(err.message || "Failed to send request.", {
             id: toastId,
@@ -83,7 +81,7 @@ const ViewBiodata = () => {
   }
 
   const isButtonVisible =
-    biodata.status !== "premium" && biodata.status !== "pending";
+    biodata.bioDataStatus !== "premium" && biodata.bioDataStatus !== "pending";
 
   return (
     <>
