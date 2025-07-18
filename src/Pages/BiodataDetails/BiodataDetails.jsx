@@ -21,41 +21,7 @@ import useAxiosSecure from "../../Hook/useAxiosSecure";
 import useUserInfo from "../../Hook/useUserInfo";
 import ProfileField from "./ProfileField";
 import SimilarProfileCard from "./SimilarProfileCard";
-
-// --- Placeholder Hooks (Replace with your actual hooks) ---
-
-const useSimilarBiodatas = (type, id) =>
-  useQuery({
-    queryKey: ["similarBiodatas", type, id],
-    queryFn: async () => {
-      // --- SIMULATION ---
-      return [
-        {
-          _id: 201,
-          profileImage: "https://placehold.co/300x300/E3BBAA/4F4F4F",
-          biodataType: "Female",
-          permanentDivision: "Dhaka",
-          age: 28,
-        },
-        {
-          _id: 202,
-          profileImage: "https://placehold.co/300x300/E3BBAA/4F4F4F",
-          biodataType: "Female",
-          permanentDivision: "Sylhet",
-          age: 30,
-        },
-        {
-          _id: 203,
-          profileImage: "https://placehold.co/300x300/E3BBAA/4F4F4F",
-          biodataType: "Female",
-          permanentDivision: "Rajshahi",
-          age: 27,
-        },
-      ];
-    },
-    enabled: !!type && !!id, // Only run this query if type and id are available
-  });
-// --- End of Placeholder Hooks ---
+import { useSimilarBiodata } from "../../Hook/useSimilarBiodata";
 
 const BiodataDetailsPage = () => {
   const { id } = useParams();
@@ -73,10 +39,8 @@ const BiodataDetailsPage = () => {
   });
 
   const { data: userInfo, isLoading: isUserLoading } = useUserInfo();
-  const { data: similarBiodatas } = useSimilarBiodatas(
-    biodata?.biodataType,
-    biodata?._id
-  );
+
+  const { data: similarBiodatas } = useSimilarBiodata(biodata?._id);
 
   // Mutation for adding to favourites
   const { mutate: addToFavourites, isPending: isFavouriting } = useMutation({
@@ -284,7 +248,7 @@ const BiodataDetailsPage = () => {
               <h2 className="text-center font-secondary text-3xl font-bold text-txt mb-8">
                 Similar Profiles
               </h2>
-              <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className=" mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {similarBiodatas.map((similar) => (
                   <SimilarProfileCard key={similar._id} biodata={similar} />
                 ))}
