@@ -45,7 +45,7 @@ const BiodataDetailsPage = () => {
   });
 
   const { role, isPremium, isLoading: isUserLoading } = useUserInfo();
-  const { isFavourite, isLoading } = useIsFavourite(biodata._id);
+  const { isFavourite, isLoading } = useIsFavourite(biodata?._id);
   const { removeFromFavourites, isRemoving } = useRemoveFavourite();
 
   const { data: similarBiodatas } = useSimilarBiodata(biodata?._id);

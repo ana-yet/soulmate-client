@@ -12,6 +12,7 @@ import EditBiodata from "../Pages/Dashboard/EditBioata/EditBioData";
 import Forbidden from "../Pages/Forbidden/Forbidden";
 import ViewBiodata from "../Pages/Dashboard/ViewBiodata/ViewBiodata";
 import BiodataDetailsPage from "../Pages/BiodataDetails/BiodataDetails";
+import MyFavouritesList from "../Pages/Dashboard/MyFavouritesList/MyFavouritesList";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "view-biodata",
         element: <ViewBiodata />,
+      },
+      {
+        path: "favourites",
+        element: <MyFavouritesList />,
       },
     ],
   },
