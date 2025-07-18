@@ -22,6 +22,8 @@ import ProfileField from "./ProfileField";
 import SimilarProfileCard from "./SimilarProfileCard";
 import { useSimilarBiodata } from "../../Hook/useSimilarBiodata";
 import useUserInfo from "../../Hook/useUserInfo";
+import useIsFavourite from "../../Hook/useIsFavourite";
+import useRemoveFavourite from "../../Hook/useRemoveFavourite ";
 
 const BiodataDetailsPage = () => {
   const { id } = useParams();
@@ -43,6 +45,8 @@ const BiodataDetailsPage = () => {
   });
 
   const { role, isPremium, isLoading: isUserLoading } = useUserInfo();
+  const { isFavourite, isLoading } = useIsFavourite(biodata._id);
+  const { removeFromFavourites, isRemoving } = useRemoveFavourite();
 
   const { data: similarBiodatas } = useSimilarBiodata(biodata?._id);
 
@@ -71,11 +75,13 @@ const BiodataDetailsPage = () => {
     const favouriteData = {
       userEmail: user.email,
       biodataId: biodata._id,
-      name: biodata.name,
-      profileImage: biodata.profileImage,
-      biodataType: biodata.biodataType,
+      favouritedAt: new Date(),
     };
     addToFavourites(favouriteData);
+  };
+
+  const handleRemove = () => {
+    removeFromFavourites({ userEmail: user.email, biodataId: biodata._id });
   };
 
   const handleRequestContact = () => {
@@ -118,14 +124,26 @@ const BiodataDetailsPage = () => {
                   </h1>
                   <p className="text-txt/70">Biodata ID: {biodata.biodataId}</p>
                   <div className="w-full mt-8 space-y-3">
-                    <button
-                      onClick={handleAddToFavourites}
-                      disabled={isFavouriting}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-accent/10 px-6 py-3 font-semibold text-accent shadow-sm transition-colors hover:bg-accent/20 disabled:cursor-not-allowed"
-                    >
-                      <FaHeart />{" "}
-                      {isFavouriting ? "Adding..." : "Add to Favourites"}
-                    </button>
+                    {isFavourite ? (
+                      <button
+                        onClick={handleRemove}
+                        disabled={isRemoving}
+                        className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-accent/10 px-6 py-3 font-semibold text-accent shadow-sm transition-colors hover:bg-accent/20 disabled:cursor-not-allowed"
+                      >
+                        <FaHeart />
+                        Added to Favourites
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleAddToFavourites}
+                        disabled={isFavouriting}
+                        className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-accent/10 px-6 py-3 font-semibold text-accent shadow-sm transition-colors hover:bg-accent/20 disabled:cursor-not-allowed"
+                      >
+                        <FaHeart />{" "}
+                        {isFavouriting ? "Adding..." : "Add to Favourites"}
+                      </button>
+                    )}
+
                     {!isPremium && (
                       <button
                         onClick={handleRequestContact}
