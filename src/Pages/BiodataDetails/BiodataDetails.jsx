@@ -32,7 +32,7 @@ const BiodataDetailsPage = () => {
 
   const {
     data: biodata,
-    isPremium,
+    // isPremium,
     isLoading: isBiodataLoading,
   } = useQuery({
     queryKey: ["biodataId", id],
@@ -42,7 +42,7 @@ const BiodataDetailsPage = () => {
     },
   });
 
-  const { data: userInfo, isLoading: isUserLoading } = useUserInfo();
+  const { role, isPremium, isLoading: isUserLoading } = useUserInfo();
 
   const { data: similarBiodatas } = useSimilarBiodata(biodata?._id);
 
@@ -97,9 +97,6 @@ const BiodataDetailsPage = () => {
       </div>
     );
   }
-  console.log(userInfo);
-  const isPremiumUser = isPremium ? "premium" : "free";
-  console.log(isPremiumUser);
 
   return (
     <>
@@ -129,7 +126,7 @@ const BiodataDetailsPage = () => {
                       <FaHeart />{" "}
                       {isFavouriting ? "Adding..." : "Add to Favourites"}
                     </button>
-                    {!isPremiumUser && (
+                    {!isPremium && (
                       <button
                         onClick={handleRequestContact}
                         className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 font-semibold text-white shadow-md transition-transform hover:scale-105"
@@ -225,7 +222,7 @@ const BiodataDetailsPage = () => {
                   />
 
                   {/* Conditional Contact Info */}
-                  {isPremiumUser && (
+                  {isPremium && (
                     <>
                       <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-utility border-b border-utility/20 pb-2 mt-4">
                         Contact Information (Premium)
