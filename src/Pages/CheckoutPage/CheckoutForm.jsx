@@ -95,17 +95,23 @@ const CheckoutForm = ({ biodata }) => {
       toast.success("Payment successful! Request submitted.", { id: toastId });
       navigate("/dashboard/my-contact-requests");
     } catch (err) {
-      toast.error(
-        "Payment succeeded, but failed to save the request. Please contact support.",
-        { id: toastId }
-      );
+      if (err.response && err.response.status === 409) {
+        const message =
+          err.response.data?.message || "This request already exists.";
+        toast.error(message);
+      } else {
+        toast.error(
+          "Payment succeeded, but failed to save the request. Please contact support.",
+          { id: toastId }
+        );
+      }
     }
   };
 
   const cardElementOptions = {
     style: {
       base: {
-        color: "#3C322E",
+        color: "#ffffff",
         fontFamily: "Inter, sans-serif",
         fontSize: "16px",
         "::placeholder": {

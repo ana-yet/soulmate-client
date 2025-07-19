@@ -4,6 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import useSingleBiodata from "../../Hook/useSingleBiodata";
+import BackButton from "../../Shared/BackButton/BackButton";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -11,11 +12,18 @@ const CheckoutPage = () => {
   const { id } = useParams();
   const { data: biodata, isLoading, error } = useSingleBiodata(id);
 
-  if (error) return <p>Something went wrong.</p>;
+  if (error)
+    return (
+      <p className="text-center p-10 text-accent">Something went wrong.</p>
+    );
 
   return (
-    <div className="bg-background dark:bg-dark-bg min-h-screen py-12 px-4">
+    <div className="bg-background dark:bg-dark-bg min-h-screen py-12 sm:py-16 px-4">
       <div className="max-w-xl mx-auto">
+        <div className="mb-6">
+          <BackButton />
+        </div>
+
         <div className="text-center mb-8">
           <h1 className="font-secondary text-4xl font-bold text-txt dark:text-dark-text">
             Request Contact Information
