@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   FaBriefcase,
   FaMapMarkerAlt,
@@ -22,7 +22,7 @@ const BiodataCard = ({ biodata }) => (
         alt={`Biodata ${biodata.biodataId}`}
         className="h-72 w-full object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+      <div className="hidden md:flex absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-100 items-center justify-center">
         <Link
           to={`/biodata/${biodata._id}`}
           className="rounded-full bg-accent px-6 py-2 font-semibold text-white shadow-md transition-transform duration-300 transform scale-90 group-hover:scale-100"
@@ -31,6 +31,7 @@ const BiodataCard = ({ biodata }) => (
         </Link>
       </div>
     </div>
+
     <div className="flex flex-1 flex-col p-5">
       <h3 className="font-secondary text-xl font-bold text-txt dark:text-dark-text">
         Biodata ID: {biodata.biodataId}
@@ -50,6 +51,17 @@ const BiodataCard = ({ biodata }) => (
         </p>
       </div>
     </div>
+
+    {/* Button for small screens only */}
+    <div className="block md:hidden p-4 pt-0">
+      <Link
+        to={`/biodata/${biodata._id}`}
+        className="w-full block text-center rounded-lg bg-accent px-6 py-2 font-semibold text-white shadow-md"
+      >
+        View Profile
+      </Link>
+    </div>
   </motion.div>
 );
+
 export default BiodataCard;
