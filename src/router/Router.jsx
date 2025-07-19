@@ -14,6 +14,7 @@ import ViewBiodata from "../Pages/Dashboard/ViewBiodata/ViewBiodata";
 import BiodataDetailsPage from "../Pages/BiodataDetails/BiodataDetails";
 import MyFavouritesList from "../Pages/Dashboard/MyFavouritesList/MyFavouritesList";
 import BiodatasPage from "../Pages/BiodatasPage/Biodatas";
+import CheckoutPage from "../Pages/CheckoutPage/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +82,14 @@ const router = createBrowserRouter([
         element: <MyFavouritesList />,
       },
     ],
+  },
+  {
+    path: "checkout/:id",
+    element: (
+      <PrivateRoute>
+        <CheckoutPage />
+      </PrivateRoute>
+    ),
   },
 ]);
 
