@@ -2,6 +2,22 @@ export const biodataOptions = {
   // Options for the biodata type select dropdown
   biodataTypes: ["Male", "Female"],
 
+  // NEW: Options for Marital Status
+  maritalStatuses: ["Unmarried", "Widowed", "Divorced", "Annulled"],
+
+  // NEW: Options for Education Level
+  educationLevels: [
+    "SSC/HSC",
+    "Diploma",
+    "Bachelor's/Honours",
+    "Master's",
+    "Doctorate/PhD",
+    "Other",
+  ],
+
+  // NEW: Options for Family Values
+  familyValues: ["Traditional", "Moderate", "Liberal", "Religious"],
+
   // Options for height dropdowns
   heights: [
     "4' 5\"",

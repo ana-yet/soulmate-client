@@ -6,6 +6,8 @@ import {
   HiOutlineCalendar,
   HiOutlineUser,
   HiOutlineMail,
+  HiOutlineAcademicCap,
+  HiOutlineSparkles,
 } from "react-icons/hi";
 import useAuth from "../../../Hook/useAuth";
 import useImgbbUploader from "../../../Hook/useImgbbUploader";
@@ -25,14 +27,14 @@ const FormSelect = ({
   <div>
     <label
       htmlFor={name}
-      className="block text-sm font-medium text-txt/80 mb-1"
+      className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-1"
     >
       {label}
     </label>
     <select
       id={name}
       {...register(name, validation)}
-      className="w-full rounded-lg border border-secondary/50 bg-background py-2.5 px-4 font-primary text-txt transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+      className="w-full rounded-lg border border-secondary/50 bg-background py-2.5 px-4 font-primary text-txt transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text"
     >
       {children}
     </select>
@@ -88,7 +90,7 @@ const EditBiodata = () => {
 
     try {
       let imageUrl = existingBiodata?.profileImage || "";
-      if (!formData.profileImage && formData.profileImage[0]) {
+      if (formData.profileImage && formData.profileImage[0]) {
         imageUrl = await uploadImage(formData.profileImage[0]);
       } else {
         imageUrl = existingBiodata?.profileImage;
@@ -124,16 +126,16 @@ const EditBiodata = () => {
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-96">
-        <p>Loading your biodata...</p>
+        <p className="dark:text-dark-text">Loading your biodata...</p>
       </div>
     );
 
   return (
-    <div className="w-full mx-auto p-6 bg-background/50 border border-gray-200 rounded-2xl shadow-lg">
-      <h1 className="font-secondary text-3xl font-bold text-txt mb-2">
+    <div className="w-full mx-auto p-6 sm:p-8 bg-white dark:bg-dark-secondary border border-gray-200 dark:border-dark-border rounded-2xl shadow-lg">
+      <h1 className="font-secondary text-3xl font-bold text-txt dark:text-dark-text mb-2">
         {isEditMode ? "Edit Your Biodata" : "Create Your Biodata"}
       </h1>
-      <p className="text-txt/70 mb-8">
+      <p className="text-txt/70 dark:text-dark-text-muted mb-8">
         {isEditMode
           ? "Update your information to keep your profile fresh."
           : "Fill in the details below to find your perfect match."}
@@ -166,6 +168,22 @@ const EditBiodata = () => {
             icon={<HiOutlineUser />}
             placeholder="Your full name"
           />
+
+          {/* NEW: Marital Status Field */}
+          <FormSelect
+            label="Marital Status"
+            name="maritalStatus"
+            register={register}
+            validation={{ required: "Marital status is required" }}
+            errors={errors}
+          >
+            <option value="">Select Status...</option>
+            {biodataOptions.maritalStatuses.map((status) => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </FormSelect>
 
           <FormInput
             label="Date of Birth"
@@ -235,6 +253,22 @@ const EditBiodata = () => {
             ))}
           </FormSelect>
 
+          {/* NEW: Education Level Field */}
+          <FormSelect
+            label="Education Level"
+            name="educationLevel"
+            register={register}
+            validation={{ required: "Education is required" }}
+            errors={errors}
+          >
+            <option value="">Select Education...</option>
+            {biodataOptions.educationLevels.map((level) => (
+              <option key={level} value={level}>
+                {level}
+              </option>
+            ))}
+          </FormSelect>
+
           <FormSelect
             label="Race"
             name="race"
@@ -250,6 +284,22 @@ const EditBiodata = () => {
             ))}
           </FormSelect>
 
+          {/* NEW: Family Values Field */}
+          <FormSelect
+            label="Family Values"
+            name="familyValues"
+            register={register}
+            validation={{ required: "This field is required" }}
+            errors={errors}
+          >
+            <option value="">Select Values...</option>
+            {biodataOptions.familyValues.map((value) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </FormSelect>
+
           <FormInput
             label="Father's Name"
             name="fathersName"
@@ -258,6 +308,7 @@ const EditBiodata = () => {
             errors={errors}
             icon={<HiOutlineUser />}
           />
+
           <FormInput
             label="Mother's Name"
             name="mothersName"
@@ -362,7 +413,7 @@ const EditBiodata = () => {
           <div>
             <label
               htmlFor="profileImage"
-              className="block text-sm font-medium text-txt/80 mb-1"
+              className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-1"
             >
               Profile Image
             </label>
@@ -370,7 +421,7 @@ const EditBiodata = () => {
               id="profileImage"
               type="file"
               {...register("profileImage", { required: !isEditMode })}
-              className="block w-full text-sm text-txt file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20"
+              className="block w-full text-sm text-txt dark:text-dark-text file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20"
             />
             {errors.profileImage && (
               <p className="mt-1 text-xs text-accent">
@@ -380,7 +431,7 @@ const EditBiodata = () => {
           </div>
         </div>
 
-        <div className="pt-6 border-t border-secondary/20 text-right">
+        <div className="pt-6 border-t border-secondary/20 dark:border-dark-border text-right">
           <button
             type="submit"
             disabled={isSubmitting || uploading}

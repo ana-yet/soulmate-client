@@ -11,7 +11,7 @@ const MyFavouritesList = () => {
   const { user } = useAuth();
 
   const {
-    data: favourites,
+    data: favourites = [],
     isLoading,
     isError,
     error,
