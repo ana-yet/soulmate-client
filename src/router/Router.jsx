@@ -15,6 +15,7 @@ import BiodataDetailsPage from "../Pages/BiodataDetails/BiodataDetails";
 import MyFavouritesList from "../Pages/Dashboard/MyFavouritesList/MyFavouritesList";
 import BiodatasPage from "../Pages/BiodatasPage/Biodatas";
 import CheckoutPage from "../Pages/CheckoutPage/CheckoutPage";
+import MyContactRequests from "../Pages/Dashboard/MyContactRequests/MyContactRequests";
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
       {
         path: "favourites",
         element: <MyFavouritesList />,
+      },
+      {
+        path: "contact-requests",
+        element: <MyContactRequests />,
       },
     ],
   },

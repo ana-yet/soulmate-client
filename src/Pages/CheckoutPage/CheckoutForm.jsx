@@ -93,7 +93,7 @@ const CheckoutForm = ({ biodata }) => {
       await axiosSecure.post("/biodata-requests", contactRequest);
 
       toast.success("Payment successful! Request submitted.", { id: toastId });
-      navigate("/dashboard/my-contact-requests");
+      navigate("/dashboard/contact-requests");
     } catch (err) {
       if (err.response && err.response.status === 409) {
         const message =

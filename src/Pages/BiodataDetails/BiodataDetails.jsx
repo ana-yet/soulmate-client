@@ -32,11 +32,7 @@ const BiodataDetailsPage = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
-  const {
-    data: biodata,
-    // isPremium,
-    isLoading: isBiodataLoading,
-  } = useQuery({
+  const { data: biodata, isLoading: isBiodataLoading } = useQuery({
     queryKey: ["biodataId", id],
     queryFn: async () => {
       const { data } = await axiosSecure(`/singleBiodata/${id}`);
