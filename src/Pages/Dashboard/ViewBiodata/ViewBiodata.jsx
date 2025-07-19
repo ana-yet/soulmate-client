@@ -12,22 +12,14 @@ import {
   FaEnvelope,
   FaMobileAlt,
   FaStar,
+  FaHeart,
 } from "react-icons/fa";
+import { HiOutlineAcademicCap, HiOutlineHome } from "react-icons/hi"; // New Icons
 import useAuth from "../../../Hook/useAuth";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import { useBiodata } from "../../../Hook/useBiodata";
 import StatusBadge from "./StatusBadge";
-
-// Reusable component for displaying a single profile field
-const ProfileField = ({ icon, label, value }) => (
-  <div className="flex items-start gap-4">
-    <span className="mt-1 text-accent">{icon}</span>
-    <div>
-      <p className="text-sm font-semibold text-txt/60">{label}</p>
-      <p className="text-lg font-medium text-txt">{value || "N/A"}</p>
-    </div>
-  </div>
-);
+import ProfileField from "./ProfileField";
 
 const ViewBiodata = () => {
   const { user } = useAuth();
@@ -43,6 +35,8 @@ const ViewBiodata = () => {
       confirmButtonColor: "#C2185B",
       cancelButtonColor: "#4F4F4F",
       confirmButtonText: "Yes, request premium!",
+      background: "#FAF6F0",
+      color: "#3C322E",
     }).then(async (result) => {
       if (result.isConfirmed) {
         const toastId = toast.loading("Submitting your request...");
@@ -61,7 +55,9 @@ const ViewBiodata = () => {
 
   if (isLoading) {
     return (
-      <div className="text-center p-10">Loading your biodata profile...</div>
+      <div className="text-center p-10 dark:text-dark-text">
+        Loading your biodata profile...
+      </div>
     );
   }
 
@@ -73,9 +69,11 @@ const ViewBiodata = () => {
 
   if (!biodata) {
     return (
-      <div className="text-center p-10">
-        You have not created your biodata yet. Please go to "Edit Biodata" to
-        create one.
+      <div className="text-center p-10 bg-white dark:bg-dark-secondary rounded-lg">
+        <p className="dark:text-dark-text">
+          You have not created your biodata yet. Please go to "Edit Biodata" to
+          create one.
+        </p>
       </div>
     );
   }
@@ -85,15 +83,17 @@ const ViewBiodata = () => {
 
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div className="bg-white dark:bg-dark-secondary rounded-2xl shadow-lg overflow-hidden border border-secondary/20 dark:border-dark-border">
         <div className="p-6 md:p-8">
           {/* --- Header --- */}
           <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-8">
             <div>
-              <h1 className="font-secondary text-4xl font-bold text-txt">
+              <h1 className="font-secondary text-4xl font-bold text-txt dark:text-dark-text">
                 {biodata.name}
               </h1>
-              <p className="text-txt/70">Biodata ID: {biodata.biodataId}</p>
+              <p className="text-txt/70 dark:text-dark-text-muted">
+                Biodata ID: {biodata.biodataId}
+              </p>
             </div>
             <div className="flex-shrink-0">
               {isButtonVisible ? (
@@ -117,19 +117,25 @@ const ViewBiodata = () => {
               <img
                 src={biodata.profileImage}
                 alt={biodata.name}
-                className="h-64 w-64 rounded-full object-cover shadow-lg border-4 border-secondary/20"
+                className="h-64 w-64 rounded-full object-cover shadow-lg border-4 border-secondary/20 dark:border-dark-border"
               />
             </div>
 
             {/* Details */}
             <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
-              <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-txt border-b border-secondary/20 pb-2">
+              <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-txt dark:text-dark-text border-b border-secondary/20 dark:border-dark-border pb-2">
                 Personal Details
               </h2>
               <ProfileField
                 icon={<FaVenusMars />}
                 label="Biodata Type"
                 value={biodata.biodataType}
+              />
+
+              <ProfileField
+                icon={<FaHeart />}
+                label="Marital Status"
+                value={biodata.maritalStatus}
               />
               <ProfileField
                 icon={<FaBirthdayCake />}
@@ -156,13 +162,25 @@ const ViewBiodata = () => {
                 label="Occupation"
                 value={biodata.occupation}
               />
+
+              <ProfileField
+                icon={<HiOutlineAcademicCap />}
+                label="Education"
+                value={biodata.educationLevel}
+              />
               <ProfileField
                 icon={<FaFlag />}
                 label="Race"
                 value={biodata.race}
               />
 
-              <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-txt border-b border-secondary/20 pb-2 mt-4">
+              <ProfileField
+                icon={<HiOutlineHome />}
+                label="Family Values"
+                value={biodata.familyValues}
+              />
+
+              <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-txt dark:text-dark-text border-b border-secondary/20 dark:border-dark-border pb-2 mt-4">
                 Family & Location
               </h2>
               <ProfileField
@@ -186,7 +204,7 @@ const ViewBiodata = () => {
                 value={biodata.presentDivision}
               />
 
-              <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-txt border-b border-secondary/20 pb-2 mt-4">
+              <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-txt dark:text-dark-text border-b border-secondary/20 dark:border-dark-border pb-2 mt-4">
                 Partner Expectation
               </h2>
               <ProfileField
@@ -205,7 +223,7 @@ const ViewBiodata = () => {
                 value={biodata.expectedPartnerWeight}
               />
 
-              <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-txt border-b border-secondary/20 pb-2 mt-4">
+              <h2 className="sm:col-span-2 font-secondary text-2xl font-semibold text-txt dark:text-dark-text border-b border-secondary/20 dark:border-dark-border pb-2 mt-4">
                 Contact Information
               </h2>
               <ProfileField

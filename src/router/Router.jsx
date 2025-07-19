@@ -13,6 +13,7 @@ import Forbidden from "../Pages/Forbidden/Forbidden";
 import ViewBiodata from "../Pages/Dashboard/ViewBiodata/ViewBiodata";
 import BiodataDetailsPage from "../Pages/BiodataDetails/BiodataDetails";
 import MyFavouritesList from "../Pages/Dashboard/MyFavouritesList/MyFavouritesList";
+import BiodatasPage from "../Pages/BiodatasPage/Biodatas";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "biodatas",
+        element: <BiodatasPage />,
       },
       {
         path: "biodata/:id",
