@@ -7,7 +7,7 @@ export const useBiodata = (email) => {
     queryKey: ["biodata", email],
     queryFn: async () => {
       const res = await secureAxios.get(`/biodata?email=${email}`);
-      console.log(res.data.data);
+      // console.log(res.data.data);
       return res.data.data;
     },
     enabled: !!email,

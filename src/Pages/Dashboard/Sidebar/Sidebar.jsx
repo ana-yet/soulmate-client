@@ -9,8 +9,8 @@ import {
   HiOutlinePencilAlt,
   HiOutlineEye,
   HiOutlineStar,
+  HiOutlineHeart,
 } from "react-icons/hi";
-import useRole from "../../../Hook/useRole";
 import useAuth from "../../../Hook/useAuth";
 import Logo from "../../../Shared/Logo/Logo";
 import SidebarLink from "./SidebarLink";
@@ -56,6 +56,11 @@ const userLinks = [
     to: "/dashboard/favourites",
     icon: <HiOutlineStar />,
     text: "Favourite Biodata",
+  },
+  {
+    to: "/dashboard/got-married",
+    icon: <HiOutlineHeart />,
+    text: "Got Married",
   },
 ];
 

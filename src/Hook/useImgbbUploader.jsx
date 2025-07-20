@@ -1,13 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 
-/**
- * Custom hook for uploading images to ImgBB
- * @returns {Object} An object containing:
- *   - uploadImage: Function to upload an image
- *   - uploading: Boolean indicating upload status
- *   - uploadError: String containing error message if upload fails
- */
 const useImgbbUploader = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
