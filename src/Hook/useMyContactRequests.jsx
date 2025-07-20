@@ -13,7 +13,6 @@ const useMyContactRequests = () => {
       const res = await axiosSecure.get(
         `/my-contact-requests?email=${user.email}`
       );
-      console.log(res.data);
       return res.data;
     },
   });

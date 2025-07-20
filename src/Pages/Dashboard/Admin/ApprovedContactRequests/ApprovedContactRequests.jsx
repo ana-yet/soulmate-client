@@ -11,7 +11,6 @@ const usePendingContactRequests = () => {
     queryKey: ["pending-contact-requests"],
     queryFn: async () => {
       const { data } = await axiosSecure.get("/pending-contact-requests");
-      console.log(data.data);
       return data.data;
     },
   });

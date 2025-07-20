@@ -34,6 +34,11 @@ const adminLinks = [
     icon: <HiOutlineMailOpen />,
     text: "Approve Contacts",
   },
+  {
+    to: "/dashboard/approve-married",
+    icon: <HiOutlineHeart />,
+    text: "Approve Married",
+  },
 ];
 
 const userLinks = [
