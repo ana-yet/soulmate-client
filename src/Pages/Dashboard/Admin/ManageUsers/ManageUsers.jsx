@@ -17,7 +17,6 @@ const useUsers = (searchTerm) => {
     queryKey: ["users", searchTerm],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/users?search=${searchTerm}`);
-      console.log(data);
       return data;
     },
   });

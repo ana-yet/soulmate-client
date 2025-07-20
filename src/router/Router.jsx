@@ -18,6 +18,7 @@ import CheckoutPage from "../Pages/CheckoutPage/CheckoutPage";
 import MyContactRequests from "../Pages/Dashboard/MyContactRequests/MyContactRequests";
 import GotMarriedForm from "../Pages/Dashboard/GotMarried/GotMarriedForm";
 import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers/ManageUsers";
+import ApprovedPremium from "../Pages/Dashboard/Admin/ApprovedPremium/ApprovedPremium";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
       {
         path: "manage-users",
         element: <ManageUsers />,
+      },
+      {
+        path: "approve-premium",
+        element: <ApprovedPremium />,
       },
     ],
   },
