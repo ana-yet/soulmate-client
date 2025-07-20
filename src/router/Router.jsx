@@ -17,6 +17,7 @@ import BiodatasPage from "../Pages/BiodatasPage/Biodatas";
 import CheckoutPage from "../Pages/CheckoutPage/CheckoutPage";
 import MyContactRequests from "../Pages/Dashboard/MyContactRequests/MyContactRequests";
 import GotMarriedForm from "../Pages/Dashboard/GotMarried/GotMarriedForm";
+import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,11 @@ const router = createBrowserRouter([
         element: <MyContactRequests />,
       },
       { path: "got-married", element: <GotMarriedForm /> },
+      // admin routes
+      {
+        path: "manage-users",
+        element: <ManageUsers />,
+      },
     ],
   },
   {
