@@ -40,7 +40,7 @@ const BiodataDetailsPage = () => {
     },
   });
 
-  const { role, isPremium, isLoading: isUserLoading } = useUserInfo();
+  const { isPremium, isLoading: isUserLoading } = useUserInfo();
   const { isFavourite, isLoading } = useIsFavourite(biodata?._id);
   const { removeFromFavourites, isRemoving } = useRemoveFavourite();
 
@@ -84,7 +84,7 @@ const BiodataDetailsPage = () => {
     navigate(`/checkout/${biodata._id}`);
   };
 
-  if (isBiodataLoading || isUserLoading) {
+  if (isBiodataLoading || isUserLoading || isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         Loading Profile Details...
