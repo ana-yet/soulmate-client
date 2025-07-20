@@ -134,7 +134,7 @@ const MyContactRequests = () => {
                     <StatusBadge status={req.status} />
                   </td>
                   <td className="p-4 text-txt/80 dark:text-dark-text-muted hidden lg:table-cell">
-                    {req.status === "approved" ? req.mobileNumber : "N/A"}
+                    {req.status === "approved" ? req.mobile : "N/A"}
                   </td>
                   <td className="p-4 text-txt/80 dark:text-dark-text-muted hidden lg:table-cell">
                     {req.status === "approved" ? req.email : "N/A"}

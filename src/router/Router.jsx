@@ -19,6 +19,7 @@ import MyContactRequests from "../Pages/Dashboard/MyContactRequests/MyContactReq
 import GotMarriedForm from "../Pages/Dashboard/GotMarried/GotMarriedForm";
 import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers/ManageUsers";
 import ApprovedPremium from "../Pages/Dashboard/Admin/ApprovedPremium/ApprovedPremium";
+import ApprovedContactRequests from "../Pages/Dashboard/Admin/ApprovedContactRequests/ApprovedContactRequests";
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
       {
         path: "approve-premium",
         element: <ApprovedPremium />,
+      },
+      {
+        path: "approve-contacts",
+        element: <ApprovedContactRequests />,
       },
     ],
   },

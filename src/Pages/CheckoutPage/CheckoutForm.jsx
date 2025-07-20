@@ -86,7 +86,8 @@ const CheckoutForm = ({ biodata }) => {
     try {
       const contactRequest = {
         requestedBiodataId: biodata?.biodataId,
-        requesterEmail: user.email,
+        requesterEmail: user?.email,
+        requesterName: user?.displayName,
       };
 
       // Send request to your backend to save the contact request
