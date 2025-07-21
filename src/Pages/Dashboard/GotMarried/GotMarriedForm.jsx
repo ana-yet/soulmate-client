@@ -68,6 +68,7 @@ const GotMarriedForm = () => {
         marriageDate: formData.marriageDate,
         coupleImage: finalImageUrl,
         successStory: formData.successStory,
+        rating: 5,
       };
 
       await axiosSecure.post("/success-stories", storyPayload);
