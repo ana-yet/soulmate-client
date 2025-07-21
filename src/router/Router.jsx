@@ -21,8 +21,8 @@ import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers/ManageUsers";
 import ApprovedPremium from "../Pages/Dashboard/Admin/ApprovedPremium/ApprovedPremium";
 import ApprovedContactRequests from "../Pages/Dashboard/Admin/ApprovedContactRequests/ApprovedContactRequests";
 import SuccessStoryApproval from "../Pages/Dashboard/Admin/SuccessStoryApproval/SuccessStoryApproval";
-import AdminDashboard from "../Pages/Dashboard/Admin/AdminDashboard/AdminDashboard";
 import AdminRoute from "../Routes/AdminRoute";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -75,7 +75,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <AdminDashboard />,
+        element: <Dashboard />,
       },
       {
         path: "edit-biodata",
@@ -95,10 +95,6 @@ const router = createBrowserRouter([
       },
       { path: "got-married", element: <GotMarriedForm /> },
       // admin routes
-      // {
-      //   path: "dashboard",
-      //   element: <AdminDashboard />,
-      // },
       {
         path: "manage-users",
         element: (
