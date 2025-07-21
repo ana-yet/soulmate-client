@@ -10,6 +10,7 @@ import {
   HiOutlineEye,
   HiOutlineStar,
   HiOutlineHeart,
+  HiOutlineViewGrid,
 } from "react-icons/hi";
 import useAuth from "../../../Hook/useAuth";
 import Logo from "../../../Shared/Logo/Logo";
@@ -19,6 +20,11 @@ import useUserInfo from "../../../Hook/useUserInfo";
 
 // --- Sidebar Link Data ---
 const adminLinks = [
+  {
+    to: "/dashboard",
+    icon: <HiOutlineViewGrid />,
+    text: "Dashboard",
+  },
   {
     to: "/dashboard/manage-users",
     icon: <HiOutlineUsers />,
@@ -42,6 +48,11 @@ const adminLinks = [
 ];
 
 const userLinks = [
+  {
+    to: "/dashboard",
+    icon: <HiOutlineViewGrid />,
+    text: "Dashboard",
+  },
   {
     to: "/dashboard/edit-biodata",
     icon: <HiOutlinePencilAlt />,
