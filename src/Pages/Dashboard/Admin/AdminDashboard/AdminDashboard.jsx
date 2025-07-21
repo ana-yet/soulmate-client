@@ -1,5 +1,4 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
 import {
   PieChart,
   Pie,
@@ -15,8 +14,6 @@ import {
   HiOutlineUserGroup,
 } from "react-icons/hi";
 import useAdminDashboardStats from "../../../../Hook/useAdminDashboardStats";
-
-// --- End of Placeholder Hooks ---
 
 // Reusable Stat Card Component
 const StatCard = ({ icon, title, value, colorClass }) => (

@@ -8,7 +8,6 @@ const useAdminDashboardStats = () => {
     queryKey: ["admin-dashboard-stats"],
     queryFn: async () => {
       const res = await axiosSecure.get("/admin-dashboard-stats");
-      console.log(res.data);
       return res.data;
     },
   });

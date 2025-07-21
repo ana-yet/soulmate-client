@@ -22,6 +22,7 @@ import ApprovedPremium from "../Pages/Dashboard/Admin/ApprovedPremium/ApprovedPr
 import ApprovedContactRequests from "../Pages/Dashboard/Admin/ApprovedContactRequests/ApprovedContactRequests";
 import SuccessStoryApproval from "../Pages/Dashboard/Admin/SuccessStoryApproval/SuccessStoryApproval";
 import AdminDashboard from "../Pages/Dashboard/Admin/AdminDashboard/AdminDashboard";
+import AdminRoute from "../Routes/AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -100,19 +101,35 @@ const router = createBrowserRouter([
       // },
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        element: (
+          <AdminRoute>
+            <ManageUsers />,
+          </AdminRoute>
+        ),
       },
       {
         path: "approve-premium",
-        element: <ApprovedPremium />,
+        element: (
+          <AdminRoute>
+            <ApprovedPremium />
+          </AdminRoute>
+        ),
       },
       {
         path: "approve-contacts",
-        element: <ApprovedContactRequests />,
+        element: (
+          <AdminRoute>
+            <ApprovedContactRequests />
+          </AdminRoute>
+        ),
       },
       {
         path: "approve-married",
-        element: <SuccessStoryApproval />,
+        element: (
+          <AdminRoute>
+            <SuccessStoryApproval />
+          </AdminRoute>
+        ),
       },
     ],
   },
@@ -123,6 +140,10 @@ const router = createBrowserRouter([
         <CheckoutPage />
       </PrivateRoute>
     ),
+  },
+  {
+    path: "forbidden",
+    element: <Forbidden />,
   },
 ]);
 
