@@ -11,6 +11,7 @@ import {
 } from "react-icons/hi";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import FloatingLabelInput from "./FloatingLabelInput";
+import { Helmet } from "react-helmet-async";
 
 const ContactUsPage = () => {
   const {
@@ -39,6 +40,16 @@ const ContactUsPage = () => {
 
   return (
     <div className="bg-background dark:bg-dark-bg min-h-screen">
+      <Helmet>
+        <title>Contact Us | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="container mx-auto px-4 py-16 sm:py-20">
         {/* --- Header Section --- */}
         <motion.div

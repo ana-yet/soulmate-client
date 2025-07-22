@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { HiOutlineCheckCircle } from "react-icons/hi";
 import useAxiosSecure from "../../../../Hook/useAxiosSecure";
 import StatusBadge from "../../MyContactRequests/StatusBadge";
+import { Helmet } from "react-helmet-async";
 
 const usePendingContactRequests = () => {
   const axiosSecure = useAxiosSecure();
@@ -43,6 +44,16 @@ const ApprovedContactRequests = () => {
 
   return (
     <div className="bg-white dark:bg-dark-secondary rounded-2xl shadow-lg p-4 sm:p-6 border border-secondary/20 dark:border-dark-border">
+      <Helmet>
+        <title>Contact Requests | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="mb-6">
         <h2 className="font-secondary text-3xl font-bold text-txt dark:text-dark-text">
           Approve Contact Requests

@@ -5,6 +5,7 @@ import { FaBullseye, FaEye, FaHeart } from "react-icons/fa";
 import SectionHeader from "./SectionHeader";
 import useAuth from "../../Hook/useAuth";
 import Faq from "./Faq/Faq";
+import { Helmet } from "react-helmet-async";
 
 // Reusable Team Member Card
 const TeamMemberCard = ({ image, name, role }) => (
@@ -31,6 +32,16 @@ const AboutUsPage = () => {
   const { user } = useAuth();
   return (
     <div className="bg-background dark:bg-dark-bg">
+      <Helmet>
+        <title>About Us | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       {/* --- 1. Hero Section --- */}
       <section className="relative py-24 md:py-32">
         <div className="container mx-auto px-4 text-center">

@@ -9,6 +9,7 @@ import {
 } from "react-icons/hi";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import useAuth from "../../../Hook/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const useMyProfile = (email) => {
   const axiosSecure = useAxiosSecure();
@@ -74,6 +75,16 @@ const MyProfile = () => {
 
   return (
     <div className="flex items-center justify-center p-4">
+      <Helmet>
+        <title>My Profile | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="w-full max-w-md p-6 sm:p-8 mx-auto bg-white dark:bg-dark-secondary rounded-2xl shadow-lg border border-secondary/20 dark:border-dark-border">
         <div className="flex flex-col items-center">
           <img

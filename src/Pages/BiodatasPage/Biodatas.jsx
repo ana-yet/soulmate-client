@@ -19,6 +19,7 @@ import {
 import useFilteredBiodatas from "../../Hook/useFilteredBiodatas";
 import BiodataCard from "./BiodataCard";
 import FilterSidebar from "./FilterSidebar";
+import { Helmet } from "react-helmet-async";
 
 const BiodatasPage = () => {
   const navigate = useNavigate();
@@ -71,6 +72,16 @@ const BiodatasPage = () => {
 
   return (
     <div className="bg-background dark:bg-dark-bg min-h-screen">
+      <Helmet>
+        <title>All Bio data | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="container mx-auto px-4 py-8">
         {/* --- Page Title and Description --- */}
         <div className="text-center mb-12">

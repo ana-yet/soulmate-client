@@ -6,6 +6,7 @@ import useAuth from "../../../Hook/useAuth";
 import useRemoveFavourite from "../../../Hook/useRemoveFavourite ";
 import useFavouritesList from "../../../Hook/useFavouritesList";
 import TableHead from "./TableHead";
+import { Helmet } from "react-helmet-async";
 
 const MyFavouritesList = () => {
   const { user } = useAuth();
@@ -65,6 +66,16 @@ const MyFavouritesList = () => {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6">
+      <Helmet>
+        <title>Favorites | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <h2 className="font-secondary text-3xl font-bold text-txt dark:text-white mb-6">
         My Favourites
       </h2>

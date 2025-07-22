@@ -7,6 +7,7 @@ import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import useAuth from "../../../Hook/useAuth";
 import useMyContactRequests from "../../../Hook/useMyContactRequests";
 import StatusBadge from "./StatusBadge";
+import { Helmet } from "react-helmet-async";
 
 const MyContactRequests = () => {
   const { user } = useAuth();
@@ -71,6 +72,16 @@ const MyContactRequests = () => {
 
   return (
     <div className="bg-white dark:bg-dark-secondary rounded-2xl shadow-lg p-4 sm:p-6 border border-secondary/20 dark:border-dark-border">
+      <Helmet>
+        <title>My Contact Request | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
         <h2 className="font-secondary text-3xl font-bold text-txt dark:text-dark-text">
           My Contact Requests

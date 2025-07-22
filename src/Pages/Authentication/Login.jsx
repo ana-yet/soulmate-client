@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
 import GoogleLoginButton from "./GoogleLoginButton";
 import useAuth from "../../Hook/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -30,6 +31,16 @@ const LoginForm = () => {
   return (
     <>
       <div className="w-full">
+        <Helmet>
+          <title>Login | SoulMate</title>
+          <meta
+            name="description"
+            content="Find your perfect match with our trusted biodata service."
+          />
+          <meta property="og:title" content="SoulMate - Your SoulMate" />
+          <meta property="og:type" content="website" />
+        </Helmet>
+
         <h2 className="mb-2 font-secondary text-4xl font-bold text-txt">
           Welcome Back
         </h2>

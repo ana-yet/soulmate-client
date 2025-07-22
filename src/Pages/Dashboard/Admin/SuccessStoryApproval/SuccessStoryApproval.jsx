@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
 import { HiOutlineCheckCircle } from "react-icons/hi";
 import useAxiosSecure from "../../../../Hook/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const usePendingSuccessStories = () => {
   const axiosSecure = useAxiosSecure();
@@ -69,7 +70,16 @@ const SuccessStoryApproval = () => {
 
   return (
     <div className="bg-white dark:bg-dark-secondary rounded-2xl shadow-lg p-4 sm:p-6 border border-secondary/20 dark:border-dark-border">
-      <Toaster position="top-center" />
+      <Helmet>
+        <title>Success Story | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="mb-6">
         <h2 className="font-secondary text-3xl font-bold text-txt dark:text-dark-text">
           Approve Success Stories

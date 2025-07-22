@@ -20,6 +20,7 @@ import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import { useBiodata } from "../../../Hook/useBiodata";
 import StatusBadge from "./StatusBadge";
 import ProfileField from "./ProfileField";
+import { Helmet } from "react-helmet-async";
 
 const ViewBiodata = () => {
   const { user } = useAuth();
@@ -84,6 +85,16 @@ const ViewBiodata = () => {
   return (
     <>
       <div className="bg-white dark:bg-dark-secondary rounded-2xl shadow-lg overflow-hidden border border-secondary/20 dark:border-dark-border">
+        <Helmet>
+          <title>View Bio data | SoulMate</title>
+          <meta
+            name="description"
+            content="Find your perfect match with our trusted biodata service."
+          />
+          <meta property="og:title" content="SoulMate - Your SoulMate" />
+          <meta property="og:type" content="website" />
+        </Helmet>
+
         <div className="p-6 md:p-8">
           {/* --- Header --- */}
           <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-8">

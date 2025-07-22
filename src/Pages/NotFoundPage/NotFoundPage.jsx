@@ -1,10 +1,21 @@
 import React from "react";
 import { Link } from "react-router";
 import { HiOutlineQuestionMarkCircle, HiArrowLeft } from "react-icons/hi";
+import { Helmet } from "react-helmet-async";
 
 const NotFoundPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background dark:bg-dark-bg p-4 text-center">
+      <Helmet>
+        <title>Not Found | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="max-w-md w-full">
         <div className="mb-6">
           {/* A relevant icon suggesting something is missing or not found */}

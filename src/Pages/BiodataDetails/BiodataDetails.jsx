@@ -25,6 +25,7 @@ import useUserInfo from "../../Hook/useUserInfo";
 import useIsFavourite from "../../Hook/useIsFavourite";
 import useRemoveFavourite from "../../Hook/useRemoveFavourite ";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { Helmet } from "react-helmet-async";
 
 const BiodataDetailsPage = () => {
   const { id } = useParams();
@@ -99,6 +100,16 @@ const BiodataDetailsPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Bio Data Details | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="bg-background py-12">
         <div className="container mx-auto px-4">
           {/* Main Profile Card */}

@@ -15,6 +15,7 @@ import { biodataOptions } from "../../../Config/biodataOptions";
 import FormInput from "./FormInput";
 import { useBiodata } from "../../../Hook/useBiodata";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
+import { Helmet } from "react-helmet-async";
 
 const FormSelect = ({
   label,
@@ -132,6 +133,16 @@ const EditBiodata = () => {
 
   return (
     <div className="w-full mx-auto p-6 sm:p-8 bg-white dark:bg-dark-secondary border border-gray-200 dark:border-dark-border rounded-2xl shadow-lg">
+      <Helmet>
+        <title>Edit bio data | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <h1 className="font-secondary text-3xl font-bold text-txt dark:text-dark-text mb-2">
         {isEditMode ? "Edit Your Biodata" : "Create Your Biodata"}
       </h1>

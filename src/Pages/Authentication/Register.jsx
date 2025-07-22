@@ -11,6 +11,7 @@ import GoogleLoginButton from "./GoogleLoginButton";
 import useAuth from "../../Hook/useAuth";
 import useImgbbUploader from "../../Hook/useImgbbUploader";
 import usePublicAxios from "../../Hook/usePublicAxios";
+import { Helmet } from "react-helmet-async";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -75,6 +76,16 @@ const Register = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Register | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="w-full">
         <h2 className="mb-2 font-secondary text-4xl font-bold text-txt">
           Create an Account

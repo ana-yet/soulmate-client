@@ -13,6 +13,7 @@ import useAuth from "../../../Hook/useAuth";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import { useBiodata } from "../../../Hook/useBiodata";
 import useImgbbUploader from "../../../Hook/useImgbbUploader";
+import { Helmet } from "react-helmet-async";
 
 const GotMarriedForm = () => {
   const { user } = useAuth();
@@ -98,6 +99,16 @@ const GotMarriedForm = () => {
 
   return (
     <div className="max-w-full mx-auto bg-white dark:bg-dark-secondary rounded-2xl shadow-lg p-6 sm:p-8 border border-secondary/20 dark:border-dark-border">
+      <Helmet>
+        <title>Got Married | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       {/* --- Quranic Verse Header --- */}
       <div className="text-center mb-8 border-b border-secondary/20 dark:border-dark-border pb-6">
         <p className="font-secondary text-lg italic text-txt/80 dark:text-dark-text-muted">

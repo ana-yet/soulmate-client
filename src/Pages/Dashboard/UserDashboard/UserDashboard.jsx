@@ -16,6 +16,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import useAuth from "../../../Hook/useAuth";
 import DashboardCard from "./DashboardCard";
+import { Helmet } from "react-helmet-async";
 
 const useUserDashboardStats = () => {
   const axiosSecure = useAxiosSecure();
@@ -62,6 +63,16 @@ const UserDashboard = () => {
 
   return (
     <div className="space-y-8">
+      <Helmet>
+        <title>Dashboard | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       {/* --- Quran Quote --- */}
       <div className="text-center bg-white dark:bg-dark-secondary p-6 rounded-2xl shadow-lg">
         <p className="font-secondary text-xl italic text-txt/80 dark:text-dark-text-muted">

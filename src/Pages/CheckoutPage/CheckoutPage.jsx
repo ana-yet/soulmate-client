@@ -5,6 +5,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import useSingleBiodata from "../../Hook/useSingleBiodata";
 import BackButton from "../../Shared/BackButton/BackButton";
+import { Helmet } from "react-helmet-async";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -19,6 +20,16 @@ const CheckoutPage = () => {
 
   return (
     <div className="bg-background dark:bg-dark-bg min-h-screen py-12 sm:py-16 px-4">
+      <Helmet>
+        <title>CheckOut | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="max-w-xl mx-auto">
         <div className="mb-6">
           <BackButton />

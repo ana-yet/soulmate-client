@@ -10,6 +10,7 @@ import useDebounce from "../../../../Hook/useDebounce";
 import useAxiosSecure from "../../../../Hook/useAxiosSecure";
 import RoleBadge from "./RoleBadge";
 import PremiumBadge from "./PremiumBadge";
+import { Helmet } from "react-helmet-async";
 
 const useUsers = (searchTerm) => {
   const axiosSecure = useAxiosSecure();
@@ -61,7 +62,16 @@ const ManageUsers = () => {
 
   return (
     <div className="bg-white dark:bg-dark-secondary rounded-2xl shadow-lg p-4 sm:p-6 border border-secondary/20 dark:border-dark-border">
-      <Toaster position="top-center" />
+      <Helmet>
+        <title>Manage User | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
           <h2 className="font-secondary text-3xl font-bold text-txt dark:text-dark-text">

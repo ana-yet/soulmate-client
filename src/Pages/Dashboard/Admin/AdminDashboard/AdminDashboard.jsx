@@ -13,6 +13,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import useAdminDashboardStats from "../../../../Hook/useAdminDashboardStats";
+import { Helmet } from "react-helmet-async";
 
 const AdminDashboard = () => {
   const { data: stats, isLoading, isError, error } = useAdminDashboardStats();
@@ -40,6 +41,16 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-8">
+      <Helmet>
+        <title>Dashboard | SoulMate</title>
+        <meta
+          name="description"
+          content="Find your perfect match with our trusted biodata service."
+        />
+        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="font-secondary text-3xl font-bold text-txt dark:text-dark-text">
           Admin Dashboard
