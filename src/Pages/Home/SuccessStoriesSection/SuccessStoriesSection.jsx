@@ -10,7 +10,6 @@ const useSuccessStories = () => {
     queryKey: ["successStories"],
     queryFn: async () => {
       const { data } = await axiosPublic.get("/success-stories");
-      console.log(data);
       return data;
     },
   });

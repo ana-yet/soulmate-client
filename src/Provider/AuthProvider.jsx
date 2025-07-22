@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import { AuthContext } from "../Contexts/AuthContext";
 import { app } from "../Firebase/firebase.init";
+import LoadingSpinner from "../Pages/LoadingSpinner/LoadingSpinner";
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
@@ -61,6 +62,10 @@ const AuthProvider = ({ children }) => {
     }),
     [user, loading]
   );
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   return <AuthContext value={authContextValue}>{children}</AuthContext>;
 };

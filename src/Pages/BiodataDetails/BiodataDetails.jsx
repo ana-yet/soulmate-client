@@ -24,6 +24,7 @@ import { useSimilarBiodata } from "../../Hook/useSimilarBiodata";
 import useUserInfo from "../../Hook/useUserInfo";
 import useIsFavourite from "../../Hook/useIsFavourite";
 import useRemoveFavourite from "../../Hook/useRemoveFavourite ";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const BiodataDetailsPage = () => {
   const { id } = useParams();
@@ -85,11 +86,7 @@ const BiodataDetailsPage = () => {
   };
 
   if (isBiodataLoading || isUserLoading || isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading Profile Details...
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (!biodata) {

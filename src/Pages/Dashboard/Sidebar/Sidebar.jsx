@@ -81,23 +81,7 @@ const userLinks = [
 ];
 
 const Sidebar = ({ onLinkClick = () => {} }) => {
-  const {
-    role,
-    subscriptionType,
-    isAdmin,
-    isPremium,
-    isUser,
-    isPending,
-    isUserInfoLoading,
-  } = useUserInfo();
-  console.log(
-    { role },
-    { isAdmin },
-    { isPremium },
-    { isUser },
-    { subscriptionType },
-    { isPending }
-  );
+  const { role, isUserInfoLoading } = useUserInfo();
 
   const { userSignOut } = useAuth();
   const navigate = useNavigate();

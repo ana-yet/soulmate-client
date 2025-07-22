@@ -3,7 +3,6 @@ import usePublicAxios from "./usePublicAxios";
 
 const useFilteredBiodatas = (filters) => {
   const publicAxios = usePublicAxios();
-  console.log(filters);
 
   return useQuery({
     queryKey: ["filtered-biodatas", filters],

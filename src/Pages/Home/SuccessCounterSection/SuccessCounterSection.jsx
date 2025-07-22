@@ -13,7 +13,6 @@ const useSuccessCounter = () => {
     queryKey: ["successCounter"],
     queryFn: async () => {
       const { data } = await axiosPublic.get("/success-counter");
-      console.log(data);
       return data;
     },
   });

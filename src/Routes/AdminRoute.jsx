@@ -2,13 +2,14 @@ import React, { Children } from "react";
 import { Navigate } from "react-router";
 import useAuth from "../Hook/useAuth";
 import useUserInfo from "../Hook/useUserInfo";
+import LoadingSpinner from "../Pages/LoadingSpinner/LoadingSpinner";
 
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const { isAdmin, isUserInfoLoading } = useUserInfo();
 
   if (loading || isUserInfoLoading) {
-    return <span className="loading loading-spinner loading-xl"></span>;
+    return <LoadingSpinner />;
   }
 
   if (!user || !isAdmin) {

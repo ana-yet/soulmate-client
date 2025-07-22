@@ -72,7 +72,7 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="font-secondary text-4xl md:text-5xl font-bold text-txt dark:text-dark-text">
+          <h2 className="font-secondary text-4xl font-bold text-txt dark:text-dark-text">
             How It Works
           </h2>
           <p className="mt-3 max-w-2xl mx-auto text-txt/70 dark:text-dark-text-muted">
