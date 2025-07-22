@@ -7,7 +7,7 @@ const AuthLayout = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex min-h-screen max-h-screen w-full bg-background font-primary">
+    <div className="flex min-h-screen max-h-screen w-full bg-background dark:bg-dark-bg font-primary">
       {/* Left Column: Illustration (visible on medium screens and up) */}
       <div className="hidden md:flex md:w-1/2 lg:w-2/3 items-center justify-center p-12 bg-secondary/10 relative overflow-hidden">
         <img

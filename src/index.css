@@ -2,6 +2,7 @@
 @import "tailwindcss";
 
 @tailwind utilities;
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   /* error fixed and learning  : don't use string   */

@@ -14,10 +14,9 @@ import Logo from "../../../Shared/Logo/Logo";
 import toast from "react-hot-toast";
 
 const Header = ({ isSidebarOpen, toggleSidebar }) => {
-  const { user, userSignOut } = useAuth();
+  const { user, userSignOut, darkMode, setDarkMode } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const handleLogout = async () => {
     // 1. Start a loading toast and get its ID
@@ -39,7 +38,7 @@ const Header = ({ isSidebarOpen, toggleSidebar }) => {
 
   // todo: dark mode functionality
   const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
+    setDarkMode(!darkMode);
   };
 
   return (
@@ -71,11 +70,7 @@ const Header = ({ isSidebarOpen, toggleSidebar }) => {
           onClick={toggleTheme}
           className="rounded-full p-2 text-txt/70 transition-colors hover:bg-secondary/20"
         >
-          {isDarkTheme ? (
-            <HiOutlineSun size={22} />
-          ) : (
-            <HiOutlineMoon size={22} />
-          )}
+          {!darkMode ? <HiOutlineSun size={22} /> : <HiOutlineMoon size={22} />}
         </button>
 
         {/* Notification Bell */}

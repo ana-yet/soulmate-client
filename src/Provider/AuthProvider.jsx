@@ -19,6 +19,9 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
 
   // Auth functions
   const createEmailUser = (email, password) =>
@@ -59,10 +62,20 @@ const AuthProvider = ({ children }) => {
       loading,
       setLoading,
       updateUserProfile,
+      setDarkMode,
+      darkMode,
     }),
-    [user, loading]
+    [user, loading, darkMode]
   );
-
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
   if (loading) {
     return <LoadingSpinner />;
   }
