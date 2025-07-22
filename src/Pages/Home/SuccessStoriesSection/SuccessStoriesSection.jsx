@@ -95,7 +95,7 @@ const SuccessStoriesSection = () => {
           className="text-center mb-12"
         >
           <h2 className="font-secondary text-4xl  font-bold text-txt dark:text-dark-text">
-            Marriage Success Stories 💍
+            Marriage Success Stories
           </h2>
           <p className="mt-3 max-w-2xl mx-auto text-txt/70 dark:text-dark-text-muted">
             these are some of the beautiful unions that began on our platform.
