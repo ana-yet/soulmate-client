@@ -25,11 +25,10 @@ const mainLinks = [
   { path: "/contact-us", title: "Contact Us", icon: <HiOutlineMail /> },
 ];
 
-const Navbar = ({ isLoggedIn = false }) => {
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const { user } = useAuth();
-  console.log(user);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-secondary/50 bg-background/90 backdrop-blur-lg">
@@ -98,7 +97,7 @@ const Navbar = ({ isLoggedIn = false }) => {
             </NavbarLink>
           ))}
           <div className="mt-4 w-full border-t border-secondary/50 pt-6">
-            {isLoggedIn ? (
+            {user ? (
               <NavbarLink
                 to="/dashboard"
                 icon={<HiOutlineViewGrid />}
@@ -121,10 +120,6 @@ const Navbar = ({ isLoggedIn = false }) => {
       </div>
     </header>
   );
-};
-
-Navbar.propTypes = {
-  isLoggedIn: PropTypes.bool,
 };
 
 export default Navbar;

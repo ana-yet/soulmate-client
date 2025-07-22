@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router";
 import { FaRegHeart, FaFacebook, FaInstagram } from "react-icons/fa";
+import useAuth from "../../Hook/useAuth";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { user } = useAuth();
 
   return (
     <footer className="bg-white dark:bg-dark-secondary border-t border-secondary/20 dark:border-dark-border">
@@ -54,20 +56,24 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/login"
-                  className="hover:text-accent dark:hover:text-accent transition-colors"
-                >
-                  Login / Register
-                </Link>
+                {!user && (
+                  <Link
+                    to="/login"
+                    className="hover:text-accent dark:hover:text-accent transition-colors"
+                  >
+                    Login / Register
+                  </Link>
+                )}
               </li>
               <li>
-                <Link
-                  to="/dashboard"
-                  className="hover:text-accent dark:hover:text-accent transition-colors"
-                >
-                  Dashboard
-                </Link>
+                {user && (
+                  <Link
+                    to="/dashboard"
+                    className="hover:text-accent dark:hover:text-accent transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
@@ -95,12 +101,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/faq"
+                <a
+                  href="#faq"
                   className="hover:text-accent dark:hover:text-accent transition-colors"
                 >
                   FAQ
-                </Link>
+                </a>
               </li>
               <li>
                 <Link

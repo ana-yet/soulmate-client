@@ -35,7 +35,10 @@ const faqData = {
 
 const Faq = () => {
   return (
-    <section className="py-16 sm:py-20 bg-secondary/10 dark:bg-dark-secondary/50">
+    <section
+      id="faq"
+      className="py-16 sm:py-20 bg-secondary/10 dark:bg-dark-secondary/50"
+    >
       <div className="container mx-auto px-4">
         <SectionHeader
           title="Frequently Asked Questions"
