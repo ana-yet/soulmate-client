@@ -24,6 +24,7 @@ import SuccessStoryApproval from "../Pages/Dashboard/Admin/SuccessStoryApproval/
 import AdminRoute from "../Routes/AdminRoute";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
+import AboutUsPage from "../Pages/AboutUsPage/AboutUsPage";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
             <BiodataDetailsPage />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "about-us",
+        element: <AboutUsPage />,
       },
     ],
   },
