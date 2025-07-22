@@ -26,6 +26,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
 import AboutUsPage from "../Pages/AboutUsPage/AboutUsPage";
 import ContactUsPage from "../Pages/ContactUsPage/ContactUsPage";
+import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 
 const router = createBrowserRouter([
   {
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
         element: <MyContactRequests />,
       },
       { path: "got-married", element: <GotMarriedForm /> },
+      {
+        path: "profile",
+        element: <MyProfile />,
+      },
       // admin routes
       {
         path: "manage-users",
