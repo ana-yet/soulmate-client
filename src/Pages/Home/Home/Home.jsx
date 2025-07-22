@@ -3,6 +3,7 @@ import Banner from "../Banner/Banner";
 import PremiumMember from "../PrmiumMember/PremiumMember";
 import SuccessStoriesSection from "../SuccessStoriesSection/SuccessStoriesSection";
 import HowItWorksSection from "../HowItWorksSection/HowItWorksSection";
+import SuccessCounterSection from "../SuccessCounterSection/SuccessCounterSection";
 
 const Home = () => {
   return (
@@ -15,6 +16,9 @@ const Home = () => {
       </section>
       <section>
         <HowItWorksSection />
+      </section>
+      <section>
+        <SuccessCounterSection />
       </section>
       <section>
         <SuccessStoriesSection />
