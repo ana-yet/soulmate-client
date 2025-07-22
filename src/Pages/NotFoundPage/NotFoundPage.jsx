@@ -1,21 +1,22 @@
 import React from "react";
 import { Link } from "react-router";
-import { HiLockClosed, HiArrowLeft } from "react-icons/hi";
+import { HiOutlineQuestionMarkCircle, HiArrowLeft } from "react-icons/hi";
 
-const Forbidden = () => {
+const NotFoundPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background dark:bg-dark-bg p-4 text-center">
       <div className="max-w-md w-full">
         <div className="mb-6">
-          <HiLockClosed className="mx-auto h-24 w-24 text-accent/50" />
+          {/* A relevant icon suggesting something is missing or not found */}
+          <HiOutlineQuestionMarkCircle className="mx-auto h-24 w-24 text-accent/50" />
         </div>
-        <h1 className="text-8xl font-bold font-secondary text-accent">403</h1>
+        <h1 className="text-8xl font-bold font-secondary text-accent">404</h1>
         <h2 className="mt-4 text-3xl font-bold text-txt dark:text-dark-text">
-          Access Denied
+          Oops! This Page is Not a Match
         </h2>
         <p className="mt-4 text-lg text-txt/70 dark:text-dark-text-muted">
-          We're sorry, but you do not have the necessary permissions to access
-          this page. This area is restricted to authorized users only.
+          It seems the page or biodata you are looking for has been moved,
+          deleted, or does not exist. Let's get you back on the right path.
         </p>
         <div className="mt-10">
           <Link
@@ -23,7 +24,7 @@ const Forbidden = () => {
             className="inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3 font-semibold text-white shadow-lg transition-transform hover:scale-105"
           >
             <HiArrowLeft className="h-5 w-5" />
-            <span>Go to Homepage</span>
+            <span>Return to Homepage</span>
           </Link>
         </div>
       </div>
@@ -31,4 +32,4 @@ const Forbidden = () => {
   );
 };
 
-export default Forbidden;
+export default NotFoundPage;

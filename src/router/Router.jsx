@@ -23,6 +23,7 @@ import ApprovedContactRequests from "../Pages/Dashboard/Admin/ApprovedContactReq
 import SuccessStoryApproval from "../Pages/Dashboard/Admin/SuccessStoryApproval/SuccessStoryApproval";
 import AdminRoute from "../Routes/AdminRoute";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
 
 const router = createBrowserRouter([
   {
@@ -44,10 +45,6 @@ const router = createBrowserRouter([
             <BiodataDetailsPage />
           </PrivateRoute>
         ),
-      },
-      {
-        path: "forbidden",
-        element: <Forbidden />,
       },
     ],
   },
@@ -140,6 +137,10 @@ const router = createBrowserRouter([
   {
     path: "forbidden",
     element: <Forbidden />,
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />,
   },
 ]);
 
