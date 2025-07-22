@@ -25,6 +25,7 @@ import AdminRoute from "../Routes/AdminRoute";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
 import AboutUsPage from "../Pages/AboutUsPage/AboutUsPage";
+import ContactUsPage from "../Pages/ContactUsPage/ContactUsPage";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "about-us",
         element: <AboutUsPage />,
+      },
+      {
+        path: "contact-us",
+        element: <ContactUsPage />,
       },
     ],
   },
