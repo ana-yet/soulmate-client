@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { SiGoogle } from "react-icons/si";
 import useAuth from "../../Hook/useAuth";
@@ -9,20 +9,21 @@ const GoogleLoginButton = () => {
   const navigate = useNavigate();
   const { googleLogin } = useAuth();
   const publicAxios = usePublicAxios();
+  // const location = useLocation();
+  // const from = location.state?.from || "/dashboard";
 
   const handleGoogleLogin = async () => {
     const toastId = toast.loading("Signing in with Google...");
     try {
       // google login
       const user = await googleLogin();
-
+      console.log(user);
       // user data
       const userInfo = {
         name: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
         uid: user.uid,
-        providerId: user.providerData[0]?.providerId,
         role: "user",
         subscriptionType: "free",
         subscriptionExpires: null,
@@ -36,8 +37,9 @@ const GoogleLoginButton = () => {
       toast.success("Successfully signed in!", { id: toastId });
 
       // navigate after success
-      navigate("/dashboard");
+      navigate("/");
     } catch (error) {
+      console.log(error);
       toast.error(error.message || "Failed to sign in with Google.", {
         id: toastId,
       });

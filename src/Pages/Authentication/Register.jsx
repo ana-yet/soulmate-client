@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import {
   HiOutlineUser,
@@ -18,6 +18,8 @@ const Register = () => {
   const [photoPreview, setPhotoPreview] = useState(null);
   const { uploadImage, uploading } = useImgbbUploader();
   const publicAxios = usePublicAxios();
+  const location = useLocation();
+  const from = location.state?.from || "/dashboard";
 
   const {
     register,
@@ -65,7 +67,7 @@ const Register = () => {
       await publicAxios.post("/users", userInfo);
 
       toast.success("Account created successfully!");
-      navigate("/dashboard");
+      navigate(from);
     } catch (error) {
       toast.error(error.message || "Failed to create account.");
     }

@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return unsubscribe; // cleanup
+    return unsubscribe;
   }, []);
 
   // Memoize the value to avoid unnecessary re-renders

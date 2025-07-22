@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
 import GoogleLoginButton from "./GoogleLoginButton";
@@ -8,6 +8,8 @@ import useAuth from "../../Hook/useAuth";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/dashboard";
   const { emailPasswordLogin } = useAuth();
   const {
     register,
@@ -19,7 +21,7 @@ const LoginForm = () => {
     try {
       await emailPasswordLogin(email, password);
       toast.success("Login successful!");
-      navigate("/dashboard");
+      navigate(from);
     } catch (error) {
       toast.error(error.message || "Invalid credentials.");
     }
