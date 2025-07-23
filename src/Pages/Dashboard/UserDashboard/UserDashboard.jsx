@@ -152,7 +152,7 @@ const UserDashboard = () => {
               </p>
             </div>
             <Link
-              to="/dashboard/my-contact-requests"
+              to="/dashboard/contact-requests"
               className="mt-4 text-sm font-semibold text-accent hover:underline inline-flex items-center gap-1"
             >
               View All Requests <HiOutlineArrowRight />

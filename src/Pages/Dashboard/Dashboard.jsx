@@ -7,8 +7,13 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 const Dashboard = () => {
   const { isAdmin, isUserInfoLoading } = useUserInfo();
   if (isUserInfoLoading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-100px)]">
+        <LoadingSpinner size={60} />
+      </div>
+    );
   }
+
   return isAdmin ? <AdminDashboard /> : <UserDashboard />;
 };
 
