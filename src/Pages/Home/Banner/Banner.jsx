@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
+import useAuth from "../../../Hook/useAuth";
+import { useNavigate } from "react-router";
 
 // todo: add the banner images
 const defaultSlides = [
@@ -18,12 +20,10 @@ const defaultSlides = [
   },
 ];
 
-/**
- * A responsive, auto-playing banner/slider component with crossfade and zoom animations.
- * @param {{slides?: Array<{imgUrl: string, overlayText: string}>}} props
- */
 const Banner = ({ slides = defaultSlides }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const goToNext = useCallback(() => {
     setCurrentIndex((prevIndex) =>
@@ -41,12 +41,22 @@ const Banner = ({ slides = defaultSlides }) => {
     setCurrentIndex(index);
   };
 
+  // --- Navigation Handler for the Button ---
+  const handleGetStartedClick = () => {
+    // If user is logged in, go to dashboard. Otherwise, go to login page.
+    if (user) {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       goToNext();
-    }, 3000); // Change slide every 3 seconds
+    }, 3000);
 
-    return () => clearInterval(timer); // Cleanup on component unmount
+    return () => clearInterval(timer);
   }, [goToNext]);
 
   return (
@@ -63,7 +73,9 @@ const Banner = ({ slides = defaultSlides }) => {
           {/* Image Zoom Effect: Applied only to the active slide */}
           <div
             className={`h-full w-full bg-cover bg-center ${
-              index === currentIndex ? "animate-zoom-in" : ""
+              index === currentIndex
+                ? "scale-150 duration-500 transition-transform delay-2200 "
+                : ""
             }`}
             style={{ backgroundImage: `url(${slide.imgUrl})` }}
           />
@@ -78,13 +90,17 @@ const Banner = ({ slides = defaultSlides }) => {
         <h1 className="font-secondary text-4xl font-bold text-background drop-shadow-md md:text-6xl lg:text-7xl">
           {slides[currentIndex].overlayText}
         </h1>
-        <button className="mt-8 rounded-full bg-accent px-8 py-3 font-primary text-lg font-semibold text-white shadow-lg transition-transform hover:scale-105">
+        {/* --- UPDATED BUTTON --- */}
+        <button
+          onClick={handleGetStartedClick}
+          className="mt-8 rounded-full bg-accent px-8 py-3 font-primary text-lg font-semibold text-white shadow-lg transition-transform hover:scale-105"
+        >
           Get Started
         </button>
       </div>
 
       {/* Navigation Arrows */}
-      <div className="absolute inset-0 z-20 mx-auto flex max-w-7xl items-center justify-between px-4">
+      <div className="absolute inset-0 z-20 mx-auto flex items-center justify-between px-4">
         <button
           onClick={goToPrevious}
           className="rounded-full bg-black/30 p-2 text-white transition hover:bg-black/50"
