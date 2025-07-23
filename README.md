@@ -1,151 +1,216 @@
-🗓️ 6-Day Full Power Plan (11–16 July)
-🔥 Day 1 – July 11: Project Setup + Auth System
-Goals:
-Setup GitHub (client + server repos)
+# SoulMate - MERN Matrimonial Platform (Frontend)
 
-Setup Vite + React + Tailwind (no DaisyUI)
+SoulMate is a modern, secure, and user-friendly full-stack MERN application designed to help everyone to find their life partners in a manner that aligns with Islamic values. This repository contains the complete frontend code, built with React, Tailwind CSS, and a suite of modern libraries for a seamless user experience.
 
-Setup Firebase project (auth + config)
+## ✨ Features
 
-Setup Express + MongoDB backend
+The platform is divided into a feature-rich user-facing site and a comprehensive admin dashboard for management and oversight.
 
-AuthContext + Firebase Auth
+### 👤 User Features
 
-Send Firebase token to backend → get JWT
+#### Authentication: Secure user registration and login with Email/Password and Google, powered by Firebase Authentication.
 
-Store JWT in localStorage, Axios interceptor
+- Biodata Management:
 
-Create user in DB on first login (with role)
+- Create a detailed personal biodata with numerous fields (personal, family, partner preferences).
 
-Protected Route setup (Dashboard, Biodata Details)
+- Edit and update existing biodata at any time.
 
-✅ Output: Full Auth system working with role-based auth
-💡 Git: 3–4 commits
+- View your own biodata in a clean, profile-style layout.
 
-🔥 Day 2 – July 12: Homepage + Protected Routing
-Goals:
-Navbar (dynamic menu: guest/user/admin)
+#### Browse & Discover:
 
-Banner / Slider (visually attractive)
+- A comprehensive biodatas page with advanced server-side filtering (age, gender, division) and search.
 
-6 Premium biodata cards from DB (ascending/descending dropdown)
+- Clean, responsive biodata cards with key information.
 
-“How It Works” section (simple 3-step visuals)
+- Dynamic pagination that updates the URL for shareable links.
 
-Success Counter (total biodata, boys, girls, marriages) → aggregation from backend
+#### Contact & Favourites:
 
-Success Stories (desc by date, card-based)
+- Add interesting profiles to a personal "Favourites" list.
 
-Footer
+- Request contact information for a biodata by making a secure payment via Stripe.
 
-✅ Output: Fully responsive homepage
-💡 Git: 5–6 commits
+- View the status of all your contact requests (pending/approved).
 
-🔥 Day 3 – July 13: Biodata CRUD + Details + Filter Page
-Goals:
-Biodata Create/Edit form (React Hook Form)
+#### Success Stories:
 
-Auto-generate biodataId from backend
+- Submit a "Got Married" form to share your success story with the community.
 
-Biodata View Page (protected)
+- View a gallery of approved success stories on the homepage.
 
-“Make Premium” button → request to admin
+- Personalized Dashboard:
 
-Request contact → route to checkout
+- A dedicated dashboard for users to view their biodata summary, contact request stats, and favourites count.
 
-Filtering: Age range, gender, division
+- Visual charts and progress trackers to guide the user journey.
 
-Similar biodatas logic on details page
+### ---🛡️ Admin Features ---
 
-✅ Output: All biodata functionality + routing done
-💡 Git: 4–5 commits
+#### **Admin Dashboard**: A central hub with statistical overviews, including total biodata, gender distribution, premium members, and total revenue, visualized with charts.
 
-🔥 Day 4 – July 14: User Dashboard + Stripe Integration
-Goals:
-Dashboard layout (sidebar + routing)
+#### User Management:
 
-View Biodata Page + "Make Premium" modal
+- View a list of all registered users with server-side search.
 
-Edit Biodata Page
+- Promote users to "Admin" role.
 
-Favourites (add, remove, show)
+- Upgrade users to "Premium" status.
 
-Contact Requests Table (only show if admin approved)
+#### **Approval Workflows**:
 
-Stripe Checkout page (private)
+- Approve or reject pending requests from users to make their biodata premium.
 
-Store pending request in DB
+- Approve or reject contact information requests.
 
-✅ Output: User dashboard + payment working
-💡 Git: 4–6 commits
+- Review and approve user-submitted success stories before they are published.
 
-🔥 Day 5 – July 15: Admin Dashboard + Approvals + Analytics
-Goals:
-Dashboard layout (sidebar + routing)
+## ---📁 Folder Structure ---
 
-Manage Users → Promote to Admin, Premium
+```
+src/
+│
+├── assets/ # Images, icons, and static assets
+├── Config/ # Global config files (like axios or base URLs)
+├── Contexts/ # React Context for global state management
+├── Firebase/ # Firebase config and admin setup
+├── Hook/ # Custom React hooks (auth, userInfo)
+│
+├── Pages/ # Route-level pages
+│ ├── AboutUsPage/
+│ ├── BiodataDetails/
+│ ├── BiodataPage/
+│ ├── ContactUsPage/
+│ ├── Authentication/
+│ ├── Dashboard/
+│ │ ├── useAdmin/ # Admin-only components & pages
+│ │ ├── useUser/ # User-only dashboard components
+│ │ ├── Sidebar/
+│ │ ├── Header/
+│ ├── ForbiddenPage/
+│ ├── NotFoundPage/
+│
+├── Home/ # Landing page sections
+│ ├── Banner/
+│ ├── HowItWorksSection/
+│ ├── PremiumMember/
+│ ├── SuccessCounterSection/
+│ ├── SuccessStoriesSection/
+│
+├── Provider/ # Auth and other global providers
+├── Routes/ # Route configs
+├── Shared/ # Reusable components (Navbar, Footer, Logo, BackButton)
+│
+├── index.js # React entry point
+├── App.jsx # Root component
+└── README.md # You’re reading this
+```
 
-Approve Premium Requests
+## --- 🚀 Tech Stack ---
 
-Approve Contact Requests
+#### **Framework**: React 18+
 
-Show Success Stories in table + modal
+- **Routing**: React Router v8+
 
-Create Pie Chart (biodata stats + revenue) using Recharts or Chart.js
+- **Styling**: Tailwind CSS with a custom theme for light and dark modes.
 
-✅ Output: Admin panel fully working
-💡 Git: 4–5 commits
+- **State Management & Data Fetching**: TanStack Query (React Query)
 
-🔥 Day 6 – July 16: Polishing + README + Deployment
-Goals:
-Pagination on Biodata page
+- **Authentication**: Firebase Authentication
 
-Axios Interceptor
+- **Form Handling**: React Hook Form
 
-Toasts for all CRUD + login/signup
+- **Payment Integration**: Stripe.js and React Stripe.js
 
-Protect details/private routes on reload
+- **Animations**: Framer Motion
 
-Final responsive checks (mobile, tablet, desktop)
+- **Notifications**: React Hot Toast & SweetAlert2
 
-Write clean README.md
+- **Charting**: Recharts
 
-Host client (Firebase) + server (Render/Vercel)
+- **Icons**: React Icons
 
-Final Git commits + code cleanup
+## --- ⚙️ Installation & Setup ---
 
-✅ Output: Polished, deployed, submitted project
-💡 Git: 4–6 commits
+#### Follow these steps to get the frontend application running on your local machine.
 
-## client
+##### Prerequisites
 
-/src
-/assets # Images, icons
-/components
-/ui # Button, Input, Select, Modal
-/shared # Navbar, Footer, Banner, Cards
-/forms # RHF forms (Login, Register, Biodata)
-/layouts # Layouts (DashboardLayout, MainLayout)
-/pages # Route-based pages
-/routes # ProtectedRoute, AdminRoute
-/services # axios + api files
-/context # AuthContext
-/hooks # useAuth, useTitle, etc.
-/utils # helper functions
-/constants # GenderList, Divisions, etc.
-App.jsx
-main.jsx
+###### Node.js (v18 or later)
 
-## server
+###### npm or yarn
 
-/server
-/controllers # Logic for routes
-/routes # Auth, biodata, user, admin
-/models # MongoDB schemas
-/middlewares # verifyJWT, isAdmin, isPremium
-/config # connectDB, env configs
-/utils # helper logic
-/seed # dev seeding scripts
-/services # stripeService, authService
-.env
-server.js
+1. Clone the Repository
+
+```
+ git clone <your-repository-url>
+ cd <repository-folder-name>
+```
+
+2. Install Dependencies
+
+```
+   npm install
+
+
+# or
+
+yarn install
+```
+
+3. Set Up Environment Variables
+   Create a .env.local file in the root of your project and add the following environment variables. Replace the placeholder values with your actual keys.
+
+# Firebase Configuration
+
+```
+VITE_FIREBASE_API_KEY="AIza..."
+VITE_FIREBASE_AUTH_DOMAIN="your-project.firebaseapp.com"
+VITE_FIREBASE_PROJECT_ID="your-project-id"
+VITE_FIREBASE_STORAGE_BUCKET="your-project.appspot.com"
+VITE_FIREBASE_MESSAGING_SENDER_ID="..."
+VITE_FIREBASE_APP_ID="..."
+```
+
+# Stripe Public Key
+
+```
+VITE_STRIPE_PUBLISHABLE_KEY="pk_test*..."
+```
+
+# ImageBB API Key (for image uploads)
+
+```
+
+VITE_imgbb_API_KEY="..."
+```
+
+# Your Backend API URL
+
+```
+
+VITE_server_api="http://localhost:5000/api"
+```
+
+4. Run the Development Server
+
+```
+   npm run dev
+
+# or
+
+yarn dev
+```
+
+The application should now be running on http://localhost:5173.
+
+##📜 Available Scripts
+
+- `npm run dev`: Starts the development server.
+
+- `npm run build`: Creates a production-ready build of the application.
+
+- `npm run lint`: Lints the code for errors and style issues.
+
+- `npm run preview`: Serves the production build locally to preview it.
