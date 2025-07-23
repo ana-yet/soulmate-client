@@ -129,7 +129,17 @@ src/
 
 - **Charting**: Recharts
 
-- **Icons**: React Icons
+- **axios**: For data fetching
+
+- **motion**: Animate the components
+
+- **prop-types**: For validate props
+
+- **react-countup**: Countup animation
+
+- **react-helmet-async**: Page title and description for seo friendly
+
+- **react-intersection-observer**: Observing
 
 ## ⚙️ Installation & Setup
 
