@@ -46,7 +46,7 @@ The platform is divided into a feature-rich user-facing site and a comprehensive
 
 - Visual charts and progress trackers to guide the user journey.
 
-### ---🛡️ Admin Features ---
+#### 🛡️ Admin Features
 
 #### **Admin Dashboard**: A central hub with statistical overviews, including total biodata, gender distribution, premium members, and total revenue, visualized with charts.
 
@@ -66,7 +66,7 @@ The platform is divided into a feature-rich user-facing site and a comprehensive
 
 - Review and approve user-submitted success stories before they are published.
 
-## ---📁 Folder Structure ---
+## 📁 Folder Structure
 
 ```
 src/
@@ -107,7 +107,7 @@ src/
 └── README.md # You’re reading this
 ```
 
-## --- 🚀 Tech Stack ---
+## 🚀 Tech Stack
 
 #### **Framework**: React 18+
 
@@ -131,7 +131,7 @@ src/
 
 - **Icons**: React Icons
 
-## --- ⚙️ Installation & Setup ---
+## ⚙️ Installation & Setup
 
 #### Follow these steps to get the frontend application running on your local machine.
 
@@ -141,14 +141,14 @@ src/
 
 ###### npm or yarn
 
-1. Clone the Repository
+#### 1. Clone the Repository
 
 ```
  git clone <your-repository-url>
  cd <repository-folder-name>
 ```
 
-2. Install Dependencies
+#### 2. Install Dependencies
 
 ```
    npm install
@@ -159,8 +159,9 @@ src/
 yarn install
 ```
 
-3. Set Up Environment Variables
-   Create a .env.local file in the root of your project and add the following environment variables. Replace the placeholder values with your actual keys.
+#### 3. Set Up Environment Variables
+
+Create a .env.local file in the root of your project and add the following environment variables. Replace the placeholder values with your actual keys.
 
 # Firebase Configuration
 
@@ -193,7 +194,7 @@ VITE_imgbb_API_KEY="..."
 VITE_server_api="http://localhost:5000/api"
 ```
 
-4. Run the Development Server
+#### 4. Run the Development Server
 
 ```
    npm run dev
@@ -205,7 +206,7 @@ yarn dev
 
 The application should now be running on http://localhost:5173.
 
-##📜 Available Scripts
+## 📜 Available Scripts
 
 - `npm run dev`: Starts the development server.
 
