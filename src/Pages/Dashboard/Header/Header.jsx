@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../../Hook/useAuth";
 import Logo from "../../../Shared/Logo/Logo";
 import toast from "react-hot-toast";
+import clsx from "clsx";
 
 const Header = ({ isSidebarOpen, toggleSidebar }) => {
   const { user, userSignOut, darkMode, setDarkMode } = useAuth();
@@ -19,35 +20,41 @@ const Header = ({ isSidebarOpen, toggleSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = async () => {
-    // 1. Start a loading toast and get its ID
     const toastId = toast.loading("Signing out...");
 
     try {
-      //2. Attempt to sign out the user
       await userSignOut();
-
-      // 3. Update the toast to show success
       toast.success("Signed out successfully!", { id: toastId });
       navigate("/login");
     } catch (error) {
-      // 4. Update the toast to show an error if it fails
       toast.error("Failed to sign out. Please try again.", { id: toastId });
       console.error("Logout Error:", error);
     }
   };
 
-  // todo: dark mode functionality
   const toggleTheme = () => {
     setDarkMode(!darkMode);
+    //  Persist theme preference in localStorage
+    localStorage.setItem("darkMode", !darkMode);
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-20 flex-shrink-0 items-center justify-between border-b border-secondary/30 bg-background/80 px-4 backdrop-blur-md sm:px-6 lg:px-8">
+    <header
+      className={clsx(
+        "sticky top-0 z-30 flex h-20 flex-shrink-0 items-center justify-between",
+        "border-b border-secondary/30 bg-background/80 px-4 backdrop-blur-md",
+        "dark:border-dark-border dark:bg-dark-bg/80 sm:px-6 lg:px-8"
+      )}
+    >
       <div className="flex items-center gap-4">
         {/* Mobile Menu Button */}
         <button
           onClick={toggleSidebar}
-          className="rounded-full p-2 text-txt/70 transition-colors hover:bg-secondary/20 md:hidden"
+          className={clsx(
+            "rounded-full p-2 transition-colors hover:bg-secondary/20",
+            "text-txt/70 hover:text-txt dark:text-dark-text-muted dark:hover:bg-dark-secondary/50",
+            "md:hidden"
+          )}
           aria-label="Toggle sidebar"
         >
           {isSidebarOpen ? (
@@ -57,40 +64,62 @@ const Header = ({ isSidebarOpen, toggleSidebar }) => {
           )}
         </button>
 
-        {/* Mobile Logo (visible only on mobile) */}
+        {/* Mobile Logo */}
         <div className="md:hidden">
           <Logo />
         </div>
       </div>
 
-      {/* Right-side Icons and Avatar */}
+      {/* Right-side Navigation */}
       <div className="flex items-center gap-4">
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="rounded-full p-2 text-txt/70 transition-colors hover:bg-secondary/20"
+          className={clsx(
+            "rounded-full p-2 transition-colors hover:bg-secondary/20",
+            "text-txt/70 hover:text-txt dark:text-dark-text-muted dark:hover:bg-dark-secondary/50",
+            "focus:outline-none focus:ring-2 focus:ring-accent/50"
+          )}
+          aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
         >
-          {!darkMode ? <HiOutlineSun size={22} /> : <HiOutlineMoon size={22} />}
+          {darkMode ? (
+            <HiOutlineSun size={22} className="text-amber-300" />
+          ) : (
+            <HiOutlineMoon size={22} className="text-indigo-500" />
+          )}
         </button>
 
         {/* Notification Bell */}
-        <button className="relative rounded-full p-2 text-txt/70 transition-colors hover:bg-secondary/20">
+        <button
+          className={clsx(
+            "relative rounded-full p-2 transition-colors hover:bg-secondary/20",
+            "text-txt/70 hover:text-txt dark:text-dark-text-muted dark:hover:bg-dark-secondary/50",
+            "focus:outline-none focus:ring-2 focus:ring-accent/50"
+          )}
+          aria-label="Notifications"
+        >
           <HiOutlineBell size={22} />
-          <span className="absolute top-2 right-2 block h-2 w-2 rounded-full bg-accent"></span>
+          <span className="absolute top-2 right-2 block h-2 w-2 rounded-full bg-accent ring-2 ring-white dark:ring-dark-bg"></span>
         </button>
 
-        {/* Avatar and Dropdown */}
+        {/* User Dropdown */}
         <div className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="block"
+            className="focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-full"
+            aria-label="User menu"
           >
             <img
-              className="h-10 w-10 rounded-full object-cover ring-2 ring-transparent transition-all hover:ring-accent/50"
+              className={clsx(
+                "h-10 w-10 rounded-full object-cover transition-all",
+                "ring-2 ring-transparent hover:ring-accent/50",
+                "dark:hover:ring-accent/70"
+              )}
               src={user?.photoURL || "https://placehold.co/100x100"}
-              alt="User avatar"
+              alt={user?.displayName || "User avatar"}
             />
           </button>
+
           <AnimatePresence>
             {isDropdownOpen && (
               <motion.div
@@ -98,22 +127,40 @@ const Header = ({ isSidebarOpen, toggleSidebar }) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                className={clsx(
+                  "absolute right-0 mt-2 w-56 origin-top-right rounded-lg py-1 shadow-lg",
+                  "bg-white dark:bg-dark-secondary border border-secondary/20 dark:border-dark-border",
+                  "focus:outline-none z-50"
+                )}
+                onClick={(e) => e.stopPropagation()}
               >
-                <div className="px-4 py-2 text-sm text-txt">
-                  <p className="font-semibold">{user?.displayName}</p>
-                  <p className="truncate text-txt/60">{user?.email}</p>
+                <div className="px-4 py-3">
+                  <p className="truncate font-medium text-txt dark:text-dark-text">
+                    {user?.displayName}
+                  </p>
+                  <p className="truncate text-sm text-txt/60 dark:text-dark-text-muted">
+                    {user?.email}
+                  </p>
                 </div>
-                <div className="my-1 h-px bg-secondary/20" />
+                <div className="mx-4 my-1 h-px bg-secondary/20 dark:bg-dark-border"></div>
                 <button
-                  onClick={() => navigate("/dashboard/profile")}
-                  className="block w-full px-4 py-2 text-left text-sm text-txt hover:bg-secondary/10"
+                  onClick={() => {
+                    navigate("/dashboard/profile");
+                    setIsDropdownOpen(false);
+                  }}
+                  className={clsx(
+                    "block w-full px-4 py-2 text-left text-sm transition-colors",
+                    "text-txt hover:bg-secondary/10 dark:text-dark-text dark:hover:bg-dark-secondary/70"
+                  )}
                 >
                   Profile
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="block w-full px-4 py-2 text-left text-sm text-accent hover:bg-accent/10"
+                  className={clsx(
+                    "block w-full px-4 py-2 text-left text-sm transition-colors",
+                    "text-accent hover:bg-accent/10 dark:text-accent-light dark:hover:bg-accent/20"
+                  )}
                 >
                   Logout
                 </button>
@@ -126,4 +173,4 @@ const Header = ({ isSidebarOpen, toggleSidebar }) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);
