@@ -1,6 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router";
-import { FaRegHeart } from "react-icons/fa";
+import { useNavigate } from "react-router";
 import {
   HiOutlineUsers,
   HiOutlineCheckCircle,
@@ -12,19 +11,16 @@ import {
   HiOutlineHeart,
   HiOutlineViewGrid,
 } from "react-icons/hi";
+import { FaRegHeart } from "react-icons/fa";
 import useAuth from "../../../Hook/useAuth";
 import Logo from "../../../Shared/Logo/Logo";
 import SidebarLink from "./SidebarLink";
 import toast from "react-hot-toast";
 import useUserInfo from "../../../Hook/useUserInfo";
 
-// --- Sidebar Link Data ---
-const adminLinks = [
-  {
-    to: "/dashboard",
-    icon: <HiOutlineViewGrid />,
-    text: "Dashboard",
-  },
+// Constants for sidebar links
+const ADMIN_LINKS = [
+  { to: "/dashboard", icon: <HiOutlineViewGrid />, text: "Dashboard" },
   {
     to: "/dashboard/manage-users",
     icon: <HiOutlineUsers />,
@@ -47,12 +43,8 @@ const adminLinks = [
   },
 ];
 
-const userLinks = [
-  {
-    to: "/dashboard",
-    icon: <HiOutlineViewGrid />,
-    text: "Dashboard",
-  },
+const USER_LINKS = [
+  { to: "/dashboard", icon: <HiOutlineViewGrid />, text: "Dashboard" },
   {
     to: "/dashboard/edit-biodata",
     icon: <HiOutlinePencilAlt />,
@@ -82,46 +74,40 @@ const userLinks = [
 
 const Sidebar = ({ onLinkClick = () => {} }) => {
   const { role, isUserInfoLoading } = useUserInfo();
-
   const { userSignOut } = useAuth();
   const navigate = useNavigate();
 
-  const links = role === "admin" ? adminLinks : userLinks;
+  const links = role === "admin" ? ADMIN_LINKS : USER_LINKS;
 
   const handleLogout = async () => {
-    // 1. Start a loading toast and get its ID
     const toastId = toast.loading("Signing out...");
 
     try {
-      //2. Attempt to sign out the user
       await userSignOut();
-
-      // 3. Update the toast to show success
       toast.success("Signed out successfully!", { id: toastId });
       navigate("/login");
     } catch (error) {
-      // 4. Update the toast to show an error if it fails
       toast.error("Failed to sign out. Please try again.", { id: toastId });
       console.error("Logout Error:", error);
     }
   };
 
   return (
-    <div className="flex h-full flex-col bg-white">
-      {/* Logo */}
-      <div className="flex h-20 flex-shrink-0 items-center gap-2 px-6">
+    <div className="flex h-full flex-col bg-white dark:bg-dark-secondary border-r border-secondary/20 dark:border-dark-border">
+      {/* Logo Section */}
+      <div className="flex h-20 flex-shrink-0 items-center gap-2 px-6 border-b border-secondary/20 dark:border-dark-border">
         <Logo />
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-4">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-2 py-4">
         {isUserInfoLoading ? (
           <div className="space-y-2">
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="h-12 w-full animate-pulse rounded-lg bg-secondary/20"
-              ></div>
+                className="h-12 w-full animate-pulse rounded-lg bg-secondary/20 dark:bg-dark-border/20"
+              />
             ))}
           </div>
         ) : (
@@ -138,12 +124,12 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
       </nav>
 
       {/* Logout Button */}
-      <div className="mt-auto border-t border-secondary/30 p-4">
+      <div className="mt-auto border-t border-secondary/20 dark:border-dark-border p-2">
         <button
           onClick={handleLogout}
-          className="flex w-full items-center gap-4 rounded-lg px-4 py-3 font-medium text-txt/70 transition-colors hover:bg-accent/10 hover:text-accent"
+          className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-medium text-txt/70 transition-colors hover:bg-accent/10 hover:text-accent dark:text-dark-text-muted dark:hover:bg-accent/20 dark:hover:text-accent"
         >
-          <HiOutlineLogout className="text-2xl" />
+          <HiOutlineLogout className="text-xl" />
           <span>Logout</span>
         </button>
       </div>
@@ -151,4 +137,4 @@ const Sidebar = ({ onLinkClick = () => {} }) => {
   );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);
