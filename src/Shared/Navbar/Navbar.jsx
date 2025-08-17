@@ -28,10 +28,12 @@ const Navbar = React.memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useAuth();
 
+  // Toggle mobile menu visibility
   const toggleMenu = useCallback(() => {
     setIsMenuOpen((prev) => !prev);
   }, []);
 
+  // Close mobile menu
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
   }, []);
