@@ -8,6 +8,8 @@ import {
   HiOutlineInformationCircle,
   HiOutlineMail,
   HiOutlineViewGrid,
+  HiOutlineSun,
+  HiOutlineMoon,
 } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa";
 import NavbarLink from "./NavbarLink";
@@ -26,12 +28,17 @@ const mainLinks = [
 
 const Navbar = React.memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, darkMode, setDarkMode } = useAuth();
 
   // Toggle mobile menu visibility
   const toggleMenu = useCallback(() => {
     setIsMenuOpen((prev) => !prev);
   }, []);
+
+  // dark mode toggle functionality
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
 
   // Close mobile menu
   const closeMenu = useCallback(() => {
@@ -65,6 +72,22 @@ const Navbar = React.memo(() => {
               {link.title}
             </NavbarLink>
           ))}
+
+          {/* Dark/Light Mode Toggle */}
+          <button
+            onClick={toggleTheme}
+            aria-label={
+              darkMode ? "Switch to light mode" : "Switch to dark mode"
+            }
+            className="p-2 rounded-full text-txt hover:bg-secondary/20 dark:text-dark-text dark:hover:bg-dark-secondary/50 transition-colors"
+          >
+            {darkMode ? (
+              <HiOutlineSun className="text-xl" />
+            ) : (
+              <HiOutlineMoon className="text-xl" />
+            )}
+          </button>
+
           {user ? (
             <NavbarLink
               to="/dashboard"
@@ -84,13 +107,28 @@ const Navbar = React.memo(() => {
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="text-3xl text-txt transition-colors hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-md p-1 md:hidden dark:text-dark-text dark:hover:text-accent"
-        >
-          {isMenuOpen ? <HiX /> : <HiMenuAlt3 />}
-        </button>
+        <div className="flex items-center gap-4 md:hidden">
+          <button
+            onClick={toggleTheme}
+            aria-label={
+              darkMode ? "Switch to light mode" : "Switch to dark mode"
+            }
+            className="p-2 rounded-full text-txt hover:bg-secondary/20 dark:text-dark-text dark:hover:bg-dark-secondary/50 transition-colors"
+          >
+            {darkMode ? (
+              <HiOutlineSun className="text-xl" />
+            ) : (
+              <HiOutlineMoon className="text-xl" />
+            )}
+          </button>
+          <button
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="text-3xl text-txt transition-colors hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-md p-1 dark:text-dark-text dark:hover:text-accent"
+          >
+            {isMenuOpen ? <HiX /> : <HiMenuAlt3 />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu Dropdown */}
