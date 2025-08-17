@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
   HiOutlineUser,
   HiOutlineMail,
@@ -33,7 +33,11 @@ const Register = () => {
 
   useEffect(() => {
     if (photoFile && photoFile.length > 0) {
-      setPhotoPreview(URL.createObjectURL(photoFile[0]));
+      const objectUrl = URL.createObjectURL(photoFile[0]);
+      setPhotoPreview(objectUrl);
+
+      // Cleanup
+      return () => URL.revokeObjectURL(objectUrl);
     }
   }, [photoFile]);
 
@@ -42,30 +46,29 @@ const Register = () => {
     const file = photo[0];
 
     try {
-      // 1. Upload image to ImgBB
-      const photoURL = await uploadImage(file);
+      // Upload image and create user
+      const [photoURL, userCredential] = await Promise.all([
+        uploadImage(file),
+        createEmailUser(email, password),
+      ]);
 
-      // 2. Create user in Firebase Auth
-      const userCredential = await createEmailUser(email, password);
       const user = userCredential.user;
 
-      // 3. Update Firebase Auth profile with name and ImgBB URL
-      await updateUserProfile(name, photoURL);
-
-      // 4. Send data to backend
-      const userInfo = {
-        name,
-        email,
-        photoURL,
-        uid: user.uid,
-        providerId: user.providerData[0].providerId,
-        role: "user",
-        subscriptionType: "free",
-        subscriptionExpires: null,
-        createdAt: new Date(),
-      };
-
-      await publicAxios.post("/users", userInfo);
+      // Update profile and post to backend
+      await Promise.all([
+        updateUserProfile(name, photoURL),
+        publicAxios.post("/users", {
+          name,
+          email,
+          photoURL,
+          uid: user.uid,
+          providerId: user.providerData[0].providerId,
+          role: "user",
+          subscriptionType: "free",
+          subscriptionExpires: null,
+          createdAt: new Date(),
+        }),
+      ]);
 
       toast.success("Account created successfully!");
       navigate(from);
@@ -82,50 +85,54 @@ const Register = () => {
           name="description"
           content="Find your perfect match with our trusted biodata service."
         />
-        <meta property="og:title" content="SoulMate - Your SoulMate" />
+        <meta property="og:title" content="SoulMate - Create Account" />
         <meta property="og:type" content="website" />
       </Helmet>
 
-      <div className="w-full">
-        <h2 className="mb-2 font-secondary text-4xl font-bold text-txt">
+      <div className="w-full dark:bg-dark-bg dark:text-dark-text">
+        <h2 className="mb-2 font-secondary text-3xl mt-10 md:mt-0 md:text-4xl font-bold text-txt dark:text-dark-text">
           Create an Account
         </h2>
-        <p className="mb-8 font-primary text-txt/70">
+        <p className="mb-8 font-primary text-txt/70 dark:text-dark-text-muted">
           Let's get started on your journey.
         </p>
 
         <form onSubmit={handleSubmit(handleRegister)} className="space-y-4">
           {/* Name */}
           <div className="relative">
-            <HiOutlineUser className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
+            <HiOutlineUser className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-secondary dark:text-dark-text-muted" />
             <input
               type="text"
               placeholder="Full Name"
               {...register("name", { required: "Name is required" })}
-              className="w-full rounded-lg border border-secondary/50 bg-background py-3 pl-12 pr-4 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full rounded-lg border border-secondary/50 bg-background py-3 pl-12 pr-4 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text dark:placeholder-dark-text-muted"
             />
           </div>
           {errors.name && (
-            <p className="text-sm text-accent">{errors.name.message}</p>
+            <p className="text-sm text-accent dark:text-accent">
+              {errors.name.message}
+            </p>
           )}
 
           {/* Email */}
           <div className="relative">
-            <HiOutlineMail className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
+            <HiOutlineMail className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-secondary dark:text-dark-text-muted" />
             <input
               type="email"
               placeholder="Email Address"
               {...register("email", { required: "Email is required" })}
-              className="w-full rounded-lg border border-secondary/50 bg-background py-3 pl-12 pr-4 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full rounded-lg border border-secondary/50 bg-background py-3 pl-12 pr-4 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text dark:placeholder-dark-text-muted"
             />
           </div>
           {errors.email && (
-            <p className="text-sm text-accent">{errors.email.message}</p>
+            <p className="text-sm text-accent dark:text-accent">
+              {errors.email.message}
+            </p>
           )}
 
           {/* Password */}
           <div className="relative">
-            <HiOutlineLockClosed className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
+            <HiOutlineLockClosed className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-secondary dark:text-dark-text-muted" />
             <input
               type="password"
               placeholder="Password"
@@ -136,11 +143,13 @@ const Register = () => {
                   message: "Must be at least 6 characters",
                 },
               })}
-              className="w-full rounded-lg border border-secondary/50 bg-background py-3 pl-12 pr-4 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full rounded-lg border border-secondary/50 bg-background py-3 pl-12 pr-4 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text dark:placeholder-dark-text-muted"
             />
           </div>
           {errors.password && (
-            <p className="text-sm text-accent">{errors.password.message}</p>
+            <p className="text-sm text-accent dark:text-accent">
+              {errors.password.message}
+            </p>
           )}
 
           {/* Photo Upload */}
@@ -160,29 +169,31 @@ const Register = () => {
                   required: "A profile photo is required",
                 })}
                 accept="image/*"
-                className="block w-full text-sm text-txt file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20"
+                className="block w-full text-sm text-txt file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20 dark:text-dark-text dark:file:bg-accent/20 dark:file:text-accent dark:hover:file:bg-accent/30"
               />
             </label>
           </div>
           {errors.photo && (
-            <p className="text-sm text-accent">{errors.photo.message}</p>
+            <p className="text-sm text-accent dark:text-accent">
+              {errors.photo.message}
+            </p>
           )}
 
           <button
             type="submit"
-            disabled={isSubmitting || uploading} // Disable during both form submission and image upload
-            className="w-full rounded-lg bg-accent py-3 font-primary text-lg font-semibold text-white shadow-md transition-all hover:bg-accent/90 disabled:cursor-not-allowed disabled:bg-accent/50"
+            disabled={isSubmitting || uploading}
+            className="w-full rounded-lg bg-accent py-3 font-primary text-lg font-semibold text-white shadow-md transition-all hover:bg-accent/90 disabled:cursor-not-allowed disabled:bg-accent/50 dark:hover:bg-accent/80 dark:disabled:bg-accent/30"
           >
             {isSubmitting || uploading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <p className="font-primary text-sm text-txt">
+          <p className="font-primary text-sm text-txt dark:text-dark-text-muted">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-semibold text-accent hover:underline"
+              className="font-semibold text-accent hover:underline dark:text-accent"
             >
               Sign In
             </Link>
@@ -190,11 +201,11 @@ const Register = () => {
         </div>
 
         <div className="my-6 flex items-center">
-          <div className="flex-grow border-t border-secondary/50"></div>
-          <span className="mx-4 flex-shrink font-primary text-sm text-txt/70">
+          <div className="flex-grow border-t border-secondary/50 dark:border-dark-border"></div>
+          <span className="mx-4 flex-shrink font-primary text-sm text-txt/70 dark:text-dark-text-muted">
             OR
           </span>
-          <div className="flex-grow border-t border-secondary/50"></div>
+          <div className="flex-grow border-t border-secondary/50 dark:border-dark-border"></div>
         </div>
 
         <GoogleLoginButton />

@@ -76,6 +76,7 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("theme", "light");
     }
   }, [darkMode]);
+
   if (loading) {
     return <LoadingSpinner />;
   }
