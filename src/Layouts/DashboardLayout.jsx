@@ -10,7 +10,7 @@ const DashboardLayout = () => {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
-    <div className="flex min-h-screen bg-background font-primary text-txt">
+    <div className="flex min-h-screen bg-background dark:bg-dark-bg font-primary text-txt">
       {/* --- Mobile Sidebar --- */}
       <AnimatePresence>
         {isSidebarOpen && (

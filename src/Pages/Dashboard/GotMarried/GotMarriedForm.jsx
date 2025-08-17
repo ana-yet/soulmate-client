@@ -1,352 +1,361 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
-  HiOutlinePhotograph,
   HiOutlineLink,
   HiOutlinePencilAlt,
-  HiOutlineUser,
   HiOutlineHeart,
   HiOutlineCalendar,
+  HiOutlineLocationMarker,
+  HiOutlineClock,
+  HiOutlineSparkles,
+  HiOutlineLightBulb,
+  HiOutlineVideoCamera,
+  HiOutlineStar,
 } from "react-icons/hi";
+
 import useAuth from "../../../Hook/useAuth";
-import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import { useBiodata } from "../../../Hook/useBiodata";
 import useImgbbUploader from "../../../Hook/useImgbbUploader";
-import { Helmet } from "react-helmet-async";
+import useAxiosSecure from "../../../Hook/useAxiosSecure";
+import RatingStars from "./RatingStars/RatingStars";
+import FormField from "./FormField/FormField";
 
 const GotMarriedForm = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: selfBiodata, isLoading: isBiodataLoading } = useBiodata(
-    user?.email
-  );
+  const {
+    data: selfBiodata,
+    isLoading: isBiodataLoading,
+    error,
+  } = useBiodata(user?.email);
   const { uploadImage, uploading } = useImgbbUploader();
-  const [imageSource, setImageSource] = useState("upload"); // 'upload' or 'url'
+
+  const [imageSource, setImageSource] = useState("upload");
+  const [weddingPhotos, setWeddingPhotos] = useState([]);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    watch,
+    setValue,
   } = useForm({
     defaultValues: {
       selfBiodataId: selfBiodata?.biodataId || "",
       selfName: selfBiodata?.name || "",
+      selfBirthYear: selfBiodata?.dateOfBirth?.split("-")[0] || "",
+      platformRating: 5,
     },
   });
 
-  // Pre-fill the user's biodata ID and name when it loads
-  React.useEffect(() => {
-    if (selfBiodata) {
-      reset({
-        selfBiodataId: selfBiodata.biodataId,
-        selfName: selfBiodata.name,
-      });
-    }
-  }, [selfBiodata, reset]);
-
-  const onSubmit = async (formData) => {
-    const toastId = toast.loading("Submitting your story...");
-
+  // Handle photo upload
+  const handlePhotoUpload = async (e) => {
+    const files = Array.from(e.target.files).slice(0, 5 - weddingPhotos.length);
+    if (!files.length) return;
     try {
-      let finalImageUrl = "";
-      if (imageSource === "upload" && formData.coupleImage[0]) {
-        finalImageUrl = await uploadImage(formData.coupleImage[0]);
-      } else {
-        finalImageUrl = formData.imageUrl;
-      }
-
-      if (!finalImageUrl) {
-        throw new Error("Couple image is required.");
-      }
-
-      const storyPayload = {
-        selfBiodataId: parseInt(formData.selfBiodataId),
-        selfName: formData.selfName,
-        partnerBiodataId: parseInt(formData.partnerBiodataId),
-        partnerName: formData.partnerName,
-        marriageDate: formData.marriageDate,
-        coupleImage: finalImageUrl,
-        successStory: formData.successStory,
-        rating: 5,
-      };
-
-      await axiosSecure.post("/success-stories", storyPayload);
-
-      toast.success("Your story has been submitted for review!", {
-        id: toastId,
-      });
-      reset({
-        selfBiodataId: selfBiodata?.biodataId,
-        selfName: selfBiodata?.name,
-        partnerBiodataId: "",
-        partnerName: "",
-        marriageDate: "",
-        imageUrl: "",
-        successStory: "",
-      });
-    } catch (error) {
-      if (error.status === 409) {
-        toast.error("You have already submitted Your Story", { id: toastId });
-      } else {
-        toast.error(error.message || "Failed to submit your story.", {
-          id: toastId,
-        });
-      }
+      const uploaded = await Promise.all(
+        files.map(async (file) => ({
+          url: await uploadImage(file),
+          name: file.name,
+        }))
+      );
+      setWeddingPhotos([...weddingPhotos, ...uploaded]);
+    } catch {
+      toast.error("Failed to upload photos");
     }
   };
 
-  return (
-    <div className="max-w-full mx-auto bg-white dark:bg-dark-secondary rounded-2xl shadow-lg p-6 sm:p-8 border border-secondary/20 dark:border-dark-border">
-      <Helmet>
-        <title>Got Married | SoulMate</title>
-        <meta
-          name="description"
-          content="Find your perfect match with our trusted biodata service."
-        />
-        <meta property="og:title" content="SoulMate - Your SoulMate" />
-        <meta property="og:type" content="website" />
-      </Helmet>
+  // Handle form submission
+  const onSubmit = async (data) => {
+    try {
+      let finalImageUrl = "";
+      if (imageSource === "upload" && data.coupleImage?.[0]) {
+        finalImageUrl = await uploadImage(data.coupleImage[0]);
+      } else {
+        finalImageUrl = data.imageUrl;
+      }
 
-      {/* --- Quranic Verse Header --- */}
-      <div className="text-center mb-8 border-b border-secondary/20 dark:border-dark-border pb-6">
-        <p className="font-secondary text-lg italic text-txt/80 dark:text-dark-text-muted">
-          "And of His signs is that He created for you from yourselves mates
-          that you may find tranquillity in them; and He placed between you
-          affection and mercy."
-        </p>
-        <p className="mt-2 text-sm font-semibold text-txt dark:text-dark-text">
-          (Surah Ar-Rum 30:21)
+      // Handle marriage certificate upload
+      const certificate = data.marriageCertificate?.[0]
+        ? await uploadImage(data.marriageCertificate[0])
+        : "";
+
+      const payload = {
+        ...data,
+        selfBiodataId: selfBiodata?.biodataId,
+        selfName: selfBiodata?.name,
+        coupleImage: finalImageUrl,
+        weddingPhotos: weddingPhotos.map((p) => p.url),
+        marriageCertificate: certificate,
+      };
+      console.log(payload);
+
+      // send data to server
+      // await axiosSecure.post("/success-stories", payload);
+      toast.success("Story submitted for review!");
+      // reset();
+      // setWeddingPhotos([]);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Submission failed");
+    }
+  };
+
+  // Field Definitions
+  const fields = [
+    {
+      label: "Your Birth Year",
+      name: "selfBirthYear",
+      icon: HiOutlineHeart,
+      type: "number",
+      required: true,
+      placeholder: "e.g. 1999",
+    },
+    {
+      label: "Partner's Biodata ID",
+      name: "partnerBiodataId",
+      icon: HiOutlineHeart,
+      required: true,
+      placeholder: "Enter partner's ID",
+    },
+    {
+      label: "Partner's Name",
+      name: "partnerName",
+      icon: HiOutlineHeart,
+      required: true,
+      placeholder: "Partner's full name",
+    },
+    {
+      label: "Partner's Birth Year",
+      name: "partnerBirthYear",
+      type: "number",
+      icon: HiOutlineHeart,
+      required: true,
+      placeholder: "e.g. 2000",
+    },
+    {
+      label: "Marriage Date",
+      name: "marriageDate",
+      type: "date",
+      icon: HiOutlineCalendar,
+      required: true,
+      placeholder: "Select date",
+    },
+    {
+      label: "Wedding Location",
+      name: "weddingLocation",
+      icon: HiOutlineLocationMarker,
+      required: true,
+      placeholder: "City, Country",
+    },
+    {
+      label: "Duration Before Marriage",
+      name: "durationBeforeMarriage",
+      icon: HiOutlineClock,
+      required: true,
+      placeholder: "e.g. 6 months",
+    },
+    {
+      label: "First Contact Story",
+      name: "firstContactStory",
+      icon: HiOutlineSparkles,
+      placeholder: "How you first met",
+    },
+    {
+      label: "Favorite Memory",
+      name: "favoriteMemory",
+      icon: HiOutlineSparkles,
+      placeholder: "Your best moment",
+    },
+    {
+      label: "Video Link",
+      name: "videoLink",
+      icon: HiOutlineVideoCamera,
+      placeholder: "Paste video URL",
+    },
+    {
+      label: "Marriage Certificate",
+      name: "marriageCertificate",
+      type: "file",
+      accept: "image/*,.pdf",
+    },
+    {
+      label: "Your Success Story",
+      name: "successStory",
+      type: "textarea",
+      icon: HiOutlinePencilAlt,
+      required: true,
+      rows: 6,
+      placeholder: "Write your story...",
+    },
+    {
+      label: "Advice to Singles",
+      name: "adviceToSingles",
+      type: "textarea",
+      icon: HiOutlineLightBulb,
+      required: true,
+      placeholder: "Share your advice...",
+    },
+    {
+      label: "Platform Feedback",
+      name: "platformFeedback",
+      type: "textarea",
+      icon: HiOutlineStar,
+      placeholder: "Your feedback here",
+    },
+  ];
+
+  if (isBiodataLoading) {
+    return (
+      <div className="p-6 bg-background dark:bg-dark-bg rounded-2xl shadow-lg">
+        <div className="animate-pulse space-y-4">
+          <div className="h-6 bg-secondary/30 dark:bg-dark-secondary rounded w-1/3"></div>
+          <div className="h-4 bg-secondary/20 dark:bg-dark-secondary rounded w-2/3"></div>
+          <div className="h-64 bg-secondary/20 dark:bg-dark-secondary rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 bg-background dark:bg-dark-bg rounded-2xl shadow-lg text-center">
+        <p className="text-accent font-semibold">
+          Failed to load biodata. Please try again later.
         </p>
       </div>
+    );
+  }
 
-      <h1 className="font-secondary text-3xl font-bold text-txt dark:text-dark-text mb-2">
+  return (
+    <div className="max-w-full mx-auto bg-background dark:bg-dark-bg rounded-2xl shadow-lg p-6 sm:p-8 border border-secondary/20 dark:border-dark-border">
+      <h1 className="text-3xl font-secondary font-bold text-txt dark:text-dark-text mb-2">
         Share Your Success Story
       </h1>
       <p className="text-txt/70 dark:text-dark-text-muted mb-8">
-        Alhamdulillah! Your journey has led to a beautiful union. Share your
-        story to inspire others.
+        Alhamdulillah! Share your journey to inspire others.
       </p>
 
+      <div className="mb-6 p-4 bg-secondary/20 dark:bg-dark-secondary rounded-lg">
+        <p className="text-txt dark:text-dark-text font-semibold">
+          Your Biodata ID: {selfBiodata?.biodataId}
+        </p>
+        <p className="text-txt dark:text-dark-text font-semibold">
+          Your Name: {selfBiodata?.name}
+        </p>
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Self Biodata ID */}
-          <div>
-            <label className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-1">
-              Your Biodata ID
-            </label>
-            <div className="relative">
-              <HiOutlineUser className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-              <input
-                {...register("selfBiodataId")}
-                readOnly
-                className="w-full rounded-lg border border-secondary/50 bg-background py-2.5 pl-10 pr-4 font-mono text-txt/70 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text-muted"
-              />
-            </div>
-          </div>
-
-          {/* Self Name */}
-          <div>
-            <label className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-1">
-              Your Name
-            </label>
-            <div className="relative">
-              <HiOutlineUser className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-              <input
-                {...register("selfName")}
-                readOnly
-                className="w-full rounded-lg border border-secondary/50 bg-background py-2.5 pl-10 pr-4 font-mono text-txt/70 dark:bg-dark-bg dark:border-dark-border dark:text-dark-text-muted"
-              />
-            </div>
-          </div>
-
-          {/* Partner Biodata ID */}
-          <div>
-            <label
-              htmlFor="partnerBiodataId"
-              className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-1"
-            >
-              Partner's Biodata ID
-            </label>
-            <div className="relative">
-              <HiOutlineHeart className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-              <input
-                id="partnerBiodataId"
-                type="number"
-                {...register("partnerBiodataId", {
-                  required: "Partner's ID is required",
-                })}
-                className="w-full rounded-lg border border-secondary/50 bg-background py-2.5 pl-10 pr-4 font-primary text-txt dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-              />
-            </div>
-            {errors.partnerBiodataId && (
-              <p className="mt-1 text-xs text-accent">
-                {errors.partnerBiodataId.message}
-              </p>
-            )}
-          </div>
-
-          {/* Partner Name */}
-          <div>
-            <label
-              htmlFor="partnerName"
-              className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-1"
-            >
-              Partner's Name
-            </label>
-            <div className="relative">
-              <HiOutlineHeart className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-              <input
-                id="partnerName"
-                type="text"
-                {...register("partnerName", {
-                  required: "Partner's name is required",
-                })}
-                className="w-full rounded-lg border border-secondary/50 bg-background py-2.5 pl-10 pr-4 font-primary text-txt dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-              />
-            </div>
-            {errors.partnerName && (
-              <p className="mt-1 text-xs text-accent">
-                {errors.partnerName.message}
-              </p>
-            )}
-          </div>
+        {/* Looping Fields */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {fields.map((f) => (
+            <FormField
+              key={f.name}
+              {...f}
+              register={register}
+              errors={errors}
+              disabled={isBiodataLoading || uploading}
+            />
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Marriage Date */}
-          <div>
-            <label
-              htmlFor="marriageDate"
-              className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-1"
-            >
-              Marriage Date
-            </label>
-            <div className="relative">
-              <HiOutlineCalendar className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-              <input
-                id="marriageDate"
-                type="date"
-                {...register("marriageDate", {
-                  required: "Marriage date is required",
-                })}
-                className="w-full rounded-lg border border-secondary/50 bg-background py-2.5 pl-10 pr-4 font-primary text-txt dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-              />
-            </div>
-            {errors.marriageDate && (
-              <p className="mt-1 text-xs text-accent">
-                {errors.marriageDate.message}
-              </p>
-            )}
-          </div>
-
-          {/* Couple Image Input */}
-          <div>
-            <label className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-2">
-              Couple Image
-            </label>
-            <div className="flex items-center gap-4 mb-2">
-              <button
-                type="button"
-                onClick={() => setImageSource("upload")}
-                className={`px-4 py-2 text-sm rounded-full ${
-                  imageSource === "upload"
-                    ? "bg-accent text-white"
-                    : "bg-secondary/20 dark:bg-dark-border"
-                }`}
-              >
-                Upload Image
-              </button>
-              <button
-                type="button"
-                onClick={() => setImageSource("url")}
-                className={`px-4 py-2 text-sm rounded-full ${
-                  imageSource === "url"
-                    ? "bg-accent text-white"
-                    : "bg-secondary/20 dark:bg-dark-border"
-                }`}
-              >
-                Use Image URL
-              </button>
-            </div>
-            {imageSource === "upload" ? (
-              <div>
-                <input
-                  id="coupleImage"
-                  type="file"
-                  {...register("coupleImage", {
-                    required:
-                      imageSource === "upload"
-                        ? "Please upload a photo"
-                        : false,
-                  })}
-                  className="block w-full text-sm text-txt dark:text-dark-text file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent/10 file:text-accent hover:file:bg-accent/20"
-                />
-                {errors.coupleImage && (
-                  <p className="mt-1 text-xs text-accent">
-                    {errors.coupleImage.message}
-                  </p>
-                )}
-              </div>
-            ) : (
-              <div className="relative">
-                <HiOutlineLink className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-                <input
-                  id="imageUrl"
-                  type="url"
-                  {...register("imageUrl", {
-                    required:
-                      imageSource === "url"
-                        ? "Please provide an image URL"
-                        : false,
-                  })}
-                  placeholder="https://example.com/couple.jpg"
-                  className="w-full rounded-lg border border-secondary/50 bg-background py-2.5 pl-10 pr-4 font-primary text-txt dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-                />
-                {errors.imageUrl && (
-                  <p className="mt-1 text-xs text-accent">
-                    {errors.imageUrl.message}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Success Story Textarea */}
+        {/* Couple Image */}
         <div>
-          <label
-            htmlFor="successStory"
-            className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-1"
-          >
-            Your Success Story
+          <label className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-2">
+            Couple Image
           </label>
-          <div className="relative">
-            <HiOutlinePencilAlt className="pointer-events-none absolute left-3 top-4 text-secondary" />
-            <textarea
-              id="successStory"
-              {...register("successStory", {
-                required: "Please share your beautiful story",
-              })}
-              rows="6"
-              placeholder="Share how you met, your journey, and your happiness..."
-              className="w-full rounded-lg border border-secondary/50 bg-background py-3 pl-10 pr-4 font-primary text-txt dark:bg-dark-secondary dark:border-dark-border dark:text-dark-text focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
-            ></textarea>
+          <div className="flex gap-4 mb-2">
+            {["upload", "url"].map((v) => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setImageSource(v)}
+                disabled={isBiodataLoading || uploading}
+                className={`px-4 py-2 text-sm rounded-full ${
+                  imageSource === v
+                    ? "bg-accent text-white"
+                    : "bg-secondary/20 dark:bg-dark-border"
+                }`}
+              >
+                {v === "upload" ? "Upload" : "Use URL"}
+              </button>
+            ))}
           </div>
-          {errors.successStory && (
-            <p className="mt-1 text-xs text-accent">
-              {errors.successStory.message}
-            </p>
+          {imageSource === "upload" ? (
+            <input
+              type="file"
+              {...register("coupleImage", { required: true })}
+              disabled={isBiodataLoading || uploading}
+            />
+          ) : (
+            <FormField
+              name="imageUrl"
+              register={register}
+              errors={errors}
+              required
+              icon={HiOutlineLink}
+              placeholder="Paste image URL"
+              disabled={isBiodataLoading || uploading}
+            />
           )}
         </div>
 
-        {/* Submit Button */}
+        {/* Wedding Photos */}
+        <div>
+          <label className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-2">
+            Wedding Photos (Max 5)
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handlePhotoUpload}
+            disabled={isBiodataLoading || uploading}
+          />
+          {weddingPhotos.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {weddingPhotos.map((photo, i) => (
+                <div key={i} className="relative group">
+                  <img
+                    src={photo.url}
+                    alt=""
+                    className="h-16 w-16 object-cover rounded-md"
+                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setWeddingPhotos(
+                        weddingPhotos.filter((_, idx) => idx !== i)
+                      )
+                    }
+                    className="absolute -top-2 -right-2 bg-accent text-white rounded-full p-1 opacity-0 group-hover:opacity-100"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Rating */}
+        <div>
+          <label className="block text-sm font-medium text-txt/80 dark:text-dark-text-muted mb-2">
+            Platform Rating
+          </label>
+          <RatingStars
+            value={watch("platformRating")}
+            onChange={(r) => setValue("platformRating", r)}
+          />
+        </div>
+
+        {/* Submit */}
         <div className="pt-6 border-t border-secondary/20 dark:border-dark-border text-right">
           <button
             type="submit"
-            disabled={isSubmitting || uploading || isBiodataLoading}
-            className="inline-flex justify-center rounded-lg bg-accent py-3 px-8 font-primary text-lg font-semibold text-white shadow-md transition-all hover:bg-accent/90 disabled:cursor-not-allowed disabled:bg-accent/50"
+            disabled={isSubmitting || isBiodataLoading || uploading}
+            className="rounded-lg bg-accent py-3 px-8 font-primary text-lg font-semibold text-white shadow-md hover:bg-accent/90 disabled:bg-accent/50"
           >
             {isSubmitting || uploading ? "Submitting..." : "Submit Your Story"}
           </button>
