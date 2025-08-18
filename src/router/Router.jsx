@@ -27,6 +27,7 @@ import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
 import AboutUsPage from "../Pages/AboutUsPage/AboutUsPage";
 import ContactUsPage from "../Pages/ContactUsPage/ContactUsPage";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
+import SuccessStoriesDetails from "../Pages/Home/SuccessStoriesSection/SuccessStoriesDetails/SuccessStoriesDetails";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "contact-us",
         element: <ContactUsPage />,
+      },
+      {
+        path: "success-stories/:id",
+        element: <SuccessStoriesDetails />,
       },
     ],
   },
