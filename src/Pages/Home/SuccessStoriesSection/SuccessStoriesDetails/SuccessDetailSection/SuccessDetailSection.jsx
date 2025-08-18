@@ -24,7 +24,7 @@ const SuccessDetailSection = ({ story }) => {
   };
 
   return (
-    <div className="bg-background/50 dark:bg-dark-bg min-h-screen py-12 px-4">
+    <div className="bg-background/50 dark:bg-dark-bg min-h-screen px-4">
       <div className="container mx-auto">
         <BackButton text={"to Stories"} />
 
