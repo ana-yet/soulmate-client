@@ -93,7 +93,7 @@ const GotMarriedForm = () => {
       console.log(payload);
 
       // send data to server
-      // await axiosSecure.post("/success-stories", payload);
+      await axiosSecure.post("/success-stories", payload);
       toast.success("Story submitted for review!");
       // reset();
       // setWeddingPhotos([]);
@@ -234,7 +234,7 @@ const GotMarriedForm = () => {
         Share Your Success Story
       </h1>
       <p className="text-txt/70 dark:text-dark-text-muted mb-8">
-        Alhamdulillah! Share your journey to inspire others.
+        Share your journey to inspire others.
       </p>
 
       <div className="mb-6 p-4 bg-secondary/20 dark:bg-dark-secondary rounded-lg">

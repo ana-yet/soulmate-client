@@ -12,6 +12,7 @@ const usePendingSuccessStories = () => {
     queryKey: ["pending-success-stories"],
     queryFn: async () => {
       const { data } = await axiosSecure.get("/pending-success-stories");
+
       return data?.data;
     },
   });
@@ -46,20 +47,163 @@ const SuccessStoryApproval = () => {
 
   const handleApproveClick = (story) => {
     Swal.fire({
-      title: `<strong class="font-secondary">Story Preview</strong>`,
+      title: `<strong class="font-secondary ">Story Preview</strong>`,
       html: `
-        <div class="text-left p-4 space-y-4">
-          <img src="${story.coupleImage}" alt="Couple" class="rounded-lg w-32 h-32 object-cover mx-auto shadow-md"/>
-          <p class="text-base text-gray-700">${story.successStory}</p>
-          <p class="text-sm"><strong>Self ID:</strong> ${story.selfBiodataId} | <strong>Partner ID:</strong> ${story.partnerBiodataId}</p>
+    <div class="text-left p-4 space-y-4 font-primary">
+      <!-- Main Couple Image -->
+      <div class="flex justify-center">
+        <img src="${
+          story.coupleImage
+        }" alt="Couple" class="rounded-lg w-48 h-48 object-cover mx-auto shadow-md border border-secondary/20"/>
+      </div>
+
+      <!-- Basic Info -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <p class="text-sm"><strong class="text-accent">Self:</strong> ${
+            story.selfName
+          } (ID: ${story.selfBiodataId})</p>
+          <p class="text-sm"><strong class="text-accent">Partner:</strong> ${
+            story.partnerName
+          } (ID: ${story.partnerBiodataId})</p>
         </div>
-      `,
+        <div>
+          <p class="text-sm"><strong class="text-accent">Marriage Date:</strong> ${new Date(
+            story.marriageDate
+          ).toLocaleDateString()}</p>
+          <p class="text-sm"><strong class="text-accent">Location:</strong> ${
+            story.weddingLocation
+          }</p>
+        </div>
+      </div>
+
+      <!-- Timeline Info -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <p class="text-sm"><strong class="text-accent">Duration Before Marriage:</strong> ${
+            story.durationBeforeMarriage
+          }</p>
+          <p class="text-sm"><strong class="text-accent">First Contact:</strong> ${
+            story.firstContactStory
+          }</p>
+        </div>
+        <div>
+          <p class="text-sm"><strong class="text-accent">Favorite Memory:</strong> ${
+            story.favoriteMemory
+          }</p>
+          <p class="text-sm"><strong class="text-accent">Platform Rating:</strong> ${"★".repeat(
+            story.platformRating
+          )}</p>
+        </div>
+      </div>
+
+      <!-- Success Story -->
+      <div class="bg-secondary/10 dark:bg-dark-secondary/50 p-3 rounded-lg">
+        <h4 class="font-semibold text-accent mb-1">Success Story</h4>
+        <p class="text-sm text-txt dark:text-dark-text">${
+          story.successStory
+        }</p>
+      </div>
+
+      <!-- Advice -->
+      <div class="bg-secondary/10 dark:bg-dark-secondary/50 p-3 rounded-lg">
+        <h4 class="font-semibold text-accent mb-1">Advice to Singles</h4>
+        <p class="text-sm text-txt dark:text-dark-text">${
+          story.adviceToSingles
+        }</p>
+      </div>
+
+      <!-- Feedback -->
+      <div class="bg-secondary/10 dark:bg-dark-secondary/50 p-3 rounded-lg">
+        <h4 class="font-semibold text-accent mb-1">Platform Feedback</h4>
+        <p class="text-sm text-txt dark:text-dark-text">${
+          story.platformFeedback
+        }</p>
+      </div>
+
+      <!-- Wedding Photos Preview -->
+      ${
+        story.weddingPhotos?.length > 0
+          ? `
+        <div>
+          <h4 class="font-semibold text-accent mb-2">Wedding Album (${
+            story.weddingPhotos.length
+          } photos)</h4>
+          <div class="flex flex-wrap gap-2">
+            ${story.weddingPhotos
+              .slice(0, 4)
+              .map(
+                (photo) => `
+              <img src="${photo}" class="w-16 h-16 object-cover rounded-md border border-secondary/20"/>
+            `
+              )
+              .join("")}
+            ${
+              story.weddingPhotos.length > 4
+                ? `
+              <div class="w-16 h-16 bg-secondary/10 dark:bg-dark-secondary/50 rounded-md border border-secondary/20 flex items-center justify-center">
+                <span class="text-xs">+${story.weddingPhotos.length - 4}</span>
+              </div>
+            `
+                : ""
+            }
+          </div>
+        </div>
+      `
+          : ""
+      }
+
+      <!-- Certificate & Video -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+        ${
+          story.marriageCertificate
+            ? `
+          <div>
+            <h4 class="font-semibold text-accent mb-1">Marriage Certificate</h4>
+            <img src="${story.marriageCertificate}" class="h-24 object-contain border border-secondary/20 rounded-md"/>
+          </div>
+        `
+            : ""
+        }
+        ${
+          story.videoLink
+            ? `
+          <div>
+            <h4 class="font-semibold text-accent mb-1">Wedding Video</h4>
+            <a href="${story.videoLink}" target="_blank" class="text-sm text-accent underline">View Video Link</a>
+          </div>
+        `
+            : ""
+        }
+      </div>
+    </div>
+  `,
+      width: "800px",
+      background: "#faf6f0", // light mode background
+      backdrop: `
+    rgba(0,0,0,0.4)
+    url("/images/nyan-cat.gif")
+    left top
+    no-repeat
+  `,
       showCancelButton: true,
       confirmButtonText: "Approve Story",
-      confirmButtonColor: "#8E242C", // accent color
+      confirmButtonColor: "#8E242C",
       cancelButtonText: "Cancel",
       customClass: {
-        popup: "font-primary",
+        popup: "font-primary bg-background dark:bg-dark-secondary",
+        title: "text-txt dark:text-dark-text",
+        htmlContainer: "text-txt dark:text-dark-text",
+        confirmButton: "hover:bg-accent/90",
+        cancelButton: "hover:bg-secondary/20 dark:hover:bg-dark-border",
+        actions: "border-t border-secondary/20 dark:border-dark-border pt-4",
+      },
+      didOpen: () => {
+        // Set dark mode if detected
+        if (document.documentElement.classList.contains("dark")) {
+          Swal.getPopup().classList.add("dark");
+          Swal.getPopup().style.background = "#1a1d24"; // dark mode background
+        }
       },
     }).then((result) => {
       if (result.isConfirmed) {
@@ -147,7 +291,7 @@ const SuccessStoryApproval = () => {
                   colSpan="4"
                   className="text-center p-10 text-txt/70 dark:text-dark-text-muted"
                 >
-                  No pending success stories. MashAllah!
+                  No pending success stories.
                 </td>
               </tr>
             ) : (
