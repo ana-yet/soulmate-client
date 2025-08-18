@@ -202,7 +202,7 @@ const SuccessStoryApproval = () => {
         // Set dark mode if detected
         if (document.documentElement.classList.contains("dark")) {
           Swal.getPopup().classList.add("dark");
-          Swal.getPopup().style.background = "#1a1d24"; // dark mode background
+          Swal.getPopup().style.background = "#1a1d24";
         }
       },
     }).then((result) => {
