@@ -35,8 +35,7 @@ A modern, feature-rich matrimony platform built with React and Vite, designed to
 1.  **Clone the repository:**
 
     ```bash
-    git clone <repository-url>
-    cd client
+    git clone https://github.com/ana-yet/soulmate-client.git
     ```
 
 2.  **Install dependencies:**
