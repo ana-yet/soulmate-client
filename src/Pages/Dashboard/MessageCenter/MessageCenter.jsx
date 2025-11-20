@@ -22,7 +22,7 @@ const MessageCenter = () => {
   }, [location.state]);
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="min-h-screen bg-background dark:bg-dark-bg py-8">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -38,7 +38,7 @@ const MessageCenter = () => {
               <h1 className="text-3xl md:text-4xl font-bold gradient-text">
                 Messages
               </h1>
-              <p className="text-txt/70">Connect with your matches</p>
+              <p className="text-txt/70 dark:text-dark-text-muted">Connect with your matches</p>
             </div>
           </div>
         </motion.div>
@@ -75,12 +75,12 @@ const MessageCenter = () => {
                 }}
               />
             ) : (
-              <div className="glass-strong rounded-2xl p-12 flex flex-col items-center justify-center h-[600px]">
+              <div className="glass-strong dark:bg-dark-secondary dark:border dark:border-dark-border rounded-2xl p-12 flex flex-col items-center justify-center h-[600px]">
                 <FaComments className="text-6xl text-accent/30 mb-4" />
-                <h3 className="text-2xl font-bold text-txt/70 mb-2">
+                <h3 className="text-2xl font-bold text-txt/70 dark:text-dark-text mb-2">
                   No Conversation Selected
                 </h3>
-                <p className="text-txt/50 text-center max-w-md">
+                <p className="text-txt/50 dark:text-dark-text-muted text-center max-w-md">
                   Select a conversation from the list to start messaging
                 </p>
               </div>

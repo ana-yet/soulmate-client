@@ -75,7 +75,7 @@ const NotificationCenter = () => {
       : notifications.filter((n) => n.isRead);
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="min-h-screen bg-background dark:bg-dark-bg py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <motion.div
@@ -92,7 +92,7 @@ const NotificationCenter = () => {
                 <h1 className="text-3xl md:text-4xl font-bold gradient-text">
                   Notifications
                 </h1>
-                <p className="text-txt/70">
+                <p className="text-txt/70 dark:text-dark-text-muted">
                   {notifications.filter((n) => !n.isRead).length} unread
                 </p>
               </div>
@@ -127,7 +127,7 @@ const NotificationCenter = () => {
         <div className="space-y-3">
           {isLoading ? (
             [...Array(5)].map((_, i) => (
-              <div key={i} className="glass-strong rounded-2xl p-6 animate-pulse">
+              <div key={i} className="glass-strong dark:bg-dark-secondary dark:border dark:border-dark-border rounded-2xl p-6 animate-pulse">
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-full bg-txt/10"></div>
                   <div className="flex-1">
@@ -138,12 +138,12 @@ const NotificationCenter = () => {
               </div>
             ))
           ) : filteredNotifications.length === 0 ? (
-            <div className="glass-strong rounded-2xl p-12 text-center">
+            <div className="glass-strong dark:bg-dark-secondary dark:border dark:border-dark-border rounded-2xl p-12 text-center">
               <FaBell className="text-6xl text-accent/30 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-txt/70 mb-2">
+              <h3 className="text-2xl font-bold text-txt/70 dark:text-dark-text mb-2">
                 No Notifications
               </h3>
-              <p className="text-txt/50">
+              <p className="text-txt/50 dark:text-dark-text-muted">
                 {filter === "unread"
                   ? "You're all caught up!"
                   : "You don't have any notifications yet"}
@@ -153,11 +153,11 @@ const NotificationCenter = () => {
             filteredNotifications.map((notification, index) => (
               <motion.div
                 key={notification._id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className={`glass-strong rounded-2xl p-6 hover-lift cursor-pointer ${
-                  !notification.isRead ? "border-2 border-accent/30" : ""
+                className={`glass-strong dark:bg-dark-secondary dark:border dark:border-dark-border rounded-2xl p-6 cursor-pointer transition-all hover-lift ${
+                  !notification.isRead ? "border-l-4 border-l-accent" : ""
                 }`}
                 onClick={() => {
                   if (!notification.isRead) {
@@ -167,16 +167,16 @@ const NotificationCenter = () => {
               >
                 <div className="flex gap-4">
                   {/* Icon */}
-                  <div className="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center text-2xl flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-white/50 dark:bg-dark-bg flex items-center justify-center text-2xl flex-shrink-0">
                     {getIcon(notification.type)}
                   </div>
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-txt font-medium mb-1">
+                    <p className="text-txt dark:text-dark-text font-medium mb-1">
                       {notification.message}
                     </p>
-                    <p className="text-txt/50 text-sm">
+                    <p className="text-txt/50 dark:text-dark-text-muted text-sm">
                       {new Date(notification.createdAt).toLocaleString()}
                     </p>
                   </div>

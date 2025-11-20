@@ -50,17 +50,17 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
   };
 
   return (
-    <div className="glass-strong rounded-2xl p-6 h-[600px] flex flex-col">
+    <div className="glass-strong rounded-2xl p-6 h-[600px] flex flex-col dark:bg-dark-secondary dark:border dark:border-dark-border">
       {/* Search */}
       <div className="mb-4">
         <div className="relative">
-          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-txt/40" />
+          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-txt/40 dark:text-dark-text-muted" />
           <input
             type="text"
             placeholder="Search conversations..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/50 border border-txt/10 focus:border-accent focus:outline-none transition-colors"
+            className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/50 dark:bg-dark-bg border border-txt/10 dark:border-dark-border dark:text-dark-text focus:border-accent focus:outline-none transition-colors placeholder:text-txt/40 dark:placeholder:text-dark-text-muted"
           />
         </div>
       </div>
@@ -71,11 +71,11 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
           <div className="space-y-3">
             {[...Array(5)].map((_, i) => (
               <div key={i} className="animate-pulse">
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/30">
-                  <div className="w-12 h-12 rounded-full bg-txt/10"></div>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/30 dark:bg-dark-bg">
+                  <div className="w-12 h-12 rounded-full bg-txt/10 dark:bg-dark-border"></div>
                   <div className="flex-1">
-                    <div className="h-4 bg-txt/10 rounded w-3/4 mb-2"></div>
-                    <div className="h-3 bg-txt/10 rounded w-1/2"></div>
+                    <div className="h-4 bg-txt/10 dark:bg-dark-border rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-txt/10 dark:bg-dark-border rounded w-1/2"></div>
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
           </div>
         ) : filteredConversations.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-txt/50">No conversations yet</p>
+            <p className="text-txt/50 dark:text-dark-text-muted">No conversations yet</p>
           </div>
         ) : (
           filteredConversations.map((conversation, index) => (
@@ -100,7 +100,7 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
               className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all hover-lift ${
                 selectedConversation?._id === conversation._id
                   ? "bg-gradient-primary text-white"
-                  : "bg-white/50 hover:bg-white/80"
+                  : "bg-white/50 dark:bg-dark-bg hover:bg-white/80 dark:hover:bg-dark-border dark:text-dark-text"
               }`}
             >
               {/* Avatar */}

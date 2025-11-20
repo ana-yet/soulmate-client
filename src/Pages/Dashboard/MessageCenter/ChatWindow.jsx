@@ -133,24 +133,24 @@ const ChatWindow = ({ conversation, onBack }) => {
   };
 
   return (
-    <div className="glass-strong rounded-2xl flex flex-col h-[600px]">
+    <div className="glass-strong rounded-2xl flex flex-col h-[600px] dark:bg-dark-secondary dark:border dark:border-dark-border">
       {/* Header */}
-      <div className="flex items-center gap-4 p-6 border-b border-txt/10">
+      <div className="flex items-center gap-4 p-6 border-b border-txt/10 dark:border-dark-border">
         <button
           onClick={onBack}
-          className="lg:hidden w-10 h-10 rounded-full bg-white/50 flex items-center justify-center hover:bg-white/80 transition-colors"
+          className="lg:hidden w-10 h-10 rounded-full bg-white/50 dark:bg-dark-bg flex items-center justify-center hover:bg-white/80 dark:hover:bg-dark-border transition-colors"
         >
-          <FaArrowLeft />
+          <FaArrowLeft className="dark:text-dark-text" />
         </button>
         <div className="w-12 h-12 rounded-full bg-gradient-secondary flex items-center justify-center text-white font-bold text-lg">
           {conversation.name?.[0] || "U"}
         </div>
         <div className="flex-1">
-          <h3 className="font-bold text-lg">{conversation.name || "Unknown User"}</h3>
-          <p className="text-sm text-txt/60">
+          <h3 className="font-bold text-lg dark:text-dark-text">{conversation.name || "Unknown User"}</h3>
+          <p className="text-sm text-txt/60 dark:text-dark-text-muted">
             {isConnected ? (
               isTyping ? (
-                <span className="text-accent">Typing...</span>
+                <span className="text-accent dark:text-accent">Typing...</span>
               ) : (
                 "Active now"
               )
@@ -162,13 +162,13 @@ const ChatWindow = ({ conversation, onBack }) => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 dark:bg-dark-bg">
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
             <div className="animate-spin w-8 h-8 border-4 border-accent border-t-transparent rounded-full"></div>
           </div>
         ) : messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-txt/50">
+          <div className="flex flex-col items-center justify-center h-full text-txt/50 dark:text-dark-text-muted">
             <FaSmile className="text-4xl mb-2" />
             <p>No messages yet. Start the conversation!</p>
           </div>
@@ -187,13 +187,13 @@ const ChatWindow = ({ conversation, onBack }) => {
                   className={`max-w-[70%] rounded-2xl px-4 py-3 ${
                     isOwnMessage
                       ? "bg-gradient-primary text-white rounded-br-none"
-                      : "bg-white/80 text-txt rounded-bl-none"
+                      : "bg-white/80 dark:bg-dark-secondary dark:border dark:border-dark-border text-txt dark:text-dark-text rounded-bl-none"
                   }`}
                 >
                   <p className="break-words">{msg.message}</p>
                   <p
                     className={`text-xs mt-1 ${
-                      isOwnMessage ? "text-white/70" : "text-txt/50"
+                      isOwnMessage ? "text-white/70" : "text-txt/50 dark:text-dark-text-muted"
                     }`}
                   >
                     {formatMessageTime(msg.timestamp)}
@@ -207,14 +207,14 @@ const ChatWindow = ({ conversation, onBack }) => {
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSendMessage} className="p-6 border-t border-txt/10">
+      <form onSubmit={handleSendMessage} className="p-6 border-t border-txt/10 dark:border-dark-border dark:bg-dark-secondary">
         <div className="flex gap-3">
           <input
             type="text"
             value={message}
             onChange={handleTyping}
             placeholder="Type a message..."
-            className="flex-1 px-4 py-3 rounded-xl bg-white/50 border border-txt/10 focus:border-accent focus:outline-none transition-colors"
+            className="flex-1 px-4 py-3 rounded-xl bg-white/50 dark:bg-dark-bg border border-txt/10 dark:border-dark-border dark:text-dark-text focus:border-accent focus:outline-none transition-colors placeholder:text-txt/40 dark:placeholder:text-dark-text-muted"
             disabled={!isConnected}
           />
           <button
