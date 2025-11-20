@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { FaBook, FaSearch } from "react-icons/fa";
 import { Link } from "react-router";
-import usePublicAxios from "../../../Hook/usePublicAxios";
 import BlogCard from "./BlogCard";
+import usePublicAxios from "../../Hook/usePublicAxios";
 
 const BlogPage = () => {
   const axiosPublic = usePublicAxios();

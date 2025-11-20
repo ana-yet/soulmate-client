@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaClock, FaUser, FaCalendar, FaShare } from "react-icons/fa";
-import usePublicAxios from "../../../Hook/usePublicAxios";
+import usePublicAxios from "../../Hook/usePublicAxios";
 
 const BlogPost = () => {
   const { slug } = useParams();

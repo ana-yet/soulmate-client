@@ -29,6 +29,15 @@ import ContactUsPage from "../Pages/ContactUsPage/ContactUsPage";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import SuccessStoriesDetails from "../Pages/Home/SuccessStoriesSection/SuccessStoriesDetails/SuccessStoriesDetails";
 
+// New Feature Components
+import MessageCenter from "../Pages/Dashboard/MessageCenter/MessageCenter";
+import NotificationCenter from "../Pages/Dashboard/NotificationCenter/NotificationCenter";
+import ProfileVerification from "../Pages/Dashboard/ProfileVerification/ProfileVerification";
+import BlogPage from "../Pages/BlogPage/BlogPage";
+import BlogPost from "../Pages/BlogPage/BlogPost";
+import AdminBlogManager from "../Pages/Dashboard/Admin/AdminBlogManager";
+import AdminVerification from "../Pages/Dashboard/Admin/AdminVerification";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +66,14 @@ const router = createBrowserRouter([
       {
         path: "success-stories/:id",
         element: <SuccessStoriesDetails />,
+      },
+      {
+        path: "blog",
+        element: <BlogPage />,
+      },
+      {
+        path: "blog/:slug",
+        element: <BlogPost />,
       },
     ],
   },
@@ -107,6 +124,18 @@ const router = createBrowserRouter([
         path: "profile",
         element: <MyProfile />,
       },
+      {
+        path: "messages",
+        element: <MessageCenter />,
+      },
+      {
+        path: "notifications",
+        element: <NotificationCenter />,
+      },
+      {
+        path: "verification",
+        element: <ProfileVerification />,
+      },
       // admin routes
       {
         path: "manage-users",
@@ -137,6 +166,22 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <SuccessStoryApproval />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "blog-manager",
+        element: (
+          <AdminRoute>
+            <AdminBlogManager />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "verify-profiles",
+        element: (
+          <AdminRoute>
+            <AdminVerification />
           </AdminRoute>
         ),
       },

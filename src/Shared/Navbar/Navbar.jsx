@@ -14,6 +14,7 @@ import {
 import { FaRegHeart } from "react-icons/fa";
 import NavbarLink from "./NavbarLink";
 import useAuth from "../../Hook/useAuth";
+import NotificationBell from "./NotificationBell";
 
 const mainLinks = [
   { path: "/", title: "Home", icon: <HiOutlineHome /> },
@@ -89,13 +90,16 @@ const Navbar = React.memo(() => {
           </button>
 
           {user ? (
-            <NavbarLink
-              to="/dashboard"
-              icon={<HiOutlineViewGrid />}
-              className="!text-utility hover:!bg-utility/10 hover:!text-utility dark:hover:!bg-utility/20"
-            >
-              Dashboard
-            </NavbarLink>
+            <>
+              <NotificationBell />
+              <NavbarLink
+                to="/dashboard"
+                icon={<HiOutlineViewGrid />}
+                className="!text-utility hover:!bg-utility/10 hover:!text-utility dark:hover:!bg-utility/20"
+              >
+                Dashboard
+              </NavbarLink>
+            </>
           ) : (
             <Link
               to="/login"
