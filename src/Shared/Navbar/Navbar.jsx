@@ -10,6 +10,7 @@ import {
   HiOutlineViewGrid,
   HiOutlineSun,
   HiOutlineMoon,
+  HiOutlineNewspaper,
 } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa";
 import NavbarLink from "./NavbarLink";
@@ -19,6 +20,7 @@ import NotificationBell from "./NotificationBell";
 const mainLinks = [
   { path: "/", title: "Home", icon: <HiOutlineHome /> },
   { path: "/biodatas", title: "Biodatas", icon: <HiOutlineUsers /> },
+  { path: "/blog", title: "Blog", icon: <HiOutlineNewspaper /> },
   {
     path: "/about-us",
     title: "About Us",
