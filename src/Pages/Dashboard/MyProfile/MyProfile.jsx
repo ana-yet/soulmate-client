@@ -1,12 +1,15 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  HiOutlinePencil,
-  HiOutlineMail,
-  HiOutlineUserCircle,
-  HiOutlineShieldCheck,
-  HiOutlineCalendar,
-} from "react-icons/hi";
+import React, { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+
+import toast from "react-hot-toast";
+import ProfileSkeleton from "./ProfileSkeleton/ProfileSkeleton";
+import EditProfileForm from "./EditProfileform/EditProfileform";
+import ProfileHeader from "./ProfileHeader/ProfileHeader";
+import PersonalInfoSection from "./PersonalInfoSection/PersonalInfoSection";
+import ProfessionalInfoSection from "./ProfessionalInfoSection/ProfessionalInfoSection";
+import LifestyleInfoSection from "./LifeStyleInfoSection/LifeStyleInfoSection";
+import FamilyInfo from "./FamilyInfo/FamilyInfo";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
 import useAuth from "../../../Hook/useAuth";
 import { Helmet } from "react-helmet-async";
@@ -17,33 +20,18 @@ const useMyProfile = (email) => {
     queryKey: ["my-profile", email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/my-profile?email=${email}`);
-
       return data;
     },
     enabled: !!email,
   });
 };
 
-// Skeleton Component for Loading State
-const ProfileSkeleton = () => (
-  <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
-    <div className="w-full max-w-md p-6 mx-auto bg-white dark:bg-dark-secondary rounded-2xl shadow-lg animate-pulse">
-      <div className="w-32 h-32 mx-auto bg-gray-300 dark:bg-gray-700 rounded-full"></div>
-      <div className="h-8 mt-6 bg-gray-300 dark:bg-gray-700 rounded w-3/4 mx-auto"></div>
-      <div className="h-4 mt-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2 mx-auto"></div>
-      <div className="mt-8 space-y-4">
-        <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
-        <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
-        <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded"></div>
-      </div>
-      <div className="h-12 mt-8 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
-    </div>
-  </div>
-);
-
-// Main Profile Component
 const MyProfile = () => {
   const { user } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
+
   const {
     data: profile,
     isLoading,
@@ -51,88 +39,87 @@ const MyProfile = () => {
     error,
   } = useMyProfile(user?.email);
 
+  // Mutation for updating profile
+  const { mutate: updateProfile } = useMutation({
+    mutationFn: async (updatedData) => {
+      const { data } = await axiosSecure.put(
+        `/update-profile/${user.email}`,
+        updatedData
+      );
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["my-profile", user.email]);
+      toast.success("Profile updated successfully!");
+      setIsEditing(false);
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "Failed to update profile");
+    },
+  });
+
+  const handleSave = (data) => {
+    const formattedData = {
+      ...data,
+      ...profile,
+      height: parseInt(data.height),
+      weight: parseInt(data.weight),
+      languages: data.languages.split(",").map((lang) => lang.trim()),
+      hobbies: data.hobbies.split(",").map((hobby) => hobby.trim()),
+      interests: data.interests.split(",").map((interest) => interest.trim()),
+    };
+    updateProfile(formattedData);
+  };
+
   if (isLoading) {
     return <ProfileSkeleton />;
   }
 
   if (isError) {
     return (
-      <div className="text-center p-10 text-accent">Error: {error.message}</div>
+      <div className="text-center p-10 text-accent dark:text-dark-accent">
+        Error: {error.message}
+      </div>
     );
   }
 
-  const formattedDate = new Date(profile.createdAt).toLocaleDateString(
-    "en-US",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }
-  );
-
-  const providerName =
-    profile.providerId === "password" ? "Email/Password" : "Google";
-
   return (
-    <div className="flex items-center justify-center p-4">
+    <div className="max-w-full mx-auto p-4 min-h-[calc(100vh-200px)]">
       <Helmet>
         <title>My Profile | SoulMate</title>
         <meta
           name="description"
-          content="Find your perfect match with our trusted biodata service."
+          content="Manage your matrimony profile to find your perfect match."
         />
-        <meta property="og:title" content="SoulMate - Your SoulMate" />
-        <meta property="og:type" content="website" />
       </Helmet>
 
-      <div className="w-full max-w-md p-6 sm:p-8 mx-auto bg-white dark:bg-dark-secondary rounded-2xl shadow-lg border border-secondary/20 dark:border-dark-border">
-        <div className="flex flex-col items-center">
-          <img
-            src={profile.photoURL}
-            alt={profile.displayName}
-            className="w-32 h-32 object-cover rounded-full shadow-lg border-4 border-white dark:border-dark-secondary"
+      <div className="bg-white dark:bg-dark-secondary rounded-2xl shadow-lg overflow-hidden border border-secondary/20 dark:border-dark-border">
+        {isEditing ? (
+          <EditProfileForm
+            profile={profile}
+            onCancel={() => setIsEditing(false)}
+            onSave={handleSave}
           />
-          <h1 className="mt-6 font-secondary text-3xl font-bold text-txt dark:text-dark-text">
-            {profile.displayName}
-          </h1>
-          <p className="mt-1 text-txt/70 dark:text-dark-text-muted">
-            {profile.email}
-          </p>
-        </div>
+        ) : (
+          <>
+            <ProfileHeader
+              profile={profile}
+              onEdit={() => setIsEditing(true)}
+            />
 
-        <div className="mt-8 space-y-4 text-sm">
-          <div className="flex justify-between items-center py-3 border-b border-secondary/20 dark:border-dark-border">
-            <span className="flex items-center gap-3 text-txt/70 dark:text-dark-text-muted">
-              <HiOutlineUserCircle className="h-5 w-5" /> Role
-            </span>
-            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent dark:bg-accent/20">
-              {profile.role}
-            </span>
-          </div>
-          <div className="flex justify-between items-center py-3 border-b border-secondary/20 dark:border-dark-border">
-            <span className="flex items-center gap-3 text-txt/70 dark:text-dark-text-muted">
-              <HiOutlineShieldCheck className="h-5 w-5" /> Sign-in Method
-            </span>
-            <span className="font-semibold text-txt dark:text-dark-text">
-              {providerName}
-            </span>
-          </div>
-          <div className="flex justify-between items-center py-3">
-            <span className="flex items-center gap-3 text-txt/70 dark:text-dark-text-muted">
-              <HiOutlineCalendar className="h-5 w-5" /> Member Since
-            </span>
-            <span className="font-semibold text-txt dark:text-dark-text">
-              {formattedDate}
-            </span>
-          </div>
-        </div>
+            <div className="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-8">
+                <PersonalInfoSection profile={profile} />
+                <ProfessionalInfoSection profile={profile} />
+              </div>
 
-        <div className="mt-8">
-          <button className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-accent py-3 font-semibold text-white shadow-md transition-all hover:bg-accent/90">
-            <HiOutlinePencil />
-            Edit Profile
-          </button>
-        </div>
+              <div className="space-y-8">
+                <LifestyleInfoSection profile={profile} />
+                <FamilyInfo profile={profile} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

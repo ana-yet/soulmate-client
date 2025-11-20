@@ -4,6 +4,9 @@ import PremiumMember from "../PrmiumMember/PremiumMember";
 import SuccessStoriesSection from "../SuccessStoriesSection/SuccessStoriesSection";
 import HowItWorksSection from "../HowItWorksSection/HowItWorksSection";
 import SuccessCounterSection from "../SuccessCounterSection/SuccessCounterSection";
+import FeaturesSection from "../FeaturesSection/FeaturesSection";
+import TestimonialsCarousel from "../TestimonialsCarousel/TestimonialsCarousel";
+import CTASection from "../CTASection/CTASection";
 import { Helmet } from "react-helmet-async";
 
 const Home = () => {
@@ -23,6 +26,9 @@ const Home = () => {
         <Banner />
       </section>
       <section>
+        <FeaturesSection />
+      </section>
+      <section>
         <PremiumMember />
       </section>
       <section>
@@ -32,10 +38,17 @@ const Home = () => {
         <SuccessCounterSection />
       </section>
       <section>
+        <TestimonialsCarousel />
+      </section>
+      <section>
         <SuccessStoriesSection />
+      </section>
+      <section>
+        <CTASection />
       </section>
     </div>
   );
 };
 
 export default Home;
+

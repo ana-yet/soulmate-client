@@ -7,7 +7,8 @@ const CounterCard = ({
   icon,
   end,
   title,
-  color = "bg-accent text-white",
+  color = "from-accent to-accent-light",
+  iconBg = "bg-accent/20",
   suffix = "",
   delay = 0,
   decimals = 0,
@@ -31,21 +32,16 @@ const CounterCard = ({
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: delay * 0.15 }}
-      className="group relative bg-white dark:bg-dark-secondary p-8 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all duration-400 hover:border-transparent"
+      className="group relative glass-strong p-8 rounded-2xl overflow-hidden hover-lift"
     >
-      {/* Animated background gradient on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-transparent group-hover:via-accent/5 dark:group-hover:via-accent/10 transition-all duration-500 -z-10"></div>
+      {/* Gradient background on hover */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
 
-      {/* Glow effect on hover */}
-      <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-        <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-purple-500/20 blur-md transition-all duration-700 group-hover:-inset-2"></div>
-      </div>
-
-      {/* Icon with floating animation */}
+      {/* Icon with gradient background */}
       <motion.div
-        className={`mx-auto w-16 h-16 rounded-lg flex items-center justify-center ${color} shadow-sm group-hover:shadow-md transition-all duration-300`}
+        className={`mx-auto w-20 h-20 rounded-2xl flex items-center justify-center ${iconBg} text-white relative overflow-hidden`}
         animate={{
-          y: [0, -5, 0],
+          y: [0, -8, 0],
         }}
         transition={{
           duration: 4,
@@ -53,12 +49,13 @@ const CounterCard = ({
           ease: "easeInOut",
         }}
       >
-        {icon}
+        <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-80`}></div>
+        <div className="relative z-10">{icon}</div>
       </motion.div>
 
       {/* Counter with dynamic scaling */}
       <motion.div
-        className="mt-6 text-4xl font-bold text-gray-800 dark:text-white font-secondary"
+        className="mt-6 text-5xl font-bold gradient-text"
         whileHover={{ scale: 1.05 }}
       >
         {startCounter ? (
@@ -67,43 +64,29 @@ const CounterCard = ({
           "0"
         )}
         {suffix && (
-          <span className="text-2xl text-accent dark:text-accent-light ml-1">
+          <span className="text-3xl ml-1">
             {suffix}
           </span>
         )}
       </motion.div>
 
-      {/* Animated underline on title */}
-      <div className="mt-3 relative inline-block">
-        <p className="text-lg text-gray-600 dark:text-gray-300 relative z-10 font-secondary ">
+      {/* Title */}
+      <div className="mt-4 relative">
+        <p className="text-lg text-txt/80 dark:text-dark-text-muted font-medium">
           {title}
         </p>
+        {/* Animated underline */}
         <motion.div
-          className="absolute bottom-0 left-0 h-1 bg-accent w-0 group-hover:w-full"
+          className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r ${color} w-0 group-hover:w-full rounded-full`}
           transition={{ duration: 0.4, delay: 0.1 }}
         />
       </div>
 
-      {/* Micro-interaction dots */}
-      <div className="absolute bottom-4 left-4 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="w-2 h-2 rounded-full bg-accent"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.6, 1, 0.6],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              delay: i * 0.2,
-            }}
-          />
-        ))}
-      </div>
+      {/* Decorative corner gradient */}
+      <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${color} opacity-10 rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:translate-x-6 group-hover:-translate-y-6 transition-transform duration-500`}></div>
     </motion.div>
   );
 };
 
 export default CounterCard;
+

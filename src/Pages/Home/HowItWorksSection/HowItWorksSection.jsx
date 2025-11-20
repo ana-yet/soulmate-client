@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import {
@@ -62,9 +62,35 @@ const steps = [
 
 const HowItWorksSection = () => {
   const { user } = useAuth();
+  const [visibleSteps, setVisibleSteps] = useState([]);
+  const stepRefs = useRef([]);
+
+  useEffect(() => {
+    const observers = stepRefs.current.map((ref, index) => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisibleSteps((prev) => [...new Set([...prev, index])]);
+          }
+        },
+        { threshold: 0.2 }
+      );
+
+      if (ref) {
+        observer.observe(ref);
+      }
+
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
+
   return (
-    <section className=" py-16 sm:py-20">
-      <div className="max-w-5xl mx-auto px-4">
+    <section className="py-16 sm:py-20 bg-gradient-to-b from-background to-secondary/20">
+      <div className="max-w-6xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -72,34 +98,84 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="font-secondary text-4xl font-bold text-txt dark:text-dark-text">
+          <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
             How It Works
           </h2>
-          <p className="mt-3 max-w-2xl mx-auto text-txt/70 dark:text-dark-text-muted">
+          <p className="mt-3 max-w-2xl mx-auto text-lg text-txt/70 dark:text-dark-text-muted">
             Follow these simple steps to find your ideal life partner on our
             platform.
           </p>
         </motion.div>
 
-        {/* --- Timeline --- */}
+        {/* --- Enhanced Timeline --- */}
         <div className="relative">
-          {/* The vertical line (visible on desktop) */}
-          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 h-full w-0.5 bg-secondary/30 dark:bg-dark-border"></div>
+          {/* The gradient vertical line (visible on desktop) */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 h-full w-1 bg-gradient-to-b from-accent via-utility to-accent-light rounded-full opacity-30"></div>
 
-          <div className="space-y-16 md:space-y-40">
+          <div className="space-y-16 md:space-y-32">
             {steps.map((item, index) => (
-              <div key={item.step} className="relative ">
-                {/* Step Number Circle */}
-                <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold text-xl z-10">
-                  {item.step}
+              <div
+                key={item.step}
+                className="relative"
+                ref={(el) => (stepRefs.current[index] = el)}
+              >
+                {/* Animated Step Number Circle with Progress */}
+                <div className={`absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 ${
+                  visibleSteps.includes(index) ? 'animate-scale-in' : 'opacity-0'
+                }`}>
+                  <div className="relative w-16 h-16">
+                    {/* Circular Progress Background */}
+                    <svg className="absolute inset-0 w-16 h-16 -rotate-90">
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="28"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        className="text-secondary/30"
+                      />
+                      <circle
+                        cx="32"
+                        cy="32"
+                        r="28"
+                        fill="none"
+                        stroke="url(#gradient)"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        className={`transition-all duration-1000 ${
+                          visibleSteps.includes(index) ? 'opacity-100' : 'opacity-0'
+                        }`}
+                        style={{
+                          strokeDasharray: 176,
+                          strokeDashoffset: visibleSteps.includes(index) ? 0 : 176,
+                        }}
+                      />
+                      <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#8e242c" />
+                          <stop offset="100%" stopColor="#b38b59" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+
+                    {/* Step Number */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-white rounded-full shadow-lg">
+                      <span className="text-2xl font-bold gradient-text">{item.step}</span>
+                    </div>
+                  </div>
                 </div>
-                <Step {...item} isReversed={index % 2 !== 0} />
+
+                {/* Step Content with Animation */}
+                <div className={visibleSteps.includes(index) ? 'animate-fade-in-up' : 'opacity-0'}>
+                  <Step {...item} isReversed={index % 2 !== 0} />
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ---  Button --- */}
+        {/* ---  Enhanced Button --- */}
         {!user && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -110,7 +186,7 @@ const HowItWorksSection = () => {
           >
             <Link
               to="/register"
-              className="inline-block rounded-full bg-accent px-8 py-4 font-semibold text-white shadow-lg transition-transform hover:scale-105"
+              className="inline-block rounded-full bg-gradient-primary px-10 py-4 font-semibold text-white shadow-2xl transition-all hover:scale-105 hover:shadow-glow"
             >
               Create Your Biodata Now
             </Link>
@@ -122,3 +198,4 @@ const HowItWorksSection = () => {
 };
 
 export default HowItWorksSection;
+
