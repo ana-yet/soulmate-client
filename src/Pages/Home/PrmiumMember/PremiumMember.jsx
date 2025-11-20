@@ -19,16 +19,14 @@ const usePremiumBiodata = () => {
 
 // Loading Skeleton Component
 const PremiumCardSkeleton = () => (
-  <div className="animate-pulse rounded-xl border border-secondary/20 bg-white dark:border-dark-border dark:bg-dark-secondary">
-    <div className="h-64 w-full bg-gray-200 dark:bg-dark-border/50"></div>
+  <div className="animate-pulse rounded-2xl border border-secondary/20 bg-white dark:border-dark-border dark:bg-dark-secondary overflow-hidden">
+    <div className="h-80 w-full bg-gray-200 dark:bg-dark-border/50"></div>
     <div className="p-5">
-      <div className="mb-4 h-6 w-1/2 rounded bg-gray-200 dark:bg-dark-border/50"></div>
-      <div className="space-y-3">
-        <div className="h-4 w-full rounded bg-gray-200 dark:bg-dark-border/50"></div>
-        <div className="h-4 w-2/3 rounded bg-gray-200 dark:bg-dark-border/50"></div>
-        <div className="h-4 w-1/2 rounded bg-gray-200 dark:bg-dark-border/50"></div>
+      <div className="grid grid-cols-2 gap-3 mb-5">
+        <div className="h-12 rounded-xl bg-gray-200 dark:bg-dark-border/50"></div>
+        <div className="h-12 rounded-xl bg-gray-200 dark:bg-dark-border/50"></div>
       </div>
-      <div className="mt-6 h-10 rounded-lg bg-gray-200 dark:bg-dark-border/50"></div>
+      <div className="h-10 rounded-xl bg-gray-200 dark:bg-dark-border/50"></div>
     </div>
   </div>
 );
@@ -37,22 +35,28 @@ const PremiumMember = () => {
   const { data: premiumBiodata, isLoading, error } = usePremiumBiodata();
 
   return (
-    <section className="py-16 bg-background dark:bg-dark-bg">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+    <section className="py-20 bg-background dark:bg-dark-bg relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-pink-500/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-16">
           {isLoading ? (
-            <div className="animate-pulse space-y-2">
-              <div className="mx-auto h-10 w-1/3 rounded bg-gray-200 dark:bg-dark-border/50"></div>
+            <div className="animate-pulse space-y-4">
+              <div className="mx-auto h-12 w-1/3 rounded-lg bg-gray-200 dark:bg-dark-border/50"></div>
               <div className="mx-auto h-4 w-1/2 rounded bg-gray-200 dark:bg-dark-border/50"></div>
             </div>
           ) : (
             <>
-              <h2 className="font-secondary text-4xl font-bold text-txt dark:text-dark-text">
-                Our Premium Members
+              <h2 className="font-secondary text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent via-pink-500 to-accent dark:from-accent dark:via-pink-400 dark:to-accent animate-gradient-x pb-2">
+                Premium Members
               </h2>
-              <p className="mt-2 max-w-2xl mx-auto text-txt/70 dark:text-dark-text-muted">
-                Meet some of our members who are serious about finding their
-                life partner.
+              <p className="mt-4 max-w-2xl mx-auto text-lg text-txt/70 dark:text-dark-text-muted">
+                Meet our exclusive members who are serious about finding their
+                perfect life partner.
               </p>
             </>
           )}
