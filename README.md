@@ -1,227 +1,106 @@
-# SoulMate - MERN Matrimonial Platform (Frontend)
+# Matrimony Platform - Client
 
-SoulMate is a modern, secure, and user-friendly full-stack MERN application designed to help everyone to find their life partners in a manner that aligns with Islamic values. This repository contains the complete frontend code, built with React, Tailwind CSS, and a suite of modern libraries for a seamless user experience.
+A modern, feature-rich matrimony platform built with React and Vite, designed to help users find their perfect match. This application provides a seamless user experience with real-time features, secure payments, and a comprehensive dashboard.
 
-## ✨ Features
+## 🚀 Features
 
-The platform is divided into a feature-rich user-facing site and a comprehensive admin dashboard for management and oversight.
+-   **User Authentication**: Secure login and registration using Firebase Authentication.
+-   **Biodata Management**: Users can create, update, and view detailed biodatas.
+-   **Premium Membership**: Integrated Stripe payment gateway for premium subscription plans.
+-   **Real-time Chat**: Instant messaging system powered by Socket.io for premium members.
+-   **Advanced Search**: Filter and search for profiles based on various criteria.
+-   **Dashboard**:
+    -   **User Dashboard**: Manage profile, view requests, and favorites.
+    -   **Admin Dashboard**: Manage users, approve premium requests, and view statistics.
+-   **Blog System**: Read and interact with success stories and relationship advice.
+-   **Responsive Design**: Fully responsive UI built with Tailwind CSS for all devices.
+-   **Dark Mode**: Toggle between light and dark themes for better accessibility.
 
-### 👤 User Features
+## 🛠️ Tech Stack
 
-#### Authentication: Secure user registration and login with Email/Password and Google, powered by Firebase Authentication.
+-   **Frontend Framework**: [React](https://reactjs.org/) (v18)
+-   **Build Tool**: [Vite](https://vitejs.dev/)
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+-   **State Management & Data Fetching**: [TanStack Query (React Query)](https://tanstack.com/query/latest)
+-   **Routing**: [React Router](https://reactrouter.com/)
+-   **Authentication**: [Firebase](https://firebase.google.com/)
+-   **HTTP Client**: [Axios](https://axios-http.com/)
+-   **Real-time Communication**: [Socket.io-client](https://socket.io/)
+-   **Payments**: [Stripe](https://stripe.com/)
+-   **Forms**: [React Hook Form](https://react-hook-form.com/)
+-   **UI Components/Icons**: React Icons, SweetAlert2, React Hot Toast, Framer Motion.
 
-- Biodata Management:
+## 📦 Installation
 
-- Create a detailed personal biodata with numerous fields (personal, family, partner preferences).
+1.  **Clone the repository:**
 
-- Edit and update existing biodata at any time.
+    ```bash
+    git clone <repository-url>
+    cd client
+    ```
 
-- View your own biodata in a clean, profile-style layout.
+2.  **Install dependencies:**
 
-#### Browse & Discover:
+    ```bash
+    npm install
+    ```
 
-- A comprehensive biodatas page with advanced server-side filtering (age, gender, division) and search.
+3.  **Environment Setup:**
 
-- Clean, responsive biodata cards with key information.
+    Create a `.env.local` file in the root directory and add your Firebase and Stripe configuration:
 
-- Dynamic pagination that updates the URL for shareable links.
+    ```env
+    VITE_apiKey=your_firebase_api_key
+    VITE_authDomain=your_firebase_auth_domain
+    VITE_projectId=your_firebase_project_id
+    VITE_storageBucket=your_firebase_storage_bucket
+    VITE_messagingSenderId=your_firebase_messaging_sender_id
+    VITE_appId=your_firebase_app_id
+    VITE_payment_Gateway_PK=your_stripe_publishable_key
+    VITE_API_URL=http://localhost:5000 # Or your server URL
+    ```
 
-#### Contact & Favourites:
+## 🏃‍♂️ Running the Application
 
-- Add interesting profiles to a personal "Favourites" list.
+Start the development server:
 
-- Request contact information for a biodata by making a secure payment via Stripe.
-
-- View the status of all your contact requests (pending/approved).
-
-#### Success Stories:
-
-- Submit a "Got Married" form to share your success story with the community.
-
-- View a gallery of approved success stories on the homepage.
-
-- Personalized Dashboard:
-
-- A dedicated dashboard for users to view their biodata summary, contact request stats, and favourites count.
-
-- Visual charts and progress trackers to guide the user journey.
-
-#### 🛡️ Admin Features
-
-#### **Admin Dashboard**: A central hub with statistical overviews, including total biodata, gender distribution, premium members, and total revenue, visualized with charts.
-
-#### User Management:
-
-- View a list of all registered users with server-side search.
-
-- Promote users to "Admin" role.
-
-- Upgrade users to "Premium" status.
-
-#### **Approval Workflows**:
-
-- Approve or reject pending requests from users to make their biodata premium.
-
-- Approve or reject contact information requests.
-
-- Review and approve user-submitted success stories before they are published.
-
-## 📁 Folder Structure
-
-```
-src/
-│
-├── assets/ # Images, icons, and static assets
-├── Config/ # Global config files (like axios or base URLs)
-├── Contexts/ # React Context for global state management
-├── Firebase/ # Firebase config and admin setup
-├── Hook/ # Custom React hooks (auth, userInfo)
-│
-├── Pages/ # Route-level pages
-│ ├── AboutUsPage/
-│ ├── BiodataDetails/
-│ ├── BiodataPage/
-│ ├── ContactUsPage/
-│ ├── Authentication/
-│ ├── Dashboard/
-│ │ ├── useAdmin/ # Admin-only components & pages
-│ │ ├── useUser/ # User-only dashboard components
-│ │ ├── Sidebar/
-│ │ ├── Header/
-│ ├── ForbiddenPage/
-│ ├── NotFoundPage/
-│
-├── Home/ # Landing page sections
-│ ├── Banner/
-│ ├── HowItWorksSection/
-│ ├── PremiumMember/
-│ ├── SuccessCounterSection/
-│ ├── SuccessStoriesSection/
-│
-├── Provider/ # Auth and other global providers
-├── Routes/ # Route configs
-├── Shared/ # Reusable components (Navbar, Footer, Logo, BackButton)
-│
-├── index.js # React entry point
-├── App.jsx # Root component
-└── README.md # You’re reading this
+```bash
+npm run dev
 ```
 
-## 🚀 Tech Stack
+The application will be available at `http://localhost:5173`.
 
-#### **Framework**: React 18+
+## 🏗️ Building for Production
 
-- **Routing**: React Router v8+
+To build the application for production:
 
-- **Styling**: Tailwind CSS with a custom theme for light and dark modes.
-
-- **State Management & Data Fetching**: TanStack Query (React Query)
-
-- **Authentication**: Firebase Authentication
-
-- **Form Handling**: React Hook Form
-
-- **Payment Integration**: Stripe.js and React Stripe.js
-
-- **Animations**: Framer Motion
-
-- **Notifications**: React Hot Toast & SweetAlert2
-
-- **Charting**: Recharts
-
-- **axios**: For data fetching
-
-- **motion**: Animate the components
-
-- **prop-types**: For validate props
-
-- **react-countup**: Countup animation
-
-- **react-helmet-async**: Page title and description for seo friendly
-
-- **react-intersection-observer**: Observing
-
-## ⚙️ Installation & Setup
-
-#### Follow these steps to get the frontend application running on your local machine.
-
-##### Prerequisites
-
-###### Node.js (v18 or later)
-
-###### npm or yarn
-
-#### 1. Clone the Repository
-
-```
- git clone <your-repository-url>
- cd <repository-folder-name>
+```bash
+npm run build
 ```
 
-#### 2. Install Dependencies
+To preview the production build:
 
-```
-   npm install
-
-
-# or
-
-yarn install
+```bash
+npm run preview
 ```
 
-#### 3. Set Up Environment Variables
-
-Create a .env.local file in the root of your project and add the following environment variables. Replace the placeholder values with your actual keys.
-
-# Firebase Configuration
+## 📂 Project Structure
 
 ```
-VITE_FIREBASE_API_KEY="AIza..."
-VITE_FIREBASE_AUTH_DOMAIN="your-project.firebaseapp.com"
-VITE_FIREBASE_PROJECT_ID="your-project-id"
-VITE_FIREBASE_STORAGE_BUCKET="your-project.appspot.com"
-VITE_FIREBASE_MESSAGING_SENDER_ID="..."
-VITE_FIREBASE_APP_ID="..."
+client/
+├── src/
+│   ├── assets/         # Static assets (images, icons)
+│   ├── Config/         # Configuration files
+│   ├── Context/        # React Context providers
+│   ├── Hook/           # Custom React Hooks
+│   ├── Layouts/        # Page layouts (Main, Dashboard)
+│   ├── Pages/          # Application pages
+│   ├── Provider/       # Auth and other providers
+│   ├── Routes/         # Route definitions
+│   ├── Shared/         # Reusable components (Navbar, Footer)
+│   ├── index.css       # Global styles (Tailwind imports)
+│   └── main.jsx        # Entry point
+├── .env.local          # Environment variables
+├── package.json        # Dependencies and scripts
+└── vite.config.js      # Vite configuration
 ```
-
-# Stripe Public Key
-
-```
-VITE_STRIPE_PUBLISHABLE_KEY="pk_test*..."
-```
-
-# ImageBB API Key (for image uploads)
-
-```
-
-VITE_imgbb_API_KEY="..."
-```
-
-# Your Backend API URL
-
-```
-
-VITE_server_api="http://localhost:5000/api"
-```
-
-#### 4. Run the Development Server
-
-```
-   npm run dev
-
-# or
-
-yarn dev
-```
-
-The application should now be running on http://localhost:5173.
-
-## 📜 Available Scripts
-
-- `npm run dev`: Starts the development server.
-
-- `npm run build`: Creates a production-ready build of the application.
-
-- `npm run lint`: Lints the code for errors and style issues.
-
-- `npm run preview`: Serves the production build locally to preview it.
