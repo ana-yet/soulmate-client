@@ -81,7 +81,7 @@ const AuthProvider = ({ children }) => {
     return <LoadingSpinner />;
   }
 
-  return <AuthContext value={authContextValue}>{children}</AuthContext>;
+  return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;
