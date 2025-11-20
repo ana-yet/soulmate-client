@@ -8,7 +8,6 @@ import PrivateRoute from "../Routes/PrivateRoute";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Authentication/Login";
 import Register from "../Pages/Authentication/Register";
-import EditBiodata from "../Pages/Dashboard/EditBioata/EditBioData";
 import Forbidden from "../Pages/Forbidden/Forbidden";
 import ViewBiodata from "../Pages/Dashboard/ViewBiodata/ViewBiodata";
 import BiodataDetailsPage from "../Pages/BiodataDetails/BiodataDetails";
@@ -28,6 +27,7 @@ import AboutUsPage from "../Pages/AboutUsPage/AboutUsPage";
 import ContactUsPage from "../Pages/ContactUsPage/ContactUsPage";
 import MyProfile from "../Pages/Dashboard/MyProfile/MyProfile";
 import SuccessStoriesDetails from "../Pages/Home/SuccessStoriesSection/SuccessStoriesDetails/SuccessStoriesDetails";
+import EditBiodata from "../Pages/Dashboard/EditBioata/EditBiodata"
 
 // New Feature Components
 import MessageCenter from "../Pages/Dashboard/MessageCenter/MessageCenter";
