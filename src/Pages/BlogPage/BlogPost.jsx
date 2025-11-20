@@ -64,7 +64,7 @@ const BlogPost = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="min-h-screen bg-background dark:bg-dark-bg py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Back Button */}
         <Link
@@ -101,12 +101,12 @@ const BlogPost = () => {
           {/* Content */}
           <div className="p-8 md:p-12">
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold gradient-text dark:text-dark-text mb-6">
               {post.title}
             </h1>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-6 text-txt/70 mb-8 pb-8 border-b border-txt/10">
+            <div className="flex flex-wrap items-center gap-6 text-txt/70 dark:text-dark-text-muted mb-8 pb-8 border-b border-txt/10 dark:border-dark-border">
               <div className="flex items-center gap-2">
                 <FaUser />
                 <span>{post.author}</span>
@@ -129,8 +129,8 @@ const BlogPost = () => {
             </div>
 
             {/* Article Content */}
-            <div className="prose prose-lg max-w-none">
-              <div className="text-txt/80 leading-relaxed whitespace-pre-wrap">
+            <div className="prose prose-lg max-w-none dark:prose-invert">
+              <div className="text-txt/80 dark:text-dark-text-muted leading-relaxed whitespace-pre-wrap">
                 {post.content}
               </div>
             </div>

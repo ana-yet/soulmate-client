@@ -41,7 +41,7 @@ const BlogPage = () => {
   ) || [];
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="min-h-screen bg-background dark:bg-dark-bg py-8">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -57,7 +57,7 @@ const BlogPage = () => {
           <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
             Relationship Blog
           </h1>
-          <p className="text-lg text-txt/70 max-w-2xl mx-auto">
+          <p className="text-lg text-txt/70 dark:text-dark-text-muted max-w-2xl mx-auto">
             Expert advice, tips, and inspiring stories to help you in your journey to finding love
           </p>
         </motion.div>
@@ -67,13 +67,13 @@ const BlogPage = () => {
           <div className="flex flex-col md:flex-row gap-4 mb-6">
             {/* Search */}
             <div className="flex-1 relative">
-              <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-txt/40" />
+              <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-txt/40 dark:text-dark-text-muted" />
               <input
                 type="text"
                 placeholder="Search articles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl glass-strong border border-txt/10 focus:border-accent focus:outline-none transition-colors"
+                className="w-full pl-12 pr-4 py-3 rounded-xl glass-strong dark:bg-dark-secondary dark:text-dark-text border border-txt/10 dark:border-dark-border focus:border-accent focus:outline-none transition-colors placeholder:text-txt/40 dark:placeholder:text-dark-text-muted"
               />
             </div>
           </div>
@@ -87,7 +87,7 @@ const BlogPage = () => {
                 className={`px-4 py-2 rounded-full font-medium transition-all ${
                   selectedCategory === category
                     ? "bg-gradient-primary text-white"
-                    : "glass-strong hover:bg-white/80"
+                    : "glass-strong dark:bg-dark-secondary dark:text-dark-text hover:bg-white/80 dark:hover:bg-dark-border"
                 }`}
               >
                 {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -100,7 +100,7 @@ const BlogPage = () => {
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="glass-strong rounded-2xl p-6 animate-pulse">
+              <div key={i} className="glass-strong dark:bg-dark-secondary dark:border dark:border-dark-border rounded-2xl p-6 animate-pulse">
                 <div className="h-48 bg-txt/10 rounded-xl mb-4"></div>
                 <div className="h-4 bg-txt/10 rounded w-3/4 mb-2"></div>
                 <div className="h-3 bg-txt/10 rounded w-1/2"></div>
@@ -108,10 +108,10 @@ const BlogPage = () => {
             ))}
           </div>
         ) : filteredPosts.length === 0 ? (
-          <div className="glass-strong rounded-2xl p-12 text-center">
+          <div className="glass-strong dark:bg-dark-secondary dark:border dark:border-dark-border rounded-2xl p-12 text-center">
             <FaBook className="text-6xl text-accent/30 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-txt/70 mb-2">No Articles Found</h3>
-            <p className="text-txt/50">Try adjusting your search or filters</p>
+            <h3 className="text-2xl font-bold text-txt/70 dark:text-dark-text mb-2">No Articles Found</h3>
+            <p className="text-txt/50 dark:text-dark-text-muted">Try adjusting your search or filters</p>
           </div>
         ) : (
           <>

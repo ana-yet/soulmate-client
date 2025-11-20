@@ -34,7 +34,7 @@ const BlogCard = ({ post, index }) => {
           />
         </div>
         <div>
-          <h3 className="text-xl font-semibold gradient-text">
+          <h3 className="text-xl font-semibold gradient-text dark:text-dark-text">
             {post?.title}
           </h3>
           <p className="text-sm text-txt/70 dark:text-dark-text-muted">
