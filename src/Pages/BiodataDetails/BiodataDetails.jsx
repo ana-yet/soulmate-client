@@ -161,6 +161,18 @@ const BiodataDetailsPage = () => {
                       <FaStar />
                       {isPremium ? "View Contact Info" : "Request Contact Info"}
                     </button>
+
+                    <Link
+                      to="/dashboard/messages"
+                      state={{
+                        receiverId: biodata.contactEmail,
+                        receiverName: biodata.name
+                      }}
+                      className="w-full flex items-center justify-center gap-2 rounded-lg bg-gradient-primary px-6 py-3 font-medium text-white shadow-md hover:scale-[1.02] transition-transform"
+                    >
+                      <FaEnvelope />
+                      Send Message
+                    </Link>
                   </div>
                 </div>
 

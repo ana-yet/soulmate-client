@@ -7,6 +7,7 @@ import AuthProvider from "./Provider/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
+import { SocketProvider } from "./Context/SocketContext";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
@@ -14,9 +15,11 @@ createRoot(document.getElementById("root")).render(
     <Toaster position="top-center" reverseOrder={false} />
     <HelmetProvider>
       <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
+        <SocketProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </SocketProvider>
       </AuthProvider>
     </HelmetProvider>
   </StrictMode>

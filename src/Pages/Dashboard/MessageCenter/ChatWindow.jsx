@@ -4,49 +4,123 @@ import { motion } from "framer-motion";
 import { FaArrowLeft, FaPaperPlane, FaSmile } from "react-icons/fa";
 import useAuth from "../../../Hook/useAuth";
 import useAxiosSecure from "../../../Hook/useAxiosSecure";
+import { useSocket } from "../../../Context/SocketContext";
 import toast from "react-hot-toast";
 
 const ChatWindow = ({ conversation, onBack }) => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
+  const { socket, isConnected } = useSocket();
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
 
-  const { data: messages = [], isLoading } = useQuery({
-    queryKey: ["messages", conversation._id],
+  const conversationId = [user?.email, conversation.receiverId || conversation.senderId]
+    .sort()
+    .join("_");
+
+  // Load initial messages
+  const { data: initialMessages = [], isLoading } = useQuery({
+    queryKey: ["messages", conversationId],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/api/messages/${conversation._id}`);
+      const { data } = await axiosSecure.get(`/api/messages/${conversationId}`);
       return data.data || [];
     },
-    enabled: !!conversation._id,
-    refetchInterval: 3000, // Poll every 3 seconds for new messages
+    enabled: !!conversationId,
   });
 
-  const sendMessageMutation = useMutation({
-    mutationFn: async (messageData) => {
-      const { data } = await axiosSecure.post("/api/messages", messageData);
-      return data;
-    },
-    onSuccess: () => {
-      setMessage("");
-      queryClient.invalidateQueries(["messages", conversation._id]);
-      queryClient.invalidateQueries(["conversations"]);
-    },
-    onError: () => {
-      toast.error("Failed to send message");
-    },
-  });
+  useEffect(() => {
+    if (initialMessages.length > 0) {
+      setMessages(initialMessages);
+    }
+  }, [initialMessages]);
+
+  // Socket.IO event listeners
+  useEffect(() => {
+    if (!socket || !isConnected) return;
+
+    // Listen for new messages
+    socket.on("newMessage", (newMessage) => {
+      if (newMessage.conversationId === conversationId) {
+        setMessages((prev) => [...prev, newMessage]);
+      }
+    });
+
+    // Listen for message sent confirmation
+    socket.on("messageSent", (sentMessage) => {
+      if (sentMessage.conversationId === conversationId) {
+        setMessages((prev) => [...prev, sentMessage]);
+      }
+    });
+
+    // Listen for typing indicator
+    socket.on("userTyping", ({ conversationId: typingConvId }) => {
+      if (typingConvId === conversationId) {
+        setIsTyping(true);
+      }
+    });
+
+    socket.on("userStoppedTyping", ({ conversationId: typingConvId }) => {
+      if (typingConvId === conversationId) {
+        setIsTyping(false);
+      }
+    });
+
+    return () => {
+      socket.off("newMessage");
+      socket.off("messageSent");
+      socket.off("userTyping");
+      socket.off("userStoppedTyping");
+    };
+  }, [socket, isConnected, conversationId]);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (!message.trim()) return;
+    if (!message.trim() || !socket || !isConnected) return;
 
-    sendMessageMutation.mutate({
+    const messageData = {
       senderId: user?.email,
       receiverId: conversation.receiverId || conversation.senderId,
       message: message.trim(),
+      conversationId,
+    };
+
+    socket.emit("sendMessage", messageData);
+    setMessage("");
+
+    // Stop typing indicator
+    socket.emit("stopTyping", {
+      conversationId,
+      receiverId: conversation.receiverId || conversation.senderId,
     });
+  };
+
+  const handleTyping = (e) => {
+    setMessage(e.target.value);
+
+    if (!socket || !isConnected) return;
+
+    // Send typing indicator
+    socket.emit("typing", {
+      conversationId,
+      receiverId: conversation.receiverId || conversation.senderId,
+    });
+
+    // Clear previous timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    // Stop typing after 1 second of inactivity
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit("stopTyping", {
+        conversationId,
+        receiverId: conversation.receiverId || conversation.senderId,
+      });
+    }, 1000);
   };
 
   useEffect(() => {
@@ -73,7 +147,17 @@ const ChatWindow = ({ conversation, onBack }) => {
         </div>
         <div className="flex-1">
           <h3 className="font-bold text-lg">{conversation.name || "Unknown User"}</h3>
-          <p className="text-sm text-txt/60">Active now</p>
+          <p className="text-sm text-txt/60">
+            {isConnected ? (
+              isTyping ? (
+                <span className="text-accent">Typing...</span>
+              ) : (
+                "Active now"
+              )
+            ) : (
+              "Connecting..."
+            )}
+          </p>
         </div>
       </div>
 
@@ -128,18 +212,22 @@ const ChatWindow = ({ conversation, onBack }) => {
           <input
             type="text"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={handleTyping}
             placeholder="Type a message..."
             className="flex-1 px-4 py-3 rounded-xl bg-white/50 border border-txt/10 focus:border-accent focus:outline-none transition-colors"
+            disabled={!isConnected}
           />
           <button
             type="submit"
-            disabled={!message.trim() || sendMessageMutation.isPending}
+            disabled={!message.trim() || !isConnected}
             className="w-12 h-12 rounded-xl bg-gradient-primary text-white flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <FaPaperPlane />
           </button>
         </div>
+        {!isConnected && (
+          <p className="text-xs text-red-500 mt-2">Connecting to server...</p>
+        )}
       </form>
     </div>
   );

@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router";
 import ConversationList from "./ConversationList";
 import ChatWindow from "./ChatWindow";
 import { FaComments } from "react-icons/fa";
 
 const MessageCenter = () => {
+  const location = useLocation();
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [isMobileView, setIsMobileView] = useState(false);
+
+  // Handle incoming conversation from biodata profile
+  useEffect(() => {
+    if (location.state?.receiverId && location.state?.receiverName) {
+      setSelectedConversation({
+        receiverId: location.state.receiverId,
+        name: location.state.receiverName,
+      });
+      setIsMobileView(true);
+    }
+  }, [location.state]);
 
   return (
     <div className="min-h-screen bg-background py-8">

@@ -17,9 +17,24 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
       return data.data || [];
     },
     enabled: !!user?.email,
+    refetchInterval: 5000, // Refresh every 5 seconds
   });
 
-  const filteredConversations = conversations.filter((conv) =>
+  // Process conversations to get the other user's info
+  const processedConversations = conversations.map(conv => {
+    // Determine who the other user is
+    const otherUserId = conv.senderId === user?.email ? conv.receiverId : conv.senderId;
+    const otherUserName = conv.senderName === user?.displayName ? conv.receiverName : conv.senderName;
+
+    return {
+      ...conv,
+      otherUserId,
+      otherUserName: otherUserName || otherUserId,
+    };
+  });
+
+  const filteredConversations = processedConversations.filter((conv) =>
+    conv.otherUserName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     conv.lastMessage?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -77,7 +92,11 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.05 }}
-              onClick={() => onSelectConversation(conversation)}
+              onClick={() => onSelectConversation({
+                ...conversation,
+                receiverId: conversation.otherUserId,
+                name: conversation.otherUserName,
+              })}
               className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all hover-lift ${
                 selectedConversation?._id === conversation._id
                   ? "bg-gradient-primary text-white"
@@ -87,7 +106,7 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
               {/* Avatar */}
               <div className="relative">
                 <div className="w-12 h-12 rounded-full bg-gradient-secondary flex items-center justify-center text-white font-bold text-lg">
-                  {conversation.name?.[0] || "U"}
+                  {conversation.otherUserName?.[0]?.toUpperCase() || "U"}
                 </div>
                 {conversation.unreadCount > 0 && (
                   <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
@@ -100,7 +119,7 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
                   <h4 className="font-semibold truncate">
-                    {conversation.name || "Unknown User"}
+                    {conversation.otherUserName || "Unknown User"}
                   </h4>
                   <span className="text-xs opacity-70">
                     {formatTime(conversation.lastTimestamp)}
@@ -122,3 +141,4 @@ const ConversationList = ({ selectedConversation, onSelectConversation }) => {
 };
 
 export default ConversationList;
+
