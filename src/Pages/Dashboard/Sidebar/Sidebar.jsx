@@ -11,6 +11,7 @@ import {
   HiOutlineHeart,
   HiOutlineViewGrid,
 } from "react-icons/hi";
+import { FaBell, FaEnvelope, FaShieldAlt, FaBook, FaCheckCircle } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import useAuth from "../../../Hook/useAuth";
 import Logo from "../../../Shared/Logo/Logo";
@@ -41,6 +42,16 @@ const ADMIN_LINKS = [
     icon: <HiOutlineHeart />,
     text: "Approve Married",
   },
+  {
+    to: "/dashboard/blog-manager",
+    icon: <FaBook />,
+    text: "Blog Manager",
+  },
+  {
+    to: "/dashboard/verify-profiles",
+    icon: <FaCheckCircle />,
+    text: "Verify Profiles",
+  },
 ];
 
 const USER_LINKS = [
@@ -69,6 +80,21 @@ const USER_LINKS = [
     to: "/dashboard/got-married",
     icon: <HiOutlineHeart />,
     text: "Got Married",
+  },
+  {
+    to: "/dashboard/messages",
+    icon: <FaEnvelope />,
+    text: "Messages",
+  },
+  {
+    to: "/dashboard/notifications",
+    icon: <FaBell />,
+    text: "Notifications",
+  },
+  {
+    to: "/dashboard/verification",
+    icon: <FaShieldAlt />,
+    text: "Get Verified",
   },
 ];
 
